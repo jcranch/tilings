@@ -1,5 +1,6 @@
 from math import floor, ceil
 
+from common import cycle
 from vector2 import Vector2
 
 
@@ -32,7 +33,7 @@ class Tiling2():
         return min(v.y for v in self.vertices)
     
     def maxy(self):
-        return max(v.y for v in self.vertices)
+        return max(v.y for v in self.vertices)      
     
     def deform(self, h):
         """
@@ -85,7 +86,7 @@ class Tiling2():
         newf = dict((f,x) for (f,x) in self.faces.iteritems() if any(e in newe for e in f))
         return Tiling2(newv, newe, newf)
 
-    def write_eps(self, f, psbox, geobox):
+    def write_eps(self, f, psbox, geobox, facecol=lambda x:(1.0,1.0,1.0)):
         (gminx, gmaxx, gminy, gmaxy) = geobox
         (pminx, pmaxx, pminy, pmaxy) = psbox
         def coords(v):
@@ -94,6 +95,15 @@ class Tiling2():
             return "%f %f"%(x,y)
         f.write("%!PS-Adobe-3.0 EPSF-3.0\n")
         f.write("%%%%BoundingBox: %d %d %d %d\n"%psbox)
+        for (face,x) in self.faces.iteritems():
+            f.write("gsave %f %f %f setrgbcolor "%(facecol(x)))
+            for (i,v) in enumerate(cycle(face)):
+                f.write(coords(v))
+                if i == 0:
+                    f.write(" moveto ")
+                else:
+                    f.write(" lineto ")
+            f.write("closepath fill grestore\n")
         for (v1,v2) in self.edges:
             f.write("newpath " + coords(v1) + " moveto " + coords(v2) + " lineto stroke\n")
 
