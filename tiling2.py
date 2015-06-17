@@ -10,17 +10,17 @@ class Tiling2():
     
     def __init__(self, v=None, e=None, f=None):
         if v is None:
-            self.vertices = set()
+            self.vertices = {}
         else:
-            self.vertices = set(v)
+            self.vertices = dict(v)
         if e is None:
-            self.edges = set()
+            self.edges = {}
         else:
-            self.edges = set(e)
+            self.edges = dict(e)
         if f is None:
-            self.faces = set()
+            self.faces = {}
         else:
-            self.faces = set(f)
+            self.faces = dict(f)
             
     def minx(self):
         return min(v.x for v in self.vertices)
@@ -38,10 +38,13 @@ class Tiling2():
         """
         Applies an arbitrary function h to the vertices.
         """
-        v = dict((a,h(a)) for a in self.vertices)
-        e = dict((a,frozenset(v[i] for i in a)) for a in self.edges)
-        f = dict((a,frozenset(e[i] for i in a)) for a in self.faces)
-        return Tiling2(frozenset(v.itervalues()),frozenset(e.itervalues()),frozenset(f.itervalues()))
+        v = dict((a,(h(a),x))
+                 for a in self.vertices.iteritems())
+        e = dict((a,(frozenset(v[i][0] for i in a),x))
+                 for a in self.edges.iteritems())
+        f = dict((a,(frozenset(e[i][0] for i in a),x))
+                 for a in self.faces.iteritems())
+        return Tiling2(v.itervalues(),e.itervalues(),f.itervalues())
             
     def translate(self, offset):
         return self.deform(lambda x: x+offset)
@@ -72,20 +75,14 @@ class Tiling2():
             i1 = i2
         return self.deform(lambda v: d.get(v,v))            
 
-    def union(self, other, epsilon=0.000001):
-        u = Tiling2(self.vertices.union(other.vertices),
-                    self.edges.union(other.edges),
-                    self.faces.union(other.faces))
-        return u.sort_out_duplicates(epsilon)
-
     def clip(self, minx, maxx, miny, maxy):
         """
         Take only the structure that intersects the box with given
         coordinates.
         """
-        newv = set(v for v in self.vertices if minx <= v.x <= maxx and miny <= v.y <= maxy)
-        newe = set(e for e in self.edges if any(v in newv for v in e))
-        newf = set(f for f in self.faces if any(e in newe for e in f))
+        newv = dict((v,x) for (v,x) in self.vertices.iteritems() if minx <= v.x <= maxx and miny <= v.y <= maxy)
+        newe = dict((e,x) for (e,x) in self.edges.iteritems() if any(v in newv for v in e))
+        newf = dict((f,x) for (f,x) in self.faces.iteritems() if any(e in newe for e in f))
         return Tiling2(newv, newe, newf)
 
     def write_eps(self, f, psbox, geobox):
@@ -101,9 +98,9 @@ class Tiling2():
             f.write("newpath " + coords(v1) + " moveto " + coords(v2) + " lineto stroke\n")
 
 def big_union2(tilings, epsilon=0.000001):
-    v = set()
-    e = set()
-    f = set()
+    v = {}
+    e = {}
+    f = {}
     for t in tilings:
         v.update(t.vertices)
         e.update(t.edges)
