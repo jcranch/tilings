@@ -2,7 +2,7 @@ from math import floor, ceil
 
 from vector3 import Vector3
 from tiling3 import Tiling3, big_union3
-
+#Just a few questions to clarify some confusion. Demo runs well on my laptop !
 
 
 class CubeFactory():
@@ -15,14 +15,14 @@ class CubeFactory():
 
     def inner(self,n,a):
         """
-        An n-cube has 2n faces (of codimension 1), each formed by
-        specialising one dimension.
-
-        Given [[1,3],[2],[1,4]] it returns the 0, 1 and 2-dimensional
-        structures of the rectangle [1,3] x {2} x [1,4].
-        """
+        An n-cube has 2n faces (of codimension 1), each formed by      # I'm unfamiliar with this notation for a rectangle.
+        specialising one dimension.                                  
+                                                                       # This is my interpretation (I suspect it is wrong) :    
+        Given [[1,3],[2],[1,4]] it returns the 0, 1 and 2-dimensional  # This is describing the rectange with vertices (1,3),(1,4),(3,3),(3,4)
+        structures of the rectangle [1,3] x {2} x [1,4].               # As we start with the 0-dimensional point (1,3) and create a one-dimensional edge of length 2 from (1,3) to (3,3) 
+        """                                                            # And we create lines (1,y) to (3,y) for all y in [3,4] to create our 2d rectangle.
         if n==0:
-            return [{self.vector([i for (i,) in a]):tuple(tuple(x) for x in a)}]
+            return [{self.vector([i for (i,) in a]):tuple(tuple(x) for x in a)}] # Please can you give an example of a as I'm struggling to interpret this line. Is this the same sort of a we would use in the vector method?
         else:
             data = [{} for i in xrange(n)]
             for i in xrange(len(a)):
