@@ -17,6 +17,9 @@ class CubeFactory():
         """
         An n-cube has 2n faces (of codimension 1), each formed by
         specialising one dimension.
+
+        Given [[1,3],[2],[1,4]] it returns the 0, 1 and 2-dimensional
+        structures of the rectangle [1,3] x {2} x [1,4].
         """
         if n==0:
             return [{self.vector([i for (i,) in a]):tuple(tuple(x) for x in a)}]
@@ -42,6 +45,9 @@ class Cube3Factory(CubeFactory):
     
 
 def cube3(dims):
+    """
+    cube3([[x1,x2],[y1,y2],[z1,z2]]) is a cube with dimensions as given.
+    """
     (v,e,f,g) = Cube3Factory().data(dims)
     return Tiling3(v,e,f,g)
     
