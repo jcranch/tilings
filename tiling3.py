@@ -109,6 +109,10 @@ class Tiling3():
 
 
 def big_union3(tilings, epsilon=0.000001):
+    """
+    Take a union of a collection of tilings. This should be avoided,
+    as it's really slow.
+    """
     v = {}
     e = {}
     f = {}

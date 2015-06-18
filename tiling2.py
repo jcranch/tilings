@@ -108,6 +108,10 @@ class Tiling2():
             f.write("newpath " + coords(v1) + " moveto " + coords(v2) + " lineto stroke\n")
 
 def big_union2(tilings, epsilon=0.000001):
+    """
+    Take a union of a collection of tilings. This should be avoided,
+    as it's really slow.
+    """
     v = {}
     e = {}
     f = {}

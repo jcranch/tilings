@@ -11,15 +11,29 @@ from itertools import product
 class CubeFactory():
     """
     Some helper code for producing cubes and cubic tilings.
+
+    This class is intended to be subclassed: those subclasses should
+    define the "dimension", "vector" and "tiling" methods.
+
+    It is intended to be called with the coordinate choices. So, for
+    example, calling it (in 2D) with argument [[1,2],[3,4]] will construct the
+    square with coordinates (1,3), (1,4), (2,4) and (2,3).
+
+    Calling it (in 3D) with arguments
+    [xrange(11),xrange(11),xrange(11)] will construct a 10x10x10 array
+    of cubes.
     """
     
     def dimension(self):
+        "How many dimensions are we working in?"
         raise NotImplemented
         
     def vector(self, a):
+        "Make a vector with coordinates a."
         raise NotImplemented
 
     def tiling(self):
+        "Make a tiling of the appropriate sort using the data"
         raise NotImplemented
     
     def __init__(self, dims=[[]]):
@@ -31,6 +45,17 @@ class CubeFactory():
             self.cube(self.n, tuple(tuple(a) for a in p))
 
     def faces(self, p):
+        """
+        Given an n-cube, return its 2n faces of codimension 1, each
+        formed by specialising one dimension.
+
+        So, for example, the four faces of the square
+        ((1, 2), (3, 4), (5,)) are
+            ((1,), (3, 4), (5,))
+            ((2,), (3, 4), (5,))
+            ((1, 2), (3,), (5,))
+            ((1, 2), (4,), (5,)).
+        """
         for (i,a) in enumerate(p):
             if len(a)==2:
                 for v in a:
@@ -38,11 +63,9 @@ class CubeFactory():
             
     def cube(self, n, p):
         """
-        An n-cube has 2n faces (of codimension 1), each formed by
-        specialising one dimension.
-
-        Given ((1,3),(2),(1,4)) it returns the 0, 1 and 2-dimensional
-        structures of the rectangle [1,3] x {2} x [1,4].
+        Ensure that the data corresponding to the cube with
+        coordinates p is present. Works recursively, so is quite
+        fast.
         """        
         if p in self.data[n]:
             return self.data[n][p]
@@ -81,7 +104,7 @@ def cube3(dims):
 
 def cubic_tiling3(minx,maxx,miny,maxy,minz,maxz):
     """
-    A Tiling3 representing an integer cubic lattice with given
+    A Tiling3 representing the integer cubic lattice with given
     dimensions.
     """
     xs = xrange(int(floor(minx)), int(ceil(maxx))+1)
