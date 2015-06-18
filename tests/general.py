@@ -11,7 +11,7 @@ class TilingTest():
         """
         self.assertIsInstance(t.vertices, dict, "vertices should form a dict")
         for v in t.vertices:
-            self.assertIsInstance(v, Vector2, "vertices should be 2-vectors")
+            self.assertIsInstance(v, Vector2, "vertices should be 2-vectors (got %s)"%(v,))
         self.assertIsInstance(t.edges, dict, "edges should form a dict")
         for e in t.edges:
             self.assertIsInstance(e, frozenset, "edges should be frozensets")
@@ -31,7 +31,7 @@ class TilingTest():
         """
         self.assertIsInstance(t.vertices, dict, "vertices should form a dict")
         for v in t.vertices:
-            self.assertIsInstance(v, Vector3, "vertices should be 3-vectors")
+            self.assertIsInstance(v, Vector3, "vertices should be 3-vectors (got %s)"%(v,))
         self.assertIsInstance(t.edges, dict, "edges should form a dict")
         for e in t.edges:
             self.assertIsInstance(e, frozenset, "edges should be frozensets")
