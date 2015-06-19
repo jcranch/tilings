@@ -61,6 +61,8 @@ class Tiling2():
         coordinate. In groups where the x coordinates are close, we
         sort by y coordinate. Consecutive pairs where that is also
         close are identified.
+
+        It's still slow.
         """
         lx = sorted(self.vertices, key=lambda v:v.x)
         d = {}
@@ -87,8 +89,23 @@ class Tiling2():
         return Tiling2(newv, newe, newf)
 
     def write_eps(self, f, psbox, geobox, facecol=lambda x:(1.0,1.0,1.0)):
+        """
+        Draw a picture in EPS format.
+
+        Arguments:
+         - f is a file object
+         - psbox is the coordinates of the box in the output
+           PostScript
+         - geobox is the coordinates of the corresponding box in the
+           Tiling2
+         - facecol takes the label of a face, and returns the desired
+           colour (in RGB format, between 0.0 and 1.0).
+
+        Note that the order of the coordinates for psbox and geobox is
+        different!
+        """
         (gminx, gmaxx, gminy, gmaxy) = geobox
-        (pminx, pmaxx, pminy, pmaxy) = psbox
+        (pminx, pminy, pmaxx, pmaxy) = psbox
         def coords(v):
             x = (v.x-gminx)*(pmaxx-pminx)/(gmaxx-gminx) + pminx
             y = (v.y-gminy)*(pmaxy-pminy)/(gmaxy-gminy) + pminy
