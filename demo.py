@@ -34,7 +34,7 @@ def draw_cubic2():
         l3.write_eps(f, (0,0,500,500), (-1.5,5.7,-2.7,4.5),
                      whiterange=6, subdivs=25, edgecol=edgecol)
         
-
+        
 if __name__=="__main__":
     draw_cubic1()
     draw_cubic2()

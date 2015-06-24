@@ -1,7 +1,9 @@
 from math import floor, ceil
 
 from vector3 import Vector3
-from tiling3 import Tiling3, big_union3
+from tiling3 import Tiling3
+from vector4 import Vector4
+from tiling4 import Tiling4
 
 
 
@@ -94,6 +96,24 @@ class Cube3Factory(CubeFactory):
         return Tiling3(v,e,f,g)
 
 
+class Cube4Factory(CubeFactory):
+
+    def dimension(self):
+        return 4
+
+    def vector(self,(w,x,y,z)):
+        return Vector4(w,x,y,z)
+
+    def tiling(self):
+        (v,e,f,g,h) = self.data
+        v = dict((y,x) for (x,y) in v.iteritems())
+        e = dict((y,x) for (x,y) in e.iteritems())
+        f = dict((y,x) for (x,y) in f.iteritems())
+        g = dict((y,x) for (x,y) in g.iteritems())
+        h = dict((y,x) for (x,y) in h.iteritems())
+        return Tiling4(v,e,f,g,h)
+
+
 def cube3(dims):
     """
     cube3([[x1,x2],[y1,y2],[z1,z2]]) is a Tiling3 representing a cube
@@ -111,3 +131,23 @@ def cubic_tiling3(minx,maxx,miny,maxy,minz,maxz):
     ys = xrange(int(floor(miny)), int(ceil(maxy))+1)
     zs = xrange(int(floor(minz)), int(ceil(maxz))+1)
     return Cube3Factory([xs, ys, zs]).tiling()
+
+
+def cube4(dims):
+    """
+    cube4([[w1,w2],[x1,x2],[y1,y2],[z1,z2]]) is a Tiling4 representing
+    a cube with dimensions as given.
+    """
+    return Cube4Factory(dims).tiling()
+    
+
+def cubic_tiling4(minw,maxw,minx,maxx,miny,maxy,minz,maxz):
+    """
+    A Tiling4 representing the integer cubic lattice with given
+    dimensions.
+    """
+    ws = xrange(int(floor(minw)), int(ceil(maxw))+1)
+    xs = xrange(int(floor(minx)), int(ceil(maxx))+1)
+    ys = xrange(int(floor(miny)), int(ceil(maxy))+1)
+    zs = xrange(int(floor(minz)), int(ceil(maxz))+1)
+    return Cube4Factory([ws, xs, ys, zs]).tiling()
