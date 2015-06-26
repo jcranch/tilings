@@ -141,7 +141,7 @@ class Tiling2():
                 dictionary_of_number_of_n_gons[len(face)] += 1
         for n_gon in dictionary_of_number_of_n_gons.keys():
             print 'Number of %s_gons : %s.'%(n_gon,dictionary_of_number_of_n_gons[n_gon])
-        return dictionary_of_number_of_n_gons
+        return dictionary_of_number_of_n_gons 
 
 def big_union2(tilings, epsilon=0.000001):
     """
