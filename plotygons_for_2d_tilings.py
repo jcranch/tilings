@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 from matplotlib.path import Path
 import matplotlib.patches as patches
-
+import numpy as np
+from matplotlib import animation
 
 
 def find_extreme_value(polygons, x_y_or_z = 'x', min_or_max = 'max'):
@@ -160,3 +161,46 @@ def plot_faces_of_tiling2(faces):
         list_of_prepared_faces += [prepare_tiling2_face(face)]
     plot_polygons(list_of_prepared_faces)
     return None
+
+'''
+Some code for animating plotygons in preparation for animating 2d tiling.
+'''
+
+'''
+
+Function should take a list of polygons as described before,
+as well as a list of functions of the same length of the list of polygons
+where each function is a function of the form 
+
+def f(np.array(polygon), i):
+    ......
+    return np.array(...)
+
+'''
+def animate_plotygons(polygons, list_of_animation_functions , colours = \
+['r','b','g','y','cyan','darkblue','lightblue','aqua',\
+     'grey','pink','purple','gold','orange','darkred','orangered','lime','darkgreen']):
+    figure = plt.figure(figsize=(8,8))
+    axis = figure.add_axes([0,0,1,1], xlim = (-11, 11), ylim = (-11, 11),\
+    xticks = range(10), yticks= range(10) , aspect='equal', frameon = True)
+    axis.grid(True)
+    kwds = dict(ec='k', alpha = 0.25) # alpha determins transparancy.
+    patches = []
+    for polygon in polygons:
+        patches += [axis.add_patch(plt.Polygon(0 * np.array(polygon), facecolor =\
+        colours[polygons.index(polygon)%len(colours)], **kwds))]
+    # What is always being plotted during animation (in this case nothing, just a blank point).
+    def initial():  
+        for index in range(len(patches)):
+            patches[index].set_xy([[0,0],[0,0]])
+        return patches
+    # What is being displayed on the i^{th} frame. 
+    # The k^{th} polygon is transformed by k^{th} function in list_of_animation_functions for all i.
+    def animates(i): 
+        for index in range(len(patches)): 
+            patches[index].set_xy(list_of_animation_functions[index](np.array(polygons[index]),i))
+        return patches 
+    animating = animation.FuncAnimation(figure, animates, init_func = initial, frames = 10, interval=10,blit = True)
+    plt.show()
+    return None 
+
