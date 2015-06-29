@@ -2,7 +2,6 @@ from math import floor, ceil
 
 from common import cycle
 from vector2 import Vector2
-from plotygons_for_2d_tilings import plot_faces_of_tiling2 
 
 
 class Tiling2():
@@ -125,9 +124,6 @@ class Tiling2():
         for (v1,v2) in self.edges:
             f.write("newpath " + coords(v1) + " moveto " + coords(v2) + " lineto stroke\n")
             
-    def plotygon_plot(self):
-        plot_faces_of_tiling2(self.faces.keys())
-    
     def face_count_information(self):
         """
         This function gives results that sometimes does not correspond
