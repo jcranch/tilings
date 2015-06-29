@@ -124,24 +124,27 @@ class Tiling2():
             f.write("closepath fill grestore\n")
         for (v1,v2) in self.edges:
             f.write("newpath " + coords(v1) + " moveto " + coords(v2) + " lineto stroke\n")
+            
     def plotygon_plot(self):
         plot_faces_of_tiling2(self.faces.keys())
-        return None
+    
     def face_count_information(self):
         """
-        This fuction gives results that sometimes doues not correspond to the picture display.
-        I suspect this is due to having verticies that are very close together. 
-        Perhapes calling "sort_out_duplicates" will sort this out.
+        This function gives results that sometimes does not correspond
+        to the picture display.  I suspect this is due to having
+        vertices that are very close together.  Perhaps calling
+        "sort_out_duplicates" will sort this out.
         """
-        dictionary_of_number_of_n_gons = {}
+        polygon_count = {}
         for face in self.faces.keys():
-            if len(face) not in dictionary_of_number_of_n_gons.keys() :
-                dictionary_of_number_of_n_gons[len(face)] = 1
+            n = len(face)
+            if n not in polygon_count.keys() :
+                polygon_count[n] = 1
             else:
-                dictionary_of_number_of_n_gons[len(face)] += 1
-        for n_gon in dictionary_of_number_of_n_gons.keys():
-            print 'Number of %s_gons : %s.'%(n_gon,dictionary_of_number_of_n_gons[n_gon])
-        return dictionary_of_number_of_n_gons 
+                polygon_count[n] += 1
+        for (k,v) in polygon_count.iteritems():
+            print 'Number of %s_gons : %s.'%(k,v)
+        return polygon_count
 
 def big_union2(tilings, epsilon=0.000001):
     """

@@ -17,7 +17,11 @@ def find_extreme_value(polygons, x_y_or_z = 'x', min_or_max = 'max'):
         return max(list_of_x_y_or_z)
     
     
-def describe_polygon_path(polygon): #Polygon should be a list of verticies of form [(a,b),(c,d)....(x,y)]
+def describe_polygon_path(polygon):
+    """
+    The polygon should be specified as a list of vertices of the form
+    [(a,b),(c,d)....(x,y)].
+    """
     vertices = []
     for vertex in polygon:
         vertices.append(vertex)
@@ -26,23 +30,28 @@ def describe_polygon_path(polygon): #Polygon should be a list of verticies of fo
     return Path(vertices, codes)
 
 
+def plot_polygons(polygons, figure_size = 8, grid_on = True,
+                  ticks_on = True, colours = None, alpha = 0.85)
+    
+    '''
+    Polygons should be a list of list of vertices of the form
+      [[(x1,y1),(x2,y2), ... ,(xn,yn)], ..., 
+       [(X1,Y1),(X2,Y2), ... ,(Xn,Yn)]]
+    where each polygon's vertices are described in cyclic order.
+    
+    For example, to describe the rectangle with points (0,0), (1,2),
+    (1,0), (0,2), the input for this polygon might be
+      [(0,0), (1,0), (1,2), (0,2)].
 
-def plot_polygons(polygons, figure_size = 8, grid_on = True,ticks_on = True,colours = \
-    ['r','b','g','y','cyan','darkblue','lightblue','aqua',\
-     'grey','pink','purple','gold','orange','darkred','orangered','lime','darkgreen']):
+    Alpha determines translucency.
     '''
-    
-    Polygons should be a list of list of verticies of form [[(x1,y1),(x2,y2), ... ,(xn,yn)],...,[(X1,Y1),(X2,Y2), ... ,(Xn,Yn)]]
-    where each polygon's vertices are described in an order s.t. one could connect the dots in order to draw the shape (but not last edge). 
-    
-    Eg To describe the rectangle with points (0,0),(1,2),(1,0),(0,2) 
-    
-    The input for this polygon must be [(0,0),(1,0),(1,2),(0,2)]
-    or some other order where any two consecutive points an edge
-    and all points communicate (as if last point and first point are joined also.
-    
-    '''
-    kwds = dict(ec='k', alpha = 0.85) #alpha determines transluscency.
+
+    if colours is None:
+        colours = ['r', 'b', 'g', 'y', 'cyan', 'darkblue', 'lightblue',
+                   'aqua', 'grey', 'pink', 'purple', 'gold', 'orange',
+                   'darkred', 'orangered', 'lime', 'darkgreen']
+
+    kwds = dict(ec='k', alpha = alpha)
     figure = plt.figure()
     figure.set_size_inches(figure_size,figure_size)
     axis = figure.add_subplot(111)
@@ -62,8 +71,10 @@ def plot_polygons(polygons, figure_size = 8, grid_on = True,ticks_on = True,colo
     plt.show()
     return None
 
+
 #The following functions are used to convert a given face in a tiling2()
 #into connect the dot form for plotting.
+
 
 def face_into_co_ordinates(face): 
     '''
@@ -76,11 +87,6 @@ def face_into_co_ordinates(face):
     for edge in list(face):
         new_face_of_co_ordinates += [[[(list(edge)[0].x),(list(edge)[0].y)],[(list(edge)[1].x),(list(edge)[1].y)]]]
     return new_face_of_co_ordinates
-
-
-
-
-
 
 
 def face_edges_in_order(face, safety_limit = 100000000): 
@@ -154,6 +160,7 @@ def turn_prepared_face_into_plotygon_path(prepared_face):
 
 def prepare_tiling2_face(face):
     return turn_prepared_face_into_plotygon_path(face_vertices_in_order(face_edges_in_order(face_into_co_ordinates(face))))
+
 
 def plot_faces_of_tiling2(faces):
     list_of_prepared_faces = []
