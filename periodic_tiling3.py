@@ -62,11 +62,15 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
     """
 
     ((minx, maxx), (miny, maxy), (minz, maxz)) = bounding_box
-
+    
     n = len(period_vectors) # 3 for a space-filling tiling, but let's not assume
 
     vertices = {}
     for (label, v0) in fundamental_vertices.iteritems():
+
+        if minx > v0.x or maxx < v0.x or miny > v0.y or maxy < v0.y or minz > v0.z or maxz < v0.z:
+            raise ValueError("The bounding box should contain the fundamental domain")
+        
         gen = LatticeSearcher(n)
         for coeffs in gen:
             v = sum((u*c for (c,u) in zip(coeffs, period_vectors)), v0)
