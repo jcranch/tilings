@@ -1,0 +1,4 @@
+from restrict32_animation import animate_restrict32, animate_restrict32_union_shadow
+
+animate_restrict32()
+animate_restrict32_union_shadow()
