@@ -1,11 +1,12 @@
 from vector3 import Vector3
+from tiling3 import Tiling3
 
 
 class LatticeSearcher():
     """
     Helper class for generating bounded lattice vectors: it generates
     tuples of integers of length n, moving to neighbours of previously
-    visited tuples, ignoring those where "no" has been called.
+    visited tuples, ignoring those where "reject" has been called.
     """
 
     def __init__(self, n):
@@ -17,7 +18,7 @@ class LatticeSearcher():
     def __iter__(self):
         return self
 
-    def no(self):
+    def reject(self):
         self.last = None
     
     def next(self):
@@ -72,7 +73,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
             if minx <= v.x <= maxx and miny <= v.y <= maxy and minz <= v.z <= maxz:
                 vertices[(label,coeffs)] = v
             else:
-                gen.no()
+                gen.reject()
 
     def tsum(t1,t2):
         return tuple(x+y for (x,y) in zip(t1,t2))
@@ -85,7 +86,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
             if all(v in vertices for v in s):
                 edges[(label,coeffs)] = frozenset(vertices[v] for v in s)
             else:
-                gen.no()
+                gen.reject()
 
     faces = {}
     for (label, es) in fundamental_faces.iteritems():
@@ -95,7 +96,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
             if all(e in edges for e in s):
                 faces[(label,coeffs)] = frozenset(edges[e] for e in s)
             else:
-                gen.no()
+                gen.reject()
 
     volumes = {}
     for (label, fs) in fundamental_volumes.iteritems():
@@ -105,7 +106,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
             if all(f in faces for f in s):
                 volumes[(label,coeffs)] = frozenset(faces[f] for f in s)
             else:
-                gen.no()
+                gen.reject()
 
     v = dict((x,l) for (l,x) in vertices.iteritems())
     e = dict((x,l) for (l,x) in edges.iteritems())
@@ -113,3 +114,24 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
     g = dict((x,l) for (l,x) in volumes.iteritems())
 
     return Tiling3(v,e,f,g)
+
+
+def cubic_tiling3(bounding_box):
+
+    v = {(): Vector3(0,0,0)}
+
+    e = {(1,): [((), (0,0,0)), ((), (1,0,0))],
+         (2,): [((), (0,0,0)), ((), (0,1,0))],
+         (3,): [((), (0,0,0)), ((), (0,0,1))]}
+
+    f = {(1,2): [((1,), (0,0,0)), ((2,), (0,0,0)),
+                 ((1,), (0,1,0)), ((2,), (1,0,0))],
+         (2,3): [((2,), (0,0,0)), ((3,), (0,0,0)),
+                 ((2,), (0,0,1)), ((3,), (0,1,0))],
+         (3,1): [((3,), (0,0,0)), ((1,), (0,0,0)),
+                 ((3,), (1,0,0)), ((1,), (0,0,1))]}
+
+    g = {(1,2,3): [((1,2), (0,0,0)), ((2,3), (0,0,0)), ((3,1), (0,0,0)),
+                   ((1,2), (0,0,1)), ((2,3), (1,0,0)), ((3,1), (0,1,0))]}
+
+    return periodic_tiling3(v,e,f,g,bounding_box)

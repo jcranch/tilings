@@ -15,7 +15,7 @@ class LatticeSearcherTest(unittest.TestCase):
         g = LatticeSearcher(2)
         for (x,y) in g:
             if abs(x)+abs(y) > 4:
-                g.no()
+                g.reject()
             else:
                 a.append((x,y))
 

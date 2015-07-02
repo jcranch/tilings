@@ -186,7 +186,7 @@ def rotate_transformation(tiling3, i, theta_x = 10.0, theta_y = 10.0):
     rotation_matrix = rotate_x(theta_x*i/1000.0) * rotate_y(theta_y*i/1000.0)
     return tiling3.deform(rotation_matrix)
 
-def animate_tiling(tiling3 = cubic_tiling3(-3,3,-3,3,-3,3).translate(Vector3(0,0,-0.51)),\
+def animate_tiling(tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3))).translate(Vector3(0,0,-0.51)),\
     transformation_function = rotate_transformation, \
     colours = ['r','b','g','y','cyan','darkblue','lightblue','aqua',\
     'grey','pink','purple','gold','orange','darkred','orangered','lime','darkgreen']):
