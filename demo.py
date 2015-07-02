@@ -2,7 +2,7 @@ from periodic_tiling3 import cubic_tiling3
 from matrix3 import rotate_x, rotate_y
 from vector3 import Vector3
 from restrict32 import restrict32
-from plotygons_for_2d_tilings import plot_matplotlib
+from tiling2_matplotlib import plot_matplotlib
 
 
 
