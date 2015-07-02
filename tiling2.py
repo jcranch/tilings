@@ -138,9 +138,11 @@ class Tiling2():
                 polygon_count[n] = 1
             else:
                 polygon_count[n] += 1
-        for (k,v) in polygon_count.iteritems():
-            print 'Number of %s_gons : %s.'%(k,v)
         return polygon_count
+    def face_count_information_print(self):
+        for (k,v) in polygon_count(self).iteritems():
+            print 'Number of %s_gons : %s.'%(k,v)
+        
 
 def big_union2(tilings, epsilon=0.000001):
     """
