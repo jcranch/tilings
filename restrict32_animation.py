@@ -101,6 +101,37 @@ def animate_restrict32_union_shadow(tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3
     animating = animation.FuncAnimation(figure, animate, init_func = initial, frames = 1000, interval=10,blit = True)
     plt.show()
     return None 
+    
+    # The following function is designed to save each frame of our restrict32 animation for developing mp4 files.
+    
+    
+    def animate_restrict32_manual_save(frames = 10, tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3))).translate(Vector3(0,0,-0.51)),\
+    transformation_function = rotate_transformation, colour = 'lime', grid_on = True, alpha = 0.75,\
+    show_on = True, save_on = True, save_name = 'animate_restrict32'):
+    '''
+    This function takes a tiling3 and transforms it using the transformation function and displays an animation. 
+    '''
+    for frame in range(frames):
+        figure = plt.figure(figsize = (8,8))
+        if grid_on == True:
+            axis = figure.add_axes([0,0,1,1], xlim = (-10, 10.02), ylim = (-10, 10.02),\
+            xticks = range(-10,11), yticks= range(-10,11) , aspect='equal', frameon = True, alpha = alpha)
+            axis.grid(True)
+        else :
+            axis = figure.add_axes([0,0,1,1], xlim = (-5, 5.02), ylim = (-5, 5.02),\
+            xticks = [], yticks= [] , aspect='equal', frameon = True, alpha = alpha)
+        transforming_3d_tiling = transformation_function(tiling3,frame)
+        transforming_2d_intersection = restrict32(transforming_3d_tiling).clip(-20,20,-20,20)
+        patches = []
+        for (n,face) in enumerate(transforming_2d_intersection.faces.keys()):
+            patches += [axis.add_patch(plt.Polygon(0 * np.array([(v.x, v.y) for v in cycle(face)])\
+            , facecolor = colour, ec='k', alpha = alpha, lw = 2))]    
+            patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
+        if show_on == True:
+            plt.show()
+        if save_on == True:
+            plt.savefig(save_name + str(frame)+".png")
+    return None 
 
 
 
