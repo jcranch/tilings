@@ -22,15 +22,15 @@ def rotate_transformation(tiling3, i, theta_x = 30.0, theta_y = 30.0,theta_z = 3
 
 #For now I have settled for the single colour 'lime' until new colour system is added successfully.
 
-def animate_restrict32(tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3))).translate(Vector3(0,0,-0.51)),\
-    transformation_function = rotate_transformation, colour = 'lime', grid_on = True, alpha = 0.75):
+def animate_restrict32(tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3))).translate(Vector3(0,0,-0.51)),
+                       transformation_function = rotate_transformation, colour = 'lime', grid_on = True, alpha = 0.75):
     '''
     This function takes a tiling3 and transforms it using the transformation function and displays an animation 
     '''
     figure = plt.figure(figsize=(8,8))
     if grid_on == True:
-        axis = figure.add_axes([0,0,1,1], xlim = (-10, 10.02), ylim = (-10, 10.02),\
-        xticks = range(-10,11), yticks= range(-10,11) , aspect='equal', frameon = True, alpha = alpha)
+        axis = figure.add_axes([0,0,1,1], xlim = (-10, 10.02), ylim = (-10, 10.02),
+                               xticks = range(-10,11), yticks= range(-10,11) , aspect='equal', frameon = True, alpha = alpha)
         axis.grid(True)
     else :
         axis = figure.add_axes([0,0,1,1], xlim = (-5, 5.02), ylim = (-5, 5.02),\
@@ -104,13 +104,16 @@ def animate_restrict32_union_shadow(tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3
     
     # The following function is designed to save each frame of our restrict32 animation for developing mp4 files.
     
-    
-    def animate_restrict32_manual_save(frames = 10, tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3))).translate(Vector3(0,0,-0.51)),\
-    transformation_function = rotate_transformation, colour = 'lime', grid_on = True, alpha = 0.75,\
-    show_on = True, save_on = True, save_name = 'animate_restrict32'):
+
+def animate_restrict32_manual_save(frames = 10, tiling3 = None, \
+                                   transformation_function = rotate_transformation, colour = 'lime', grid_on = True, alpha = 0.75, \
+                                   show_on = True, save_on = True, save_name = 'animate_restrict32'):
     '''
     This function takes a tiling3 and transforms it using the transformation function and displays an animation. 
     '''
+    if tiling3 is None:
+        tiling3 = cubic_tiling3(((-3,3),(-3,3),(-3,3))).translate(Vector3(0,0,-0.51))
+    
     for frame in range(frames):
         figure = plt.figure(figsize = (8,8))
         if grid_on == True:
