@@ -36,7 +36,7 @@ def special_transformation_1(tiling3, i, theta_x = 5**0.5*10.0, theta_y = 2**0.5
     rotation_matrix = rotate_x(theta_x*i/1000.0) * rotate_y(theta_y*i/1000.0)*rotate_z(theta_z*i/1000.0)
     return tiling3.deform(rotation_matrix).translate(Vector3(np.sin(3**0.5*i/100.0),np.sin(2**0.5*i/100.0), np.sin(2**0.5*i/10.0)))
 
-default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple']
+default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple','blue','darkred','darkblue','lightgreen']
 
 
 
