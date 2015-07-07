@@ -35,7 +35,7 @@ def plot_matplotlib(tiling2, figure_size=8, grid_on=True,
     axis = figure.add_subplot(111)
     for (i,face) in enumerate(tiling2.faces):
         l = describe_polygon_path([(v.x, v.y) for v in cycle(face)])
-        patch = patches.PathPatch(l, facecolor=colours[i%len(colours)], lw=1.3, ec='k', alpha=alpha)
+        patch = patches.PathPatch(l, facecolor=colours[(len(face)-3)%colours], lw=1.3, ec='k', alpha=alpha)
         axis.add_patch(patch)
     plt.axis('scaled')
     axis.set_xlim(tiling2.minx()-1, tiling2.maxx()+1)
