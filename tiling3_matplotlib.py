@@ -11,7 +11,7 @@ import numpy as np
 
 
 
-default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple']
+default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple','blue','darkred','darkblue','lightgreen']
 
 
 
