@@ -7,9 +7,7 @@ from matplotlib import animation
 from common import cycle
 
 
-default_colours = ['red', 'blue', 'green', 'yellow', 'cyan', 'darkblue',
-                   'lightblue', 'aqua', 'grey', 'pink', 'purple', 'gold',
-                   'orange', 'darkred', 'orangered', 'lime', 'darkgreen']
+default_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple','blue','darkred','darkblue','lightgreen']
   
     
 def describe_polygon_path(polygon):
