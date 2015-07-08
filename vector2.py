@@ -32,6 +32,9 @@ class Vector2():
 
     def __div__(self, s):
         return Vector2(self.x/s, self.y/s)
+
+    def __neg__(self):
+        return Vector2(-self.x, -self.y)
     
     def norm(self):
         return sqrt(self.x*self.x + self.y*self.y)

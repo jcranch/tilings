@@ -33,6 +33,10 @@ class Matrix3():
     def column(self,j):
         return Vector3(self[(j,1)], self[(j,2)], self[(j,3)])
 
+    def determinant(self):
+        ((a,b,c),(d,e,f),(g,h,i)) = self.array
+        return a*(e*i-f*h) + b*(f*g-d*i) + c*(d*h-e*g)
+
 
 
 def rotate_x(theta):
@@ -53,3 +57,17 @@ def random_orthogonal():
     w1 = w0-u*(u.dot(w0))-v*(v.dot(w0))
     w = w1/(w1.norm())
     return Matrix3([u,v,w])
+
+def random_special_orthogonal():
+    u = random_norm1()
+    v0 = random_norm1()
+    v1 = v0-u*(u.dot(v0))
+    v = v1/(v1.norm())
+    w0 = random_norm1()
+    w1 = w0-u*(u.dot(w0))-v*(v.dot(w0))
+    w = w1/(w1.norm())
+    m = Matrix3([u,v,w])
+    if m.determinant() < 0:
+        return Matrix3([u,v,-w])
+    else:
+        return m

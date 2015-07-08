@@ -37,6 +37,9 @@ class Vector3():
     def __div__(self, s):
         return Vector3(self.x/s, self.y/s, self.z/s)
 
+    def __neg__(self):
+        return Vector3(-self.x, -self.y, -self.z)
+    
     def dot(self, other):
         return self.x*other.x + self.y*other.y + self.z*other.z
     
