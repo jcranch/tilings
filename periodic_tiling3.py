@@ -1,41 +1,7 @@
+from common import LatticeSearcher
 from vector3 import Vector3
 from tiling3 import Tiling3
 
-
-class LatticeSearcher():
-    """
-    Helper class for generating bounded lattice vectors: it generates
-    tuples of integers of length n, moving to neighbours of previously
-    visited tuples, ignoring those where "reject" has been called.
-    """
-
-    def __init__(self, n):
-        self.dim = n
-        self.old = set()
-        self.new = set([tuple(0 for i in xrange(n))])
-        self.last = None
-    
-    def __iter__(self):
-        return self
-
-    def reject(self):
-        self.last = None
-    
-    def next(self):
-        if self.last is not None:
-            a = self.last
-            self.old.add(a)
-            for i in xrange(self.dim):
-                for x in [a[i]+1, a[i]-1]:
-                    b = a[:i] + (x,) + a[(i+1):]
-                    if b not in self.old:
-                        self.new.add(b)
-        if self.new:
-            a = self.new.pop()
-            self.last = a
-            return a
-        else:
-            raise StopIteration
     
 
 def periodic_tiling3(fundamental_vertices, fundamental_edges,

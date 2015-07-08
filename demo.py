@@ -1,3 +1,6 @@
+import os
+
+from periodic_tiling2 import triangular_tiling, hexagonal_tiling
 from periodic_tiling3 import cubic_tiling3, tetra_octa_tiling3
 from matrix3 import rotate_x, rotate_y
 from vector3 import Vector3
@@ -15,7 +18,7 @@ def draw_cubic1_eps():
     v = Vector3(0,0,-0.1)
     l3 = cubic_tiling3(((-6,6),(-6,6),(-6,6))).deform(m).translate(v)
     l2 = restrict32(l3).clip(-5,5,-5,5)
-    with open("cubic1.eps", "w") as f:
+    with open("demos/cubic1.eps", "w") as f:
         l2.write_eps(f, (20,220,520,720), (-5,5,-5,5), facecol=facecol)
 
     
@@ -32,7 +35,7 @@ def draw_cubic2_eps():
             raise ValueError("The edge should lie in some direction")
 
     l3 = cubic_tiling3(((-2,2),(-2,2),(-2,2))).translate(Vector3(0,0,3))
-    with open("cubic2.eps", "w") as f:
+    with open("demos/cubic2.eps", "w") as f:
         l3.write_eps(f, (0,0,500,500), (-1.5,5.7,-2.7,4.5),
                      whiterange=6, subdivs=25, edgecol=edgecol)
 
@@ -43,7 +46,7 @@ def draw_cubic1_matplotlib():
     v = Vector3(0,0,-0.1)
     l3 = cubic_tiling3(((-6,6),(-6,6),(-6,6))).deform(m).translate(v)
     l2 = restrict32(l3)
-    plot_matplotlib(l2).savefig("cubic1.png")
+    plot_matplotlib(l2).savefig("demos/cubic1.png")
 
 
 def draw_tetra_octa_eps():
@@ -65,12 +68,44 @@ def draw_tetra_octa_eps():
             raise ValueError("Should get one of those edge colours.")
         
     l3 = tetra_octa_tiling3(((-3,3),(-3,3),(-3,3))).clip(-3,3,-3,3,-3,3).scale(0.66).translate(Vector3(0,0,3))
-    with open("tetra_octa1.eps", "w") as f:
+    with open("demos/tetra_octa1.eps", "w") as f:
         l3.write_eps(f, (0,0,500,500), (-1.5,5.7,-2.7,4.5),
                      whiterange=6, subdivs=25, edgecol=edgecol)
+
+
+def draw_triangular():
+
+    def facecol((a,v)):
+        if a:
+            return (1.0,0.4,0.4)
+        else:
+            return (0.4,0.4,1.0)
+    t = triangular_tiling(((-10,10),(-10,10))).clip(-8,8,-8,8)
+    with open("demos/triangular.eps", "w") as f:
+        t.write_eps(f,(0,0,500,500),(-8,8,-8,8),facecol=facecol)
+
+
+def draw_hexagonal():
+
+    def facecol((a,(i,j))):
+        n = (i-j)%3
+        if n==0:
+            return (1.0,0.4,0.4)
+        elif n==1:
+            return (0.4,1.0,0.4)
+        elif n==2:
+            return (0.4,0.4,1.0)
+    t = hexagonal_tiling(((-10,10),(-10,10))).clip(-8,8,-8,8)
+    with open("demos/hexagonal.eps", "w") as f:
+        t.write_eps(f,(0,0,500,500),(-8,8,-8,8),facecol=facecol)
+
         
         
 if __name__=="__main__":
+
+    if not os.path.exists("demos/"):
+        os.makedirs("demos/")
+    
     print "draw_cubic1_eps"
     draw_cubic1_eps()
 
@@ -82,3 +117,9 @@ if __name__=="__main__":
 
     print "draw_tetra_octa_eps"
     draw_tetra_octa_eps()
+
+    print "draw_triangular"
+    draw_triangular()
+
+    print "draw_hexagonal"
+    draw_hexagonal()

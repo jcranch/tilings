@@ -1,6 +1,7 @@
+from common import LatticeSearcher
 from vector2 import Vector2
 from tiling2 import Tiling2
-from periodic_tiling3 import LatticeSearcher
+
 
 def periodic_tiling2(fundamental_vertices, fundamental_edges,
                      fundamental_faces, 
@@ -29,7 +30,7 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
     
     ((minx, maxx), (miny, maxy)) = bounding_box
     
-    n = len(period_vectors) # 3 for a space-filling tiling, but let's not assume
+    n = len(period_vectors) # 2 for a space-filling tiling, but let's not assume
 
     vertices = {}
     for (label, v0) in fundamental_vertices.iteritems(): 
@@ -40,7 +41,6 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
         gen = LatticeSearcher(n) 
         for coeffs in gen: #using the lattices generated as co-efficients of periodic vectors!
             v = sum((u*c for (c,u) in zip(coeffs, period_vectors)), v0) 
-            print v 
             if minx <= v.x <= maxx and miny <= v.y <= maxy:
                 vertices[(label,coeffs)] = v #If this new vector lies within the bounday box, keep it and add it to verticies
             else:
@@ -54,8 +54,8 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in vs] 
-            # Take verticies that form the edge. a is the label of the vertex, offset is the l.c. of the period vectors.
-            # So this takes the fundemental edge and adds it to some valid vertex and sees 
+            # Take vertices that form the edge. a is the label of the vertex, offset is the l.c. of the period vectors.
+            # So this takes the fundamental edge and adds it to some valid vertex and sees 
             if all(v in vertices for v in s):
                 edges[(label,coeffs)] = frozenset(vertices[v] for v in s)
             else:
@@ -84,7 +84,7 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
     
 def cubic_tiling2(bounding_box):
 
-    v = {(): Vector2(0,0)} #The fundemental vertex.
+    v = {(): Vector2(0,0)} #The fundamental vertex.
     
     e = {(1,): [((), (0,0)), ((), (1,0))], #unitx
          (2,): [((), (0,0)), ((), (0,1))]} #unity
@@ -95,23 +95,25 @@ def cubic_tiling2(bounding_box):
     return periodic_tiling2(v,e,f,bounding_box)
 
 
-def cubic_tiling2(bounding_box):
+def triangular_tiling(bounding_box):
+    periods = [Vector2(1,0),Vector2(0.5,3**0.5/2)] # _ and /
+    fundamental_vertex = {(): Vector2(0,0)}
+    fundamental_edges = {(1,):[((),(0,0)), ((),(0,1))], #/
+                         (2,):[((),(0,0)), ((),(1,0))], #-
+                         (3,):[((),(0,1)),((),(1,0))]}  #\
+    fundamental_faces = {True:[((1,),(0,0)),((2,),(0,0)),((3,),(0,0))],
+                         False:[((1,),(1,0)),((2,),(0,1)),((3,),(0,0))]}
+    return periodic_tiling2(fundamental_vertex,fundamental_edges,fundamental_faces,bounding_box,periods)
 
-    v = {(): Vector2(0,0)} #The fundemental vertex.
 
-    e = {(1,): [((), (0,0)), ((), (1,0))], #unitx
-         (2,): [((), (0,0)), ((), (0,1))]} #unity
-
-    f = {(1,2): [((1,), (0,0)), ((2,), (0,0)),
-                 ((1,), (0,1)), ((2,), (1,0))]}
-
-    return periodic_tiling2(v,e,f,bounding_box)
-def equilateral_triangular_tiling(bounding_box):
-    fundemental_vertex = {(): Vector2(0,0)}
-    fundemental_edges = {(1,):[((),(0,0)), ((),(0,1))], #_
-                        (2,):[((),(0,0)), ((),(1,0))], #/
-                        (3,):[((),(0,1)),((),(1,0))], #\
-                        (4,):[((),(0,0)),((),(1,-1))]}
-    fundemental_faces = {(1,2):[((1,),(0,0)),((2,),(0,0)),((3,),(0,0))],\
-                        (2,1):[((2,),(0,0)),((4,),(0,0)),((1,),(1,-1))]}
-    return periodic_tiling2(fundemental_vertex,fundemental_edges,fundemental_faces,bounding_box,[Vector2(1,0),Vector2(0.5,3**0.5/4)] )
+def hexagonal_tiling(bounding_box):
+    periods = [Vector2(0,3**0.5), Vector2(1.5,3**0.5/2)]
+    fundamental_vertices = {True: Vector2(0,0),  # >-
+                            False: Vector2(1,0)} # -<
+    fundamental_edges = {1:[(True, (0,0)), (False, (0,0))],
+                         2:[(True, (0,0)), (False, (0,-1))],
+                         3:[(True, (0,0)), (False, (1,-1))]}
+    fundamental_faces = {():[(1,(0,0)), (2,(0,1)), (3,(0,1)),
+                             (1,(1,0)), (2,(1,0)), (3,(0,0))]}
+    return periodic_tiling2(fundamental_vertices,fundamental_edges,fundamental_faces,bounding_box,periods)
+    
