@@ -63,28 +63,4 @@ def f(np.array(polygon), i):
     return np.array(...)
 
 '''
-def animate_plotygons(polygons, list_of_animation_functions,
-                      colours=default_colours, alpha=0.85):
-
-    figure = plt.figure(figsize=(8,8))
-    axis = figure.add_axes([0,0,1,1], xlim = (-11, 11), ylim = (-11, 11),\
-    xticks = range(10), yticks= range(10) , aspect='equal', frameon = True)
-    axis.grid(True)
-    patches = []
-    for polygon in polygons:
-        patches += [axis.add_patch(plt.Polygon(0 * np.array(polygon), facecolor = colours[polygons.index(polygon)%len(colours)], ec='k', alpha=alpha))]
-    # What is always being plotted during animation (in this case nothing, just a blank point).
-    def initial():  
-        for index in range(len(patches)):
-            patches[index].set_xy([[0,0],[0,0]])
-        return patches
-    # What is being displayed on the i^{th} frame. 
-    # The k^{th} polygon is transformed by k^{th} function in list_of_animation_functions for all i.
-    def animates(i): 
-        for index in range(len(patches)): 
-            patches[index].set_xy(list_of_animation_functions[index](np.array(polygons[index]),i))
-        return patches 
-    animating = animation.FuncAnimation(figure, animates, init_func = initial, frames = 10, interval=10,blit = True)
-    plt.show()
-    return None 
 
