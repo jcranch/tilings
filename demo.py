@@ -1,4 +1,4 @@
-from periodic_tiling3 import cubic_tiling3
+from periodic_tiling3 import cubic_tiling3, tetra_octa_tiling3
 from matrix3 import rotate_x, rotate_y
 from vector3 import Vector3
 from restrict32 import restrict32
@@ -45,9 +45,40 @@ def draw_cubic1_matplotlib():
     l2 = restrict32(l3)
     plot_matplotlib(l2).savefig("cubic1.png")
 
+
+def draw_tetra_octa_eps():
+
+    def edgecol((s,t)):
+        if s == "T1":
+            return (1.0, 0.0, 0.0)
+        elif s == "T2":
+            return (0.0, 1.0, 0.0)
+        elif s == "T3":
+            return (0.0, 0.0, 1.0)
+        elif s == "F1":
+            return (0.0, 0.5, 0.5)
+        elif s == "F2":
+            return (0.5, 0.0, 0.5)
+        elif s == "F3":
+            return (0.5, 0.5, 0.0)
+        else:
+            raise ValueError("Should get one of those edge colours.")
+        
+    l3 = tetra_octa_tiling3(((-3,3),(-3,3),(-3,3))).clip(-3,3,-3,3,-3,3).scale(0.66).translate(Vector3(0,0,3))
+    with open("tetra_octa1.eps", "w") as f:
+        l3.write_eps(f, (0,0,500,500), (-1.5,5.7,-2.7,4.5),
+                     whiterange=6, subdivs=25, edgecol=edgecol)
+        
         
 if __name__=="__main__":
+    print "draw_cubic1_eps"
     draw_cubic1_eps()
+
+    print "draw_cubic2_eps"
     draw_cubic2_eps()
+
+    print "draw_cubic1_matplotlib"
     draw_cubic1_matplotlib()
 
+    print "draw_tetra_octa_eps"
+    draw_tetra_octa_eps()

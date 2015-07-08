@@ -139,3 +139,67 @@ def cubic_tiling3(bounding_box):
                    ((1,2), (0,0,1)), ((2,3), (1,0,0)), ((3,1), (0,1,0))]}
 
     return periodic_tiling3(v,e,f,g,bounding_box)
+
+
+def tetra_octa_tiling3(bounding_box):
+
+    v = {"": Vector3(1,0,0)}
+
+    p = [Vector3(1,1,0),
+         Vector3(-1,1,0),
+         Vector3(1,0,1)]
+
+    def difference((x1,y1,z1),(x2,y2,z2)):
+        x = x2-x1
+        y = y2-y1
+        z = z2-z1
+        x -= z
+        return ((x+y)//2, (x-y)//2, z)
+    
+    e0 = {"T1": ((0,0,1), (0,1,0)),
+          "T2": ((1,0,0), (0,0,1)),
+          "T3": ((0,1,0), (1,0,0)),
+          "F1": ((0,0,1), (0,-1,0)),
+          "F2": ((1,0,0), (0,0,-1)),
+          "F3": ((0,1,0), (-1,0,0))}
+    e1 = dict((tuple(sorted(vs)), k)
+              for (k,vs) in e0.iteritems())
+    e = dict((k,frozenset(("",difference((1,0,0),v)) for v in vs))
+             for (k,vs) in e0.iteritems())
+
+    def recognise_e(vs):
+        (v1,v2) = sorted(vs)
+        for ((v1m,v2m), k) in e1.iteritems():
+            if difference(v1m,v1)==difference(v2m,v2):
+                return (k,difference(v1m,v1))
+        
+    f0 = {"+++": ((1,0,0),(0,1,0),(0,0,1)),
+          "++-": ((1,0,0),(0,1,0),(0,0,-1)),
+          "+-+": ((1,0,0),(0,-1,0),(0,0,1)),
+          "+--": ((1,0,0),(0,-1,0),(0,0,-1)),
+          "-++": ((-1,0,0),(0,1,0),(0,0,1)),
+          "-+-": ((-1,0,0),(0,1,0),(0,0,-1)),
+          "--+": ((-1,0,0),(0,-1,0),(0,0,1)),
+          "---": ((-1,0,0),(0,-1,0),(0,0,-1))}
+    f1 = dict((tuple(sorted(vs)), k) for (k,vs) in f0.iteritems())
+    f = dict((k, frozenset(recognise_e(t) for t in zip(vs,vs[1:]+(vs[0],))))
+             for (k,vs) in f0.iteritems())
+    
+    def recognise_f(vs):
+        l = sorted(vs)
+        for (lm,k) in f1.iteritems():
+            if len(lm)==len(l) and len(set(difference(vm,v) for (vm,v) in zip(lm,l)))==1:
+                return (k,difference(lm[0],l[0]))
+
+    g = {"octa": [(a,(0,0,0)) for a in f],
+         "tetra1": [recognise_f([(1,0,0),(0,1,0),(0,0,1)]),
+                    recognise_f([(1,0,0),(0,1,0),(1,1,1)]),
+                    recognise_f([(1,0,0),(1,1,1),(0,0,1)]),
+                    recognise_f([(1,1,1),(0,1,0),(0,0,1)])],
+         "tetra2": [recognise_f([(-1,0,0),(0,-1,0),(0,0,-1)]),
+                    recognise_f([(-1,0,0),(0,-1,0),(-1,-1,-1)]),
+                    recognise_f([(-1,0,0),(-1,-1,-1),(0,0,-1)]),
+                    recognise_f([(-1,-1,-1),(0,-1,0),(0,0,-1)])]}
+    
+    return periodic_tiling3(v,e,f,g,bounding_box,p)
+    
