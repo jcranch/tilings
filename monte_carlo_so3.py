@@ -38,6 +38,7 @@ def montecarlo_so3(iterations, tiling3, transformation_function ):
     
     
 #Example:    
+
 unit_cube = cubic_tiling3(((-0.2,1.2),(-0.2,1.2),(-0.2,1.2))).translate(Vector3(-0.50000001,-0.50000001,-0.50000001))
 iterations = 1000
 
@@ -51,7 +52,7 @@ def deform_matrix(tiling3, i,list_of_matrices = produce_k_random_rotations_so3()
     return tiling3.transform(list_of_matrices[i])
 
 #Seems to tend to something like {4: 0.65,6:0.35}.
-montecarlo_so3(iterations,tiling3 = unit_cube, transformation_function = deform_matrix)
+#montecarlo_so3(iterations,tiling3 = unit_cube, transformation_function = deform_matrix)
 
 # Conceptually this function takes a 3d tiling, rotates randomly (as described before)
 # then translates it (preferably so that all the tiling is above z = 0)
@@ -59,27 +60,35 @@ montecarlo_so3(iterations,tiling3 = unit_cube, transformation_function = deform_
 # whilst counting the n-gons produced with the intersection of z = 0.
 # It then returns the distribution of n-gons produced this way for all of randomly rotated 3d objects.
 def translation_function(tiling3,i):
-    return tiling3.translate(Vector3(0,0,-i/100.0))
+    return tiling3.translate(Vector3(0,0,-i/1000.0))
 
-#Currently slow but I will look at making this run a lot faster!
-def montecarlo_polygon_density(transformation_iterations=10000, translation_iterations=300, tiling3 = unit_cube,\
+
+def montecarlo_polygon_density(transformation_iterations=100,  tiling3 = unit_cube,\
                                transformation_function = deform_matrix,translation_function = translation_function,\
-                               initial_translation = 3**0.5/2+1):
+                               translation_count_safetylimit = 1000000):
     grand_list_of_distinct_n_gons = []
     grand_n_gon_tally = {}
     grand_total_n_gons = 0.0
     # Takes a tiling and rotates it.
     for i in range(transformation_iterations):
         transforming_3d_tiling = transformation_function(tiling3,i)
-        # Translates it (preferably above z = 0).
-        transforming_3d_tiling = transforming_3d_tiling.translate(Vector3(0,0,initial_translation))
+        # If the 'lowest' point of the tiling lies below z = 0 then reaise it so that it lies just above.
+        if transforming_3d_tiling.minz() < 0:
+            transforming_3d_tiling = transforming_3d_tiling.translate(Vector3(0,0,-transforming_3d_tiling.minz()+0.000000001))
         raw_n_gon_count_results = []
         # Now we begin translating the given rotated tiling (preferably so that all of it lies below z = 0).
-        for j in range(translation_iterations):
-            translating_3d_tiling = translation_function(transforming_3d_tiling,j)
+        translation_count = 0
+        translating_3d_tiling = transforming_3d_tiling
+        # Translate it until 'highest' point in tiling is below z = 0 and record intersections of z = 0 along the way frame by frame.
+        while translating_3d_tiling.maxz() > 0 :
+            translating_3d_tiling = translation_function(transforming_3d_tiling,translation_count)
             translating_2d_intersection = restrict32(translating_3d_tiling).clip(-20,20,-20,20)
             # Record the n-gons that intercepted z = 0 this frame.
             raw_n_gon_count_results += [translating_2d_intersection.face_count_information()]
+            translation_count += 1
+            if  translation_count > translation_count_safetylimit:
+                print "Translation count safetylimit has been surpassed."
+                break
         # Find which n-gons were actually found. (I think I might be able to remove/improve this part!)
         distinct_n_gons_found = []
         for dictionary_of_n_gons in raw_n_gon_count_results:
@@ -89,7 +98,7 @@ def montecarlo_polygon_density(transformation_iterations=10000, translation_iter
                 if n_gon not in grand_list_of_distinct_n_gons:
                     grand_list_of_distinct_n_gons += [n_gon]
         # Count how many of each n-gon were found overall.
-        for k in range(translation_iterations):
+        for k in range(translation_count):
             for n_gon in distinct_n_gons_found:
                 if n_gon in raw_n_gon_count_results[k]:                    
                     grand_total_n_gons += raw_n_gon_count_results[k][n_gon]
@@ -101,6 +110,8 @@ def montecarlo_polygon_density(transformation_iterations=10000, translation_iter
     grand_n_gon_distribution = dict((n_gon,grand_n_gon_tally[n_gon]/grand_total_n_gons ) for n_gon in grand_list_of_distinct_n_gons)
     return grand_n_gon_distribution
     
+
+    
 '''
 For unit cube with 10000 transformation iterations I got this :
 montecarlo_polygon_density()
@@ -109,3 +120,4 @@ montecarlo_polygon_density()
  5: 0.18974424090942507,
  6: 0.045965796314983993}
 '''
+montecarlo_polygon_density()
