@@ -1,29 +1,18 @@
 import unittest
 
 from restrict32 import restrict32
-from cubic_tilings import cube3, cubic_tiling3
+from periodic_tiling3 import cubic_tiling3
 from vector2 import Vector2
 from vector3 import Vector3
 
-
 from general import TilingTest
-
-
-
-class UnitCubeTest(TilingTest, unittest.TestCase):
-
-    def setUp(self):
-        self.cube = cube3([[0,1],[0,1],[0,1]])
-
-    def test_type(self):
-        self.type_tiling3(self.cube)
 
 
 
 class CubicTilingTest(TilingTest, unittest.TestCase):
 
     def setUp(self):
-        self.tiling = cubic_tiling3(1,8,2,8,3,8)
+        self.tiling = cubic_tiling3(((-3,4),(-2,4),(-1,4))).translate(Vector3(4,4,4))
 
     def test_type(self):
         self.type_tiling3(self.tiling)
