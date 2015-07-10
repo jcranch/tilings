@@ -56,7 +56,7 @@ class Tiling4():
         """
         Applies an arbitrary function q to the vertices.
         """
-        v = dict((a,(h(a),x))
+        v = dict((a,(q(a),x))
                  for (a,x) in self.vertices.iteritems())
         e = dict((a,(frozenset(v[i][0] for i in a), x))
                  for (a,x) in self.edges.iteritems())
