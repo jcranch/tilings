@@ -22,49 +22,49 @@ def tiling4_polytope(dictionary_of_vertices, list_of_edges, list_of_faces, list_
     for edge in list_of_edges:
         list_of_vertices_auxiliary = []
         for vertex in edge:
-            list_of_vertices_auxiliary += [vertex][0]
-        items_of_edges += [tuple(set(list_of_vertices_auxiliary))]
+            list_of_vertices_auxiliary += sorted([vertex][0])
+        items_of_edges += [tuple(sorted(set(list_of_vertices_auxiliary)))]
 
     items_of_faces = []
     for face in list_of_faces:
         list_of_edges_auxiliary = []
         for edge in face:
-            list_of_edges_auxiliary += [edge][0]
-        items_of_faces += [tuple(set(list_of_edges_auxiliary))]
+            list_of_edges_auxiliary += sorted([edge][0])
+        items_of_faces += [tuple(sorted(set(list_of_edges_auxiliary)))]
 
     items_of_volumes = []
     for volume in list_of_volumes:
         list_of_faces_auxiliary = []
         for face in volume:
-            list_of_faces_auxiliary += [face][0]
-        items_of_volumes += [tuple(set(list_of_faces_auxiliary))]
+            list_of_faces_auxiliary += sorted([face][0])
+        items_of_volumes += [tuple(sorted(set(list_of_faces_auxiliary)))]
     
     items_of_hypervolumes = []
     for hypervolume in list_of_hypervolumes:
         list_of_volumes_auxiliary = []
         for volume in hypervolume:
-            list_of_volumes_auxiliary += [volume][0]
-        items_of_hypervolumes += [tuple(set(list_of_volumes_auxiliary))]    
+            list_of_volumes_auxiliary += sorted([volume][0])
+        items_of_hypervolumes += [tuple(sorted(set(list_of_volumes_auxiliary)))]    
     # Now we make the corresponding keys. 
     # We reverse the keys and values for now and change them at the end.
     keys_of_edges = []
     for edge in list_of_edges:
-        keys_of_edges += [frozenset([dictionary_of_vertices[k] for k in edge])]
+        keys_of_edges += [frozenset([dictionary_of_vertices[sorted(k)] for k in edge])]
     dictionary_of_edges = dict([[item[1],item[0]] for item in zip(keys_of_edges,items_of_edges)])
     
     keys_of_faces = []
     for face in list_of_faces:
-        keys_of_faces += [frozenset([dictionary_of_edges[k] for k in face])]
+        keys_of_faces += [frozenset([dictionary_of_edges[sorted(k)] for k in face])]
     dictionary_of_faces = dict([[item[1],item[0]] for item in zip(keys_of_faces,items_of_faces)])  
     
     keys_of_volumes = []
     for volume in list_of_volumes:
-        keys_of_volumes += [frozenset([dictionary_of_faces[k] for k in volume])]
+        keys_of_volumes += [frozenset([dictionary_of_faces[sorted(k)] for k in volume])]
     dictionary_of_volumes = dict([[item[1],item[0]] for item in zip(keys_of_faces,items_of_volumes)])  
     
     keys_of_hypervolumes = []
     for hypervolume in list_of_hypervolumes:
-        keys_of_hypervolumes += [frozenset([dictionary_of_volumes[k] for k in hypervolume])]
+        keys_of_hypervolumes += [frozenset([dictionary_of_volumes[sorted(k)] for k in hypervolume])]
     dictionary_of_hypervolumes = dict([[item[1],item[0]] for item in zip(keys_of_volumes,items_of_hypervolumes)])    
     
     # Now we reverse the keys and values to correct position for a tiling3 input.
