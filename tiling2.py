@@ -6,7 +6,7 @@ from vector2 import Vector2
 
 class Tiling2():
     """
-    Base class for a 3D tiling.
+    Base class for a 2D tiling.
     """
     
     def __init__(self, v=None, e=None, f=None):
@@ -40,11 +40,11 @@ class Tiling2():
         Applies an arbitrary function h to the vertices.
         """
         v = dict((a,(h(a),x))
-                 for a in self.vertices.iteritems())
+                 for (a,x) in self.vertices.iteritems())
         e = dict((a,(frozenset(v[i][0] for i in a),x))
-                 for a in self.edges.iteritems())
+                 for (a,x) in self.edges.iteritems())
         f = dict((a,(frozenset(e[i][0] for i in a),x))
-                 for a in self.faces.iteritems())
+                 for (a,x) in self.faces.iteritems())
         return Tiling2(v.itervalues(),e.itervalues(),f.itervalues())
             
     def translate(self, offset):
@@ -52,6 +52,9 @@ class Tiling2():
             
     def scale(self, scalar):
         return self.deform(lambda x: x*scalar)
+
+    def transform(self, matrix):
+        return self.deform(matrix) # matrix action is overloaded function call
 
     def sort_out_duplicates(self, epsilon=0.000001):
         """
@@ -123,14 +126,8 @@ class Tiling2():
             f.write("closepath fill grestore\n")
         for (v1,v2) in self.edges:
             f.write("newpath " + coords(v1) + " moveto " + coords(v2) + " lineto stroke\n")
-            
+
     def face_count_information(self):
-        """
-        This function gives results that sometimes does not correspond
-        to the picture display.  I suspect this is due to having
-        vertices that are very close together.  Perhaps calling
-        "sort_out_duplicates" will sort this out.
-        """
         polygon_count = {}
         for face in self.faces.keys():
             n = len(face)
@@ -139,6 +136,7 @@ class Tiling2():
             else:
                 polygon_count[n] += 1
         return polygon_count
+
     def face_count_information_print(self):
         for (k,v) in polygon_count(self).iteritems():
             print 'Number of %s_gons : %s.'%(k,v)

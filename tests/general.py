@@ -5,6 +5,19 @@ from vector3 import Vector3
 
 class TilingTest():
 
+    def type_tiling1(self, t):
+        """
+        Check that a 1D tiling is made of the things it is supposed to.
+        """
+        self.assertIsInstance(t.vertices, dict, "vertices should form a dict")
+        for v in t.vertices:
+            self.assertIsInstance(v, float, "vertices should be floats (got %s)"%(v,))
+        self.assertIsInstance(t.edges, dict, "edges should form a dict")
+        for e in t.edges:
+            self.assertIsInstance(e, frozenset, "edges should be frozensets")
+            for v in e:
+                self.assertIsInstance(v, float, "edges should be made up of vertices")
+    
     def type_tiling2(self, t):
         """
         Check that a 2D tiling is made of the things it is supposed to.
