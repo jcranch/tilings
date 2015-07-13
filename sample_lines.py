@@ -63,4 +63,4 @@ if __name__=="__main__":
     p = regular_polygon(3)
     im = plot(p, 400, 400)
     im.show()
-    im.save("moduli_lines.png")
+    im.save("demos/moduli_lines.png")
