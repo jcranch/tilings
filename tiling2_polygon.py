@@ -16,7 +16,7 @@ def tiling2_polygon(vertices):
 
     
 def regular_polygon(n, radius=1.0, theta=0.0, centre=Vector2(0,0), grounded = False):
-    if grounded == True :
+    if grounded:
         theta = -(n-2)*pi/(2*n)
     v = [(i, centre + Vector2(radius*cos(2*pi*i/n + theta),
                               radius*sin(2*pi*i/n + theta)))
