@@ -1,5 +1,15 @@
+from math import pi
+from random import random
 
-def tiling3_intersection_distribution(polyhedron = tetrahedron(),iterations = 100000, colours = default_intersection_colours):
+from matrix3 import rotate_x, rotate_z
+from vector3 import Vector3
+from restrict32 import restrict32
+from tiling3_matplotlib import default_intersection_colours
+
+
+
+
+def tiling3_intersection_distribution(polyhedron, iterations = 100000, colours = default_intersection_colours):
     bound = max(vertex.norm() for vertex in polyhedron.vertices) # Takes length from origin.
     cases = {}
     dictionary_of_tallies = {}
