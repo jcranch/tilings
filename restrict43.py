@@ -21,8 +21,8 @@ def restrict43(t):
     """
     
     for (v,x) in t.vertices.iteritems():
-        if v.w == 0:
-            raise ValueError("Vertex %s lies in cell w=0"%(v,)) # Check Cell is the right word.
+        if v.z == 0:
+            raise ValueError("Vertex %s lies in cell z=0"%(v,)) # Check Cell is the right word.
 
     newv = {}
     for (e,l) in t.edges.iteritems():
