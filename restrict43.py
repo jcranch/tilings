@@ -47,12 +47,12 @@ def restrict43(t):
     for (g,x) in t.volumes.iteritems():
         f = frozenset(newe[f1][0] for f1 in g if f1 in newe)
         if f:
-            newf[f] = (f,x)
+            newf[g] = (f,x)
             
     newg = {}
     for (h,x) in t.hypervolumes.iteritems():
         g = frozenset(newf[g1][0] for g1 in h if g1 in newf)
         if g:
-            newg[g] = x
+            newg[h] = x
             
     return Tiling3(newv.itervalues(), newe.itervalues(), newf.itervalues(), newg)
