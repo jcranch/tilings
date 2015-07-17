@@ -3,6 +3,7 @@ from vector4 import Vector4
 
 
 
+
 def tiling4_polytope(dictionary_of_vertices, list_of_edges, list_of_faces, list_of_volumes, list_of_hypervolumes):
     '''
     This function is designed to help make Tiling4 objects
@@ -71,7 +72,7 @@ def tiling4_polytope(dictionary_of_vertices, list_of_edges, list_of_faces, list_
     dictionary_of_volumes = dict([[item[0],item[1]] for item in zip(keys_of_volumes,items_of_volumes)])
     dictionary_of_hypervolumes = dict([[item[0],item[1]] for item in zip(keys_of_hypervolumes,items_of_hypervolumes)])
     return Tiling4(dictionary_of_vertices,dictionary_of_edges,dictionary_of_faces,dictionary_of_volumes,dictionary_of_hypervolumes)
-    
+
 def hypercube():
     dictionary_of_vertices = {
 (1,):Vector4(-1.0,-1.0,-1.0,-1.0),(2,):Vector4(1.0,-1.0,-1.0,-1.0),(3,):Vector4(1.0,1.0,-1.0,-1.0),(4,):Vector4(-1.0,1.0,-1.0,-1.0),
@@ -172,4 +173,3 @@ def hypercube():
     return tiling4_polytope(dictionary_of_vertices,list_of_edges,list_of_faces,list_of_volumes,list_of_hypervolumes)
 
 
-    
