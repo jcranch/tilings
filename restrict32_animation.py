@@ -42,7 +42,7 @@ default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgree
 
 
 
-def full_animation_32(frames = 1000,ploygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True, \
+def full_animation_32(frames = 100,ploygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True, \
     tiling3 = cubic_tiling3(((-1,1),(-1,1),(-1,1))).translate(Vector3(0,0,-0.000051)),\
     transformation_function = special_transformation_1,\
     intersection_colours = default_intersection_colours, intersection_alpha = 0.5,\
