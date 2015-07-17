@@ -24,3 +24,21 @@ class Matrix4():
         [a,b,c,d] = [sum(self[(i,j)]*other[j] for j in [1,2,3,4]) for i in [1,2,3,4]]
         return Vector4(a,b,c,d)
 
+
+def rotate_wx(theta):
+    return Matrix4([[1,0,0,0],[0,1,0,0],[0,0,cos(theta),sin(theta)],[0,0,-sin(theta),cos(theta)]])
+
+def rotate_wy(theta):
+    return Matrix4([[1,0,0,0],[0,cos(theta),0,sin(theta)],[0,0,1,0],[0,-sin(theta),0,cos(theta)]])
+
+def rotate_wz(theta):
+    return Matrix4([[1,0,0,0],[0,cos(theta),sin(theta),0],[0,-sin(theta),cos(theta),0],[0,0,0,1]])
+
+def rotate_xy(theta):
+    return Matrix4([[cos(theta),0,0,sin(theta)],[0,1,0,0],[0,0,1,0],[-sin(theta),0,0,cos(theta)]])
+
+def rotate_xz(theta):
+    return Matrix4([[cos(theta),0,sin(theta),0],[0,1,0,0],[-sin(theta),0,cos(theta),0],[0,0,0,1]])
+
+def rotate_yz(theta):
+    return Matrix4([[cos(theta),sin(theta),0,0],[-sin(theta),cos(theta),0,0],[0,0,1,0],[0,0,0,1]])
