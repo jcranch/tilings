@@ -51,7 +51,7 @@ def full_animation_43(frames = 10,ploygon_count_on = True, tiling_3_on = True, i
     tiling3_colours = ['black'],plane_z0_colour = 'white',\
     tiling3_alpha = 0.5,\
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
-    axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict32_animation', print_progress_on = True):
+    axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict43_animation', print_progress_on = True):
     '''
     Arguments:
     - frames : the number of times we wish to aply the transformation function and record the results.
