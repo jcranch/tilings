@@ -42,7 +42,7 @@ default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgree
 
 
 
-def full_animation_32(frames = 100,ploygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True, \
+def full_animation_32(frames = 100,polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True, \
     tiling3 = cubic_tiling3(((-1,1),(-1,1),(-1,1))).translate(Vector3(0,0,-0.000051)),\
     transformation_function = special_transformation_1,\
     intersection_colours = default_intersection_colours, intersection_alpha = 0.5,\
@@ -79,7 +79,7 @@ def full_animation_32(frames = 100,ploygon_count_on = True, tiling_3_on = True, 
     for frame in range(frames):
         transforming_3d_tiling = transformation_function(tiling3,frame)
         transforming_2d_intersection = restrict32(transforming_3d_tiling).clip(-20,20,-20,20)
-        if ploygon_count_on == True:
+        if polygon_count_on == True:
             raw_n_gon_count_results += [transforming_2d_intersection.face_count_information()]
         if tiling_3_on == True:
             tiling3_edges += [transforming_3d_tiling.faces.keys()]
@@ -131,7 +131,7 @@ def full_animation_32(frames = 100,ploygon_count_on = True, tiling_3_on = True, 
         axis_2D.get_yaxis().set_visible(False)
     #Polygon Count Plot
     lines_face_count = []
-    if ploygon_count_on == True:
+    if polygon_count_on == True:
         axis_polygon_count = plt.subplot(815, \
         xlim = (-1.01, frames+frames/10), ylim = (-0.01, max_number_of_faces + 1 ),frameon = False)
         axis_polygon_count.set_xlabel("Frame", fontsize = 18)
@@ -146,7 +146,7 @@ def full_animation_32(frames = 100,ploygon_count_on = True, tiling_3_on = True, 
     
     def animate(i):
         #face_count
-        if ploygon_count_on == True: 
+        if polygon_count_on == True: 
             x_s = range(1,i+2)
             for (line,n_gon) in zip(lines_face_count,data_lines):
                 y_s = data_lines[n_gon][:i+1]
