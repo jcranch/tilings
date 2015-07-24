@@ -217,7 +217,7 @@ def pentatope():
     
     return tiling4_polytope(dictionary_of_vertices,list_of_edges,list_of_faces,list_of_volumes,list_of_hypervolumes)
 
-def hexdecahedroid():
+def hexadecahedroid():
     dictionary_of_vertices = {
 (0,):Vector4(1.0,0.0,0.0,0.0),(1,):Vector4(0.0,1.0,0.0,0.0),(2,):Vector4(0.0,0.0,1.0,0.0),(3,):Vector4(0.0,0.0,0.0,1.0),
 (4,):Vector4(-1.0,0.0,0.0,0.0),(5,):Vector4(0.0,-1.0,0.0,0.0),(6,):Vector4(0.0,0.0,-1.0,0.0),(7,):Vector4(0.0,0.0,0.0,-1.0)}
