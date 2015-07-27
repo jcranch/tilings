@@ -59,5 +59,5 @@ def matplotlib_display_tiling3(tiling_3_on = True,axis_3D_intersection_tiling2_o
     if save_on == True:
         plt.savefig(save_name)
     
-    plt.show()
+    return figure
         
