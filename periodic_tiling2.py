@@ -108,12 +108,13 @@ def triangular_tiling(bounding_box):
 
 def hexagonal_tiling(bounding_box):
     periods = [Vector2(0,3**0.5), Vector2(1.5,3**0.5/2)]
-    fundamental_vertices = {True: Vector2(0,0),  # >-
-                            False: Vector2(1,0)} # -<
+    fundamental_vertices = {True: Vector2(0,0),   # >-
+                            False: Vector2(1,0)}  # -<
     fundamental_edges = {1:[(True, (0,0)), (False, (0,0))],
                          2:[(True, (0,0)), (False, (0,-1))],
                          3:[(True, (0,0)), (False, (1,-1))]}
     fundamental_faces = {():[(1,(0,0)), (2,(0,1)), (3,(0,1)),
                              (1,(1,0)), (2,(1,0)), (3,(0,0))]}
-    return periodic_tiling2(fundamental_vertices,fundamental_edges,fundamental_faces,bounding_box,periods)
+    return periodic_tiling2(fundamental_vertices,fundamental_edges,
+                            fundamental_faces,bounding_box,periods)
     

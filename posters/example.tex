@@ -1,0 +1,91 @@
+\documentclass[a1paper, landscape, fontscale=0.9]{baposter}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[scaled]{helvet}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{xcolor}
+
+\title{An example poster}
+\author{Rob Nicolaides
+        (School of Mathematics and Statistics, University of Sheffield)\\[0.5ex]
+        Burkill summer studentship, under the supervision of Dr.\ James Cranch
+        (contact: \texttt{J.D.Cranch@sheffield.ac.uk})}
+
+% Sheffield logo blue
+\definecolor{dblue}{rgb}{0.25,0.317,0.6}
+\definecolor{lblue}{rgb}{0.11,0.753,0.929}
+
+\begin{document}
+\begin{poster}{
+    background=plain,
+    bgColorOne=black!5,
+    eyecatcher=false,
+    borderColor=lblue,
+    headerColorOne=dblue,
+    textborder=rounded,
+    headerborder=closed,
+    headershape=rounded,
+    headershade=plain,
+    boxshade=plain,
+    headerFontColor=white,
+    boxColorOne=white,
+    boxshade=plain}
+{}
+{\Huge\fontsize{50}{60}\selectfont\textsf{\thetitle}\vspace{0.2em}}
+{\textsf{\theauthor}}
+{\includegraphics[bb=0 -40 502 250,height=0.12\textheight]{sheffield-logo}}
+
+\headerbox{Lorem Ipsum}{name=lipsum,column=0,row=0}{
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.}
+
+\headerbox{Some code}{name=somecode,column=1}{
+  \includegraphics[width=0.9\linewidth]{listing1}
+}
+
+\headerbox{Lorem Ipsum again}{name=lipsum2,column=1,below=somecode}{
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.}
+
+\headerbox{yet more Lorem Ipsum}{name=lipsum3,column=2,row=0}{
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.}
+
+\headerbox{Hexagons}{name=hexes,column=2,below=lipsum3}{
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{../demos/hexagonal.pdf}
+  \end{center}}
+
+\headerbox{A pretty picture}{name=ppic,column=3,row=0}{
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{../demos/cubic2.pdf}
+  \end{center}}
+
+\headerbox{Some poetry}{name=poem,column=3,below=ppic}{
+  \begin{displayquote}
+  Twinkle, twinkle, little bat!\\
+  How I wonder what you're at!\\
+  Up above the world you fly,\\
+  Like a tea tray in the sky.\\
+  Twinkle, twinkle, little bat!\\
+  How I wonder what you're at!
+  \end{displayquote}}
+
+\end{poster}
+\end{document}
