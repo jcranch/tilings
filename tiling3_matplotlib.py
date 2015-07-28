@@ -21,7 +21,7 @@ def matplotlib_display_tiling3(tiling_3_on = True,axis_3D_intersection_tiling2_o
                                intersection_colours = default_intersection_colours, intersection_alpha = 0.5,\
                                plane_z0_on = False ,plane_z0_alpha = 0.3,tiling3_colours = ['black'],plane_z0_colour = 'blue',\
                                tiling3_alpha = 0.5,initial_elevation = 20, initial_azimuth = 30, axis_3D_on = False,\
-                               axis_3D_grid_on = False,\
+                               axis_3D_grid_on = False, user_defined_axis_3D_limit = False\
                                save_on = True, save_name = 'demos/tiling3_figure'):
     figure = plt.figure()
     axis = Axes3D(figure)
@@ -33,13 +33,17 @@ def matplotlib_display_tiling3(tiling_3_on = True,axis_3D_intersection_tiling2_o
         axis.get_xaxis().set_visible(False)
         axis.get_yaxis().set_visible(False)
         axis.axis('off')
-    
-    absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
-                           abs(tiling3.miny()),tiling3.maxy(),
-                           abs(tiling3.minz()),tiling3.maxz()) 
-    axis.set_xlim(-absolute_largest-1,absolute_largest+1)
-    axis.set_ylim(-absolute_largest-1,absolute_largest+1)
-    axis.set_zlim(-absolute_largest-1,absolute_largest+1)
+    if user_defined_axis_3D_limit == False:
+        absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
+                               abs(tiling3.miny()),tiling3.maxy(),
+                               abs(tiling3.minz()),tiling3.maxz()) 
+        axis.set_xlim(-absolute_largest-1,absolute_largest+1)
+        axis.set_ylim(-absolute_largest-1,absolute_largest+1)
+        axis.set_zlim(-absolute_largest-1,absolute_largest+1)
+    else :
+        axis.set_xlim(user_defined_axis_3D_limit[0][0][0],user_defined_axis_3D_limit[0][0][1])
+        axis.set_ylim(user_defined_axis_3D_limit[0][1][0],user_defined_axis_3D_limit[0][1][1])
+        axis.set_zlim(user_defined_axis_3D_limit[0][2][0],user_defined_axis_3D_limit[0][2][1])      
     polygon_tiles = []
     if axis_3D_intersection_tiling2_on == True:
         for (j,face) in enumerate(tiling2.faces.keys()):   
