@@ -66,7 +66,7 @@ class GoldenInteger():
         return abs(float(self))
     
     def conj(self):
-        return GoldenInteger(self.a, -self.b)
+        return GoldenInteger(self.a+self.b, -self.b)
     
 
 tau = GoldenInteger(0,1)

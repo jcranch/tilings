@@ -4,8 +4,8 @@ from math import sqrt
 class Vector2():
 
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self.x = float(x)
+        self.y = float(y)
 
     def __repr__(self):
         return "Vector2(%f, %f)"%(self.x, self.y)

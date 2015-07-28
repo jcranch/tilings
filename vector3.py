@@ -5,9 +5,9 @@ from random import random
 class Vector3():
 
     def __init__(self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x = float(x)
+        self.y = float(y)
+        self.z = float(z)
 
     def __repr__(self):
         return "Vector3(%f, %f, %f)"%(self.x, self.y, self.z)
@@ -43,6 +43,11 @@ class Vector3():
     def dot(self, other):
         return self.x*other.x + self.y*other.y + self.z*other.z
     
+    def cross(self, other):
+        return Vector3(self.y*other.z - self.z*other.y,
+                       self.z*other.x - self.x*other.z,
+                       self.x*other.y - self.y*other.x)
+
     def norm(self):
         return sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
     
@@ -68,3 +73,10 @@ def random_norm1():
         # with tiny norm because we're worried about dividing by zero.
         if n < 1.0 and n > 0.01:
             return v/n
+
+
+def tetra_volume(t,u,v,w):
+    """
+    The volume of a tetrahedron with vertices t, u, v, w.
+    """
+    return (t-u).cross(t-v).dot(t-w)

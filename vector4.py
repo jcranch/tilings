@@ -4,10 +4,10 @@ from math import sqrt
 class Vector4():
 
     def __init__(self, w, x, y, z):
-        self.w = w
-        self.x = x
-        self.y = y
-        self.z = z
+        self.w = float(w)
+        self.x = float(x)
+        self.y = float(y)
+        self.z = float(z)
 
     def __repr__(self):
         return "Vector4(%f, %f, %f, %f)"%(self.w, self.x, self.y, self.z)
