@@ -28,6 +28,9 @@ class Tiling4():
         else:
             self.hypervolumes = dict(h)
 
+    def __repr__(self):
+        return "Tiling4(%r, %r, %r, %r, %r)"%(self.vertices, self.edges, self.faces, self.volumes, self.hypervolumes)
+
     def minw(self):
         return min(v.w for v in self.vertices)
 

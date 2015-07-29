@@ -24,6 +24,9 @@ class Tiling3():
         else:
             self.volumes = dict(g)
 
+    def __repr__(self):
+        return "Tiling3(%r, %r, %r, %r)"%(self.vertices, self.edges, self.faces, self.volumes)
+
     def minx(self):
         return min(v.x for v in self.vertices)
 

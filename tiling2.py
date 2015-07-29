@@ -23,6 +23,9 @@ class Tiling2():
         else:
             self.faces = dict(f)
             
+    def __repr__(self):
+        return "Tiling2(%r, %r, %r)"%(self.vertices, self.edges, self.faces)
+
     def minx(self):
         return min(v.x for v in self.vertices)
     
