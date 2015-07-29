@@ -10,10 +10,9 @@ import matplotlib.pyplot as plt
 def polygon_fixed_line_exact_distribution(polygon,line_angle, plot_on = True):
     ''' 
     This function aims to calculate the exact distribution 
-    of each qualatiive case that can occur by intersecting 
+    of each qualitative case that can occur by intersecting 
     a given polygon with a family of lines with the same
     gradient.
-    
     '''
     bound = max(v.norm() for v in polygon.vertices) 
     if plot_on == True:
