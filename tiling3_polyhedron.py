@@ -45,7 +45,7 @@ def tiling3_polyhedron(dict_vertices, list_edges, list_faces, list_volumes):
     return Tiling3(vertices, edges, faces, volumes)
 
 
-def tiling3_convex_hull(vertices):
+def tiling3_convex_hull(vertices, epsilon=1e-7):
     """
     Takes a dictionary of vertices, and creates a polyhedron given by
     the convex hull.
@@ -56,12 +56,15 @@ def tiling3_convex_hull(vertices):
     def coplanar(i,j,k):
         """
         Find the vertices in the same plane as vertices i,j,k.
-
         If any occur before k, then we bale out as we should have
         already considered this plane.
 
-        If there are vertices on both sides of the plane, we bale out
-        as it's not on the convex hull.
+        We calculate by considering the volume of the tetrahedron
+        formed by vertices i,j,k and one other. If (close to) zero,
+        the four points are coplanar. If positive, the other point is
+        on one side of the plane, and if negative it's on the
+        other. Hence we bale out if we find points on both sides of
+        the plane.
         """
         u = l_vertices[i]
         v = l_vertices[j]
@@ -71,7 +74,7 @@ def tiling3_convex_hull(vertices):
         for r in range(0,i)+range(i+1,j)+range(j+1,k):
             x = l_vertices[r]
             a = tetra_volume(u,v,w,x)
-            if abs(tetra_volume(u,v,w,x)) < 1e-7:
+            if abs(tetra_volume(u,v,w,x)) < epsilon:
                 return None
             elif a < 0:
                 if side2:
@@ -85,7 +88,7 @@ def tiling3_convex_hull(vertices):
         for r in range(k+1,n):
             x = l_vertices[r]
             a = tetra_volume(u,v,w,x)
-            if abs(tetra_volume(u,v,w,x)) < 1e-7:
+            if abs(tetra_volume(u,v,w,x)) < epsilon:
                 level.append(x)
             elif a < 0:
                 if side2:
