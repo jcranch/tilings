@@ -1,373 +1,180 @@
 from tiling4 import Tiling4
 from vector4 import Vector4
+from matrix4 import Matrix4, pentatope_hypervolume
+from matrix3 import Matrix3
 
-
-
-
-def tiling4_polytope(dictionary_of_vertices, list_of_edges, list_of_faces, list_of_volumes, list_of_hypervolumes):
-    '''
+def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hypervolumes):
+    """
     This function is designed to help make Tiling4 objects
     corresponding to polytopes.
-    dictionary_of_vertices should be a dictionary with keys that are
-    distinct labels of the form (1,), (2,), ... (m,) respectively and
-    values that are Vector4(w,x,y,z) for w,x,y,z that are co-ordinates of
-    given vertex.
-    list_of_edges should be a list of lists where each sublists
-    contains two labels of vertices which corresponds to the edge
-    defined by joining those vertices and similarly for faces,
-    volumes and hypervolumes.
-    '''
-    # First we make the items of our new dictionaries ready for a tiling3 input.
-    items_of_edges = []
-    for edge in list_of_edges:
-        list_of_vertices_auxiliary = []
-        for vertex in edge:
-            list_of_vertices_auxiliary += sorted([vertex][0])
-        items_of_edges += [tuple(sorted(set(list_of_vertices_auxiliary)))]
-    items_of_faces = []
-    for face in list_of_faces:
-        list_of_edges_auxiliary = []
-        for edge in face:
-            list_of_edges_auxiliary += sorted([edge][0])
-        items_of_faces += [tuple(sorted(set(list_of_edges_auxiliary)))]
-    items_of_volumes = []
-    for volume in list_of_volumes:
-        list_of_faces_auxiliary = []
-        for face in volume:
-            list_of_faces_auxiliary += sorted([face][0])
-        items_of_volumes += [tuple(sorted(set(list_of_faces_auxiliary)))]
+    dict_vertices should be a dictionary with Vector4 objects
+    as values.
+    list_edges should be a list of lists where each sublists contains
+    two labels of vertices which corresponds to the edge defined by
+    joining those vertices; similarly for list_faces, list_volumes and list_hypervolumes.
+    """
+    dict_vertices = dict(dict_vertices)
+    list_edges = list(list_edges)
+    list_faces = list(list_faces)
+    list_volumes = list(list_volumes)
+    list_of_hypervolumes = list(list_hypervolumes)
     
-    items_of_hypervolumes = []
-    for hypervolume in list_of_hypervolumes:
-        list_of_volumes_auxiliary = []
-        for volume in hypervolume:
-            list_of_volumes_auxiliary += sorted([volume][0])
-        items_of_hypervolumes += [tuple(sorted(set(list_of_volumes_auxiliary)))]    
-    # Now we make the corresponding keys. 
     # We reverse the keys and values for now and change them at the end.
-    keys_of_edges = []
-    for edge in list_of_edges:
-        keys_of_edges += [frozenset([dictionary_of_vertices[tuple(sorted(k))] for k in sorted(edge)])]
-    dictionary_of_edges = dict([[item[1],item[0]] for item in zip(keys_of_edges,items_of_edges)])
+    dict_edges = {}
+    for edge in list_edges:
+        s = frozenset(edge)
+        dict_edges[s] = frozenset(dict_vertices[k] for k in edge)
     
-    keys_of_faces = []
-    for face in list_of_faces:
-        keys_of_faces += [frozenset([dictionary_of_edges[tuple(sorted(k))] for k in sorted(face)])]
-    dictionary_of_faces = dict([[item[1],item[0]] for item in zip(keys_of_faces,items_of_faces)])  
     
-    keys_of_volumes = []
-    for volume in list_of_volumes:
-        keys_of_volumes += [frozenset([dictionary_of_faces[tuple(sorted(k))] for k in sorted(volume)])]
-    dictionary_of_volumes = dict([[item[1],item[0]] for item in zip(keys_of_volumes,items_of_volumes)])  
+    dict_faces = {}
+    for face in list_faces:
+        s = frozenset(v for e in face for v in e)
+        dict_faces[s] = frozenset(dict_edges[frozenset(k)] for k in face)
     
-    keys_of_hypervolumes = []
-    for hypervolume in list_of_hypervolumes:
-        keys_of_hypervolumes += [frozenset([dictionary_of_volumes[tuple(sorted(k))] for k in sorted(hypervolume)])]
-    dictionary_of_hypervolumes = dict([[item[1],item[0]] for item in zip(keys_of_hypervolumes,items_of_hypervolumes)])    
     
+    dict_volumes = {}
+    for volume in list_volumes:
+        s = frozenset(v for f in volume for v in f)
+        dict_volumes[s] = frozenset(dict_faces[frozenset(k)] for k in volume)
+    
+    
+    hypervolumes = {}
+    for hypervolume in list_hypervolumes:
+        s = frozenset(v for g in hypervolume for v in g)
+        hypervolumes[frozenset(dict_volumes[frozenset(k)] for k in hypervolume)] = s  
+        
+        
+        
     # Now we reverse the keys and values to correct position for a tiling3 input.
-    dictionary_of_vertices =  dict (zip(dictionary_of_vertices.values(),dictionary_of_vertices.keys()))
-    dictionary_of_edges = dict([[item[0],item[1]] for item in zip(keys_of_edges,items_of_edges)])
-    dictionary_of_faces = dict([[item[0],item[1]] for item in zip(keys_of_faces,items_of_faces)]) 
-    dictionary_of_volumes = dict([[item[0],item[1]] for item in zip(keys_of_volumes,items_of_volumes)])
-    dictionary_of_hypervolumes = dict([[item[0],item[1]] for item in zip(keys_of_hypervolumes,items_of_hypervolumes)])
-    return Tiling4(dictionary_of_vertices,dictionary_of_edges,dictionary_of_faces,dictionary_of_volumes,dictionary_of_hypervolumes)
-
-def hypercube():
-    dictionary_of_vertices = {
-(1,):Vector4(-1.0,-1.0,-1.0,-1.0),(2,):Vector4(1.0,-1.0,-1.0,-1.0),(3,):Vector4(1.0,1.0,-1.0,-1.0),(4,):Vector4(-1.0,1.0,-1.0,-1.0),
-(9,):Vector4(-1.0,-1.0,1.0,-1.0),(10,):Vector4(1.0,-1.0,1.0,-1.0),(11,):Vector4(1.0,1.0,1.0,-1.0),(12,):Vector4(-1.0,1.0,1.0,-1.0),
-
-(5,):Vector4(-1.0,-1.0,-1.0,1.0),(6,):Vector4(1.0,-1.0,-1.0,1.0),(7,):Vector4(1.0,1.0,-1.0,1.0),(8,):Vector4(-1.0,1.0,-1.0,1.0),
-(13,):Vector4(-1.0,-1.0,1.0,1.0),(14,):Vector4(1.0,-1.0,1.0,1.0),(15,):Vector4(1.0,1.0,1.0,1.0),(16,):Vector4(-1.0,1.0,1.0,1.0)}
+    vertices = ((k,v) for (v,k) in dict_vertices.iteritems())
+    edges = ((k,v) for (v,k) in dict_edges.iteritems())
+    faces = ((k,v) for (v,k) in dict_faces.iteritems())
+    volumes = ((k,v) for (v,k) in dict_volumes.iteritems())
     
-    list_of_edges = [
-[(1,),(2,)],[(2,),(3,)],[(3,),(4,)],[(1,),(4,)],
-[(5,),(6,)],[(6,),(7,)],[(7,),(8,)],[(5,),(8,)],
+    return Tiling4(vertices, edges, faces, volumes, hypervolumes)
+def tiling4_convex_hull(vertices, epsilon=1e-7):
+    """
+    Takes a dictionary of vertices, and creates a polyhedron given by
+    the convex hull.
+    """
+    vertices = dict(vertices)
+    l_vertices = list(vertices)
 
-[(1,),(5,)],[(2,),(6,)],[(3,),(7,)],[(4,),(8,)],
+    def cocellular(h,i,j,k):
+        """
+        Find the vertices in the same cell (3d space) as vertices h,i,j,k.
+        If any occur before k, then we bale out as we should have
+        already considered this cell.
+        We calculate by considering the hypervolume of the pentatope
+        formed by vertices h,i,j,k and one other. If (close to) zero,
+        the five points are cocellular. If positive, the other point is
+        on one side of the cell, and if negative it's on the
+        other. Hence we bale out if we find points on both sides of
+        the cell.  
+        """
+        t = l_vertices[h]
+        u = l_vertices[i] 
+        v = l_vertices[j]
+        w = l_vertices[k]  
+        
 
-[(9,),(10,)],[(10,),(11,)],[(11,),(12,)],[(12,),(9,)],
-[(13,),(14,)],[(14,),(15,)],[(15,),(16,)],[(16,),(13,)],
-
-[(9,),(13,)],[(10,),(14,)],[(11,),(15,)],[(12,),(16,)],
-
-[(1,),(9,)],[(2,),(10,)],[(3,),(11,)],[(4,),(12,)],
-
-[(5,),(13,)],[(6,),(14,)],[(7,),(15,)],[(8,),(16,)]]
-
-    list_of_faces = [
-[(1,2),(2,6),(6,5),(5,1)], #(1,2,5,6)
-[(4,3),(3,7),(7,8),(8,4)], #(3,4,7,8)
-[(9,10),(10,14),(14,13),(13,9)] , #(9,10,13,14)
-[(12,11),(11,15),(15,16),(16,12)], #(11,12,15,16)
-
-[(5,6),(6,14),(14,13),(13,5)], #(5,6,13,14)
-[(8,7),(7,15),(15,16),(16,8)], #(7,8,15,16)
-[(1,2),(2,10),(10,9),(9,1)], #(1,2,9,10)
-[(4,3),(3,11),(11,12),(12,4)], #(3,4,11,12)
-
-[(1,2),(2,3),(3,4),(1,4)], #(1,2,3,4)
-[(5,6),(6,7),(7,8),(8,5)], #(5,6,7,8)
-
-[(9,10),(10,11),(11,12),(9,12)], #(9,10,11,12)
-[(13,14),(14,15),(15,16),(13,16)], #(13,14,15,16)
-
-[(1,4),(4,12),(12,9),(9,1)], #(1,4,9,12)
-[(2,3),(3,11),(11,10),(10,2)], #(2,3,10,11)
-
-[(5,8),(8,16),(16,13),(13,5)], #(5,8,13,16)
-[(6,7),(7,15),(15,14),(14,6)], #(6,7,14,15)
-
-[(1,9),(9,13),(5,13),(1,5)], #(1,5,9,13)
-[(2,10),(10,14),(6,14),(2,6)], #(2,6,10,14)
-
-[(4,12),(12,16),(16,8),(8,4)], #(4,8,12,16)
-[(3,11),(11,15),(15,7),(7,3)], #(3,7,11,15)
-
-[(1,4),(4,8),(8,5),(1,5)], #(1,4,5,8)
-[(2,3),(3,7),(7,6),(2,6)], #(2,3,6,7)
-
-[(10,11),(11,15),(15,14),(10,14)], #(10,11,14,15)
-[(9,12),(12,16),(16,13),(9,13)]] #(9,12,13,16)
-
-
-    list_of_volumes = [
-[(1,2,5,6),(3,4,7,8),
- (1,4,5,8),(2,3,6,7), 
- (1,2,3,4),(5,6,7,8)], #(1,2,3,4,5,6,7,8)
-
-[(9,10,13,14),(11,12,15,16),
- (9,12,13,16),(10,11,14,15),
- (9,10,11,12),(13,14,15,16)], #(9,10,11,12,13,14,15,16)
-
-[(1,2,5,6),(9,10,13,14),
- (1,5,9,13),(2,6,10,14),
- (1,2,9,10),(5,6,13,14)], #(1,2,5,6,9,10,13,14)
-
-[(3,4,7,8),(11,12,15,16),
- (4,8,12,16),(3,7,11,15),
- (3,4,11,12),(7,8,15,16)], #(3,4,7,8,11,12,15,16)
-
-[(1,4,5,8),(9,12,13,16),
- (1,5,9,13),(4,8,12,16),
- (1,4,9,12),(5,8,13,16)], #(1,4,5,8,9,12,13,16)
-
-[(2,3,6,7),(10,11,14,15),
- (2,6,10,14),(3,7,11,15),
- (2,10,3,11),(6,7,14,15)], #(2,3,6,7,10,11,14,15)
-
-[(5,8,13,16),(6,7,14,15),
- (5,6,7,8),(13,14,15,16),
- (5,6,13,14),(7,8,15,16)], #(5,6,7,8,13,14,15,16)
-
-[(1,2,3,4),(9,10,11,12),
- (1,4,9,12),(2,3,10,11),
- (1,2,9,10),(3,4,11,12)]] #(1,2,3,4,9,10,11,12)
-
+        side1 = False
+        side2 = False
+        for r in range(0,h)+range(h+1,i)+range(i+1,j)+range(j+1,k): 
+            x = l_vertices[r] 
+            a = pentatope_hypervolume(t,u,v,w,x) 
+            if abs(a) < epsilon: 
+                return None
+            elif a < 0: 
+                if side2: 
+                    return None
+                side1 = True 
+            else:
+                if side1: 
+                    return None
+                side2 = True
+        level = [t,u,v,w] 
+        for r in range(k+1,n): 
+            x = l_vertices[r]
+            a = pentatope_hypervolume(t,u,v,w,x)
+            if abs(a) < epsilon:
+                level.append(x) 
+            elif a < 0:
+                if side2:
+                    return None
+                side1 = True
+            else:
+                if side1:
+                    return None
+                side2 = True
+        return level 
     
-    list_of_hypervolumes = [
-[(1,2,3,4,5,6,7,8),(9,10,11,12,13,14,15,16),(1,2,5,6,9,10,13,14),(3,4,7,8,11,12,15,16),
- (1,4,5,8,9,12,13,16),(2,3,6,7,10,11,14,15),(5,6,7,8,13,14,15,16),(1,2,3,4,9,10,11,12)]]
-    
-    return tiling4_polytope(dictionary_of_vertices,list_of_edges,list_of_faces,list_of_volumes,list_of_hypervolumes)
+    # Produce the volumes: they're the maximal subsets of cocellular
+    # vertices, with the property that every other vertex is on the
+    # same side.    
+    n = len(l_vertices)
+    volumes = []
+    for h in xrange(n-3): 
+        for i in xrange(h+1,n-2): 
+            for j in xrange(i+1,n-1):
+                for k in xrange(j+1, n):
+                    level = cocellular(h,i,j,k) 
+                    if level is None: 
+                        continue 
+                    volumes.append(frozenset(level)) 
 
+    # The faces are the intersections of the volumes that have at least 3 vertices in common.
+    faces = set()
+    n = len(volumes)
+    for i in xrange(0,n-1): 
+        for j in xrange(i+1,n):
+            a = volumes[i].intersection(volumes[j]) 
+            if len(a) > 2:
+                faces.add(a)
+    
+    # The edges are the intersections of the faces that have exactly 2 vertices in common.
+    edges = set()
+    n = len(faces)
+    for i in xrange(0,n-1): 
+        for j in xrange(i+1,n):
+            a = list(faces)[i].intersection(list(faces)[j]) 
+            if len(a) == 2:
+                edges.add(a)
+
+    # Now we need the rest of the data in the preferred form
+
+
+
+    edges = [frozenset(vertices[v] for v in e) for e in edges]
+    faces = [frozenset(vertices[v] for v in f) for f in faces]
+    volumes = [frozenset(vertices[v] for v in g) for g in volumes]
+    hypervolumes = [volumes]
+    
+    new_faces = [set(e for e in edges if e.issubset(f)) for f in faces]
+    new_volumes = [set(f for f in faces if f.issubset(g)) for g in volumes] 
+    
+    vertices = dict((v,k) for (k,v) in vertices.iteritems())
+    return tiling4_polytope(vertices, edges, new_faces, new_volumes, hypervolumes)
 
 def pentatope():
     dictionary_of_vertices = {
-(0,):Vector4(1.0,1.0,1.0,-1.0/(5**0.5)),(1,):Vector4(1.0,-1.0,-1.0,-1.0/(5**0.5)),(2,):Vector4(-1.0,1.0,-1.0,-1.0/(5**0.5)),
-(3,):Vector4(-1.0,-1.0,1.0,-1.0/(5**0.5)),(4,):Vector4(0.0,0.0,0.0,5**0.5-1.0/(5**0.5))}
-    
-    list_of_edges = [
-[(0,),(1,)],[(0,),(2,)],[(0,),(3,)],[(0,),(4,)],
-[(1,),(2,)],[(1,),(3,)],[(1,),(4,)],
-[(2,),(3,)],[(2,),(4,)],
-[(3,),(4,)]]
+    (0,):Vector4(1.0,1.0,1.0,-1.0/(5**0.5)),(1,):Vector4(1.0,-1.0,-1.0,-1.0/(5**0.5)),(2,):Vector4(-1.0,1.0,-1.0,-1.0/(5**0.5)),
+    (3,):Vector4(-1.0,-1.0,1.0,-1.0/(5**0.5)),(4,):Vector4(0.0,0.0,0.0,5**0.5-1.0/(5**0.5))}
+    return tiling4_convex_hull(dict([(v,k) for (k,v) in dictionary_of_vertices.iteritems()]))
 
-    list_of_faces = [
-[(0,1),(1,2),(0,2)], #(0,1,2)
-[(0,1),(1,3),(0,3)], #(0,1,3)
-[(0,1),(1,4),(0,4)], #(0,1,4)
 
-[(0,2),(2,3),(0,3)], #(0,2,3)
-[(0,2),(2,4),(0,4)], #(0,2,4)
-
-[(0,3),(3,4),(0,4)], #(0,3,4)
-
-[(1,2),(2,3),(1,3)], #(1,2,3)
-[(1,2),(2,4),(1,4)], #(1,2,4)
-[(1,3),(3,4),(1,4)], #(1,3,4)
-
-[(2,3),(3,4),(2,4)]] #(2,3,4)
-    
+def hypercube():
+    vertices = [Vector4(w,x,y,z) for w in [-1,1] for x in [-1,1] for y in [-1,1] for z in [-1,1]]
+    return tiling4_convex_hull(dict(zip(vertices,xrange(16))))
 
 
 
-    list_of_volumes = [
-[(0,1,2),(0,1,3),(0,2,3),(1,2,3)], #no 4
-[(0,1,2),(0,1,4),(0,2,4),(1,2,4)], #no 3
-[(0,1,3),(0,1,4),(0,3,4),(1,3,4)], #no 2
-[(0,2,3),(0,2,4),(0,3,4),(2,3,4)], #no 1
-[(1,2,3),(1,2,4),(1,3,4),(2,3,4)]  #no 0
-]
-
-    
-    list_of_hypervolumes = [
-[(0,1,2,3),(0,1,2,4),(0,1,3,4),(0,2,3,4),(1,2,3,4)]]
-    
-    return tiling4_polytope(dictionary_of_vertices,list_of_edges,list_of_faces,list_of_volumes,list_of_hypervolumes)
-
-def hexadecahedroid():
+def decahexahedroid():
     dictionary_of_vertices = {
-(0,):Vector4(1.0,0.0,0.0,0.0),(1,):Vector4(0.0,1.0,0.0,0.0),(2,):Vector4(0.0,0.0,1.0,0.0),(3,):Vector4(0.0,0.0,0.0,1.0),
-(4,):Vector4(-1.0,0.0,0.0,0.0),(5,):Vector4(0.0,-1.0,0.0,0.0),(6,):Vector4(0.0,0.0,-1.0,0.0),(7,):Vector4(0.0,0.0,0.0,-1.0)}
-    
-    list_of_edges = [
-[(0,),(1,)],[(0,),(2,)],[(0,),(3,)],[(0,),(5,)],[(0,),(6,)],[(0,),(7,)], ######
-
-[(1,),(2,)],[(1,),(3,)],[(1,),(4,)],[(1,),(6,)],[(1,),(7,)], #####
-
-[(2,),(3,)],[(2,),(4,)],[(2,),(5,)],[(2,),(7,)],####
-
-[(3,),(4,)],[(3,),(5,)],[(3,),(6,)],###
-
-[(4,),(5,)],[(4,),(6,)],[(4,),(7,)],###
-
-[(5,),(6,)],[(5,),(7,)],##
-
-[(6,),(7,)] ]#
-    
-    
-
-
-
-    list_of_faces = [
-#not 0,1,4,5
-[(0,1),(1,2),(0,2)], #(0,1,2)
-[(0,1),(1,3),(0,3)], #(0,1,3)
-[(0,1),(1,6),(0,6)], #(0,1,6)
-[(0,1),(1,7),(0,7)], #(0,1,7)
-
-#not 0,1,2,4,6
-[(0,2),(2,3),(0,3)], #(0,2,3)
-[(0,2),(2,5),(0,5)], #(0,2,5)
-[(0,2),(2,7),(0,7)], #(0,2,7)
-
-#not 0,1,2,3,4,7
-
-[(0,3),(3,5),(0,5)], #(0,3,5)
-[(0,3),(3,6),(0,6)], #(0,3,6)
-
-
-#not 0,1,2,3,4,5
-[(0,5),(5,6),(0,6)], #(0,5,6)
-[(0,5),(5,7),(0,7)], #(0,5,7)
-
-#not 0,1,2,3,4,5,6
-[(0,6),(6,7),(0,7)], #(0,6,7)
-
-#not 0,1,2,5,6
-[(1,2),(2,3),(1,3)], #(1,2,3)
-[(1,2),(2,4),(1,4)], #(1,2,4)
-[(1,2),(2,7),(1,7)], #(1,2,7)
-
-#not 0,1,2,3,5,7
-[(1,3),(3,4),(1,4)], #(1,3,4)
-[(1,3),(3,6),(1,6)], #(1,3,6)
-
-#not 0,1,2,3,4,5
-[(1,4),(4,6),(6,1)], #(1,4,6)
-[(1,4),(4,7),(7,1)], #(1,4,7)
-
-#not 0,1,2,3,4,5,6
-[(1,6),(6,7),(1,7)], #(1,6,7)
-
-#not 0,1,2,3,6,7
-[(2,3),(3,4),(4,2)], #(2,3,4)
-[(2,3),(3,5),(5,2)], #(2,3,5)
-
-#not 0,1,2,3,4,6,
-[(2,4),(4,5),(2,5)], #(2,4,5)
-[(2,4),(4,7),(2,7)], #(2,4,7)
-
-#not 0,1,2,3,4,5,6,
-[(2,5),(5,7),(7,2)], #(2,5,7)
-#not 0,1,2,4,3,7
-[(3,4),(4,5),(5,3)], #(3,4,5)
-[(3,4),(4,6),(6,3)], #(3,4,6)
-
-#not 0,1,2,3,4,5,7
-[(3,5),(5,6),(6,3)], #(3,5,6)
-
-#not 0,1,2,3,4,5,
-[(4,5),(5,6),(6,4)], #(4,5,6)
-[(4,5),(5,7),(7,4)], #(4,5,7)
-
-#not 0,1,2,3,4,5,6
-[(4,6),(6,7),(7,4)], #(4,6,7)
-
-#not 0,1,2,3,4,5,6
-[(5,6),(6,7),(7,5)]] #(5,6,7)
+    (0):Vector4(1.0,0.0,0.0,0.0),(1):Vector4(0.0,1.0,0.0,0.0),(2):Vector4(0.0,0.0,1.0,0.0),(3):Vector4(0.0,0.0,0.0,1.0),
+    (4):Vector4(-1.0,0.0,0.0,0.0),(5):Vector4(0.0,-1.0,0.0,0.0),(6):Vector4(0.0,0.0,-1.0,0.0),(7):Vector4(0.0,0.0,0.0,-1.0)}
+    return tiling4_convex_hull(dict([(v,k) for (k,v) in dictionary_of_vertices.iteritems()]))
 
 
 
 
-
-    list_of_volumes = [
-#not 0,1,2,4,5,6
-[(0,1,2),(0,1,3),(0,2,3),(1,2,3)],#(0,1,2,3)
-[(0,1,2),(0,1,7),(0,2,7),(1,2,7)],#(0,1,2,7)
-
-#not 0,1,2,3,4,5,7
-[(0,1,3),(0,1,6),(0,3,6),(1,3,6)],#(0,1,3,6)
-
-#not 0,1,2,3,4,5,
-[(0,1,6),(0,1,7),(0,6,7),(1,6,7)],#(0,1,6,7)
-
-#not 0,1,2,3,4,6,7
-[(0,2,3),(0,2,5),(0,3,5),(2,3,5)],#(0,2,3,5)
-
-#not 0,1,2,4,5,6
-[(0,2,5),(0,2,7),(0,5,7),(2,5,7)],#(0,2,5,7)
-
-
-#not 0,1,2,3,5,7
-[(0,3,5),(0,3,6),(0,5,6),(3,5,6)],#(0,3,5,6)
-
-#not 0,1,2,3,4
-[(0,5,6),(0,5,7),(0,6,7),(5,6,7)],#(0,5,6,7)
-
-
-#not 0,1,2,3,5,6,7
-[(1,2,3),(1,2,4),(1,3,4),(2,3,4)],#(1,2,3,4)
-
-#not 0,1,2,3,4,5,6
-[(1,2,4),(1,2,7),(1,4,7),(2,4,7)],#(1,2,4,7)
-
-#not 0,1,2,3,4,5,7
-[(1,3,4),(1,3,6),(1,4,6),(3,4,6)],#(1,3,4,6)
-
-#not 0,1,2,3,4,5
-[(1,4,6),(1,4,7),(1,6,7),(4,6,7)],#(1,4,6,7)
-
-
-#not 0,1,2,3,4,6,7
-[(2,3,4),(2,3,5),(2,4,5),(3,4,5)],#(2,3,4,5)
-
-#not 0,1,2,3,4,5,6
-[(2,4,5),(2,4,7),(2,5,7),(4,5,7)],#(2,4,5,7)
-
-#not 0,1,2,3,4,5,7
-[(3,4,5),(3,4,6),(3,5,6),(4,5,6)],#(3,4,5,6)
-
-#not 0,1,2,3,4,5,6
-[(4,5,6),(4,5,7),(4,6,7),(5,6,7)]#(4,5,6,7)
-
-]
-
-    
-    list_of_hypervolumes = [
-[(0,1,2,3),(0,1,2,7),(0,1,3,6),(0,1,6,7),(0,2,3,5),(0,2,5,7),(0,3,5,6),(0,5,6,7),(1,2,3,4),(1,2,4,7),
- (1,3,4,6),(1,4,6,7),(2,3,4,5),(2,4,5,7),(3,4,5,6),(4,5,6,7)]]
-    
-    return tiling4_polytope(dictionary_of_vertices,list_of_edges,list_of_faces,list_of_volumes,list_of_hypervolumes)
