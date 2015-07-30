@@ -52,6 +52,7 @@ def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hy
     volumes = ((k,v) for (v,k) in dict_volumes.iteritems())
     
     return Tiling4(vertices, edges, faces, volumes, hypervolumes)
+    
 def tiling4_convex_hull(vertices, epsilon=1e-7):
     """
     Takes a dictionary of vertices, and creates a polyhedron given by
