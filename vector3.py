@@ -79,4 +79,4 @@ def tetra_volume(t,u,v,w):
     """
     The volume of a tetrahedron with vertices t, u, v, w.
     """
-    return (t-u).cross(t-v).dot(t-w)
+    return (t-u).cross(t-v).dot(t-w)/6.0

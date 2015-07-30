@@ -23,11 +23,13 @@ class Matrix4():
         "Matrix acting on a vector"
         [a,b,c,d] = [sum(self[(i,j)]*other[j] for j in [1,2,3,4]) for i in [1,2,3,4]]
         return Vector4(a,b,c,d)
+
     def determinant(self):
         ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p)) = self.array 
-        print (a,d,f)
-        return a*Matrix3([[f,g,h],[j,k,l],[n,o,p]]).determinant()-b*Matrix3([[e,g,h],[i,k,l],[m,o,p]]).determinant() +\
-    c*Matrix3([[e,f,h],[i,j,l],[m,n,p]]).determinant() - d*Matrix3([[e,f,g],[i,j,k],[m,n,o]]).determinant()
+        return a*Matrix3([[f,g,h],[j,k,l],[n,o,p]]).determinant() -\
+               b*Matrix3([[e,g,h],[i,k,l],[m,o,p]]).determinant() +\
+               c*Matrix3([[e,f,h],[i,j,l],[m,n,p]]).determinant() -\
+               d*Matrix3([[e,f,g],[i,j,k],[m,n,o]]).determinant()
 
 def rotate_wx(theta):
     return Matrix4([[1,0,0,0],[0,1,0,0],[0,0,cos(theta),sin(theta)],[0,0,-sin(theta),cos(theta)]])
