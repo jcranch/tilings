@@ -49,5 +49,5 @@ class Vector4():
 
 def pentatope_hypervolume(v_0, v_1, v_2, v_3, v_4):
     
-    corresponding_matrix = Matrix4([v1-v0,v2-v0,v3-v0,v4-v0])
+    corresponding_matrix = Matrix4([v_1-v_0,v_2-v_0,v_3-v_0,v_4-v_0])
     return corresponding_matrix.determinant()/24.0
