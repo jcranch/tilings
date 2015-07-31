@@ -46,6 +46,12 @@ class Vector4():
     def distance(self, other):
         return (self-other).norm()
 
+    def __iter__(self):
+        yield self.w
+        yield self.x
+        yield self.y
+        yield self.z
+
 
 
 
