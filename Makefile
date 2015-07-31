@@ -10,5 +10,7 @@ demos/cubic2.eps: demo_static.py
 demos/%.pdf: demos/%.eps
 	epspdf $< $@
 
-build-posters: demos/cubic2.pdf demos/hexagonal.pdf
+build-demos: demos/cubic2.pdf demos/hexagonal.pdf
+
+build-posters: build-demos
 	$(MAKE) -C posters
