@@ -157,24 +157,35 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
     vertices = dict((v,k) for (k,v) in vertices.iteritems())
     return tiling4_polytope(vertices, edges, new_faces, new_volumes, hypervolumes)
 
+
 def pentatope():
+    root5 = 5**0.5
     dictionary_of_vertices = {
-    (0,):Vector4(1.0,1.0,1.0,-1.0/(5**0.5)),(1,):Vector4(1.0,-1.0,-1.0,-1.0/(5**0.5)),(2,):Vector4(-1.0,1.0,-1.0,-1.0/(5**0.5)),
-    (3,):Vector4(-1.0,-1.0,1.0,-1.0/(5**0.5)),(4,):Vector4(0.0,0.0,0.0,5**0.5-1.0/(5**0.5))}
-    return tiling4_convex_hull(dict([(v,k) for (k,v) in dictionary_of_vertices.iteritems()]))
+        Vector4(1, 1, 1, -1/root5): 0,
+        Vector4(1, -1, -1, -1/root5): 1,
+        Vector4(-1, 1, -1, -1/root5): 2,
+        Vector4(-1, -1, 1, -1/root5): 3,
+        Vector4(0, 0, 0, root5 - 1/root5): 4 }
+    return tiling4_convex_hull(dictionary_of_vertices)
 
 
 def hypercube():
-    vertices = [Vector4(w,x,y,z) for w in [-1,1] for x in [-1,1] for y in [-1,1] for z in [-1,1]]
-    return tiling4_convex_hull(dict(zip(vertices,xrange(16))))
-
+    vertices = [Vector4(w,x,y,z)
+                for w in [-1,1] for x in [-1,1] for y in [-1,1] for z in [-1,1]]
+    return tiling4_convex_hull(dict(zip(vertices, xrange(16))))
 
 
 def decahexahedroid():
     dictionary_of_vertices = {
-    (0):Vector4(1.0,0.0,0.0,0.0),(1):Vector4(0.0,1.0,0.0,0.0),(2):Vector4(0.0,0.0,1.0,0.0),(3):Vector4(0.0,0.0,0.0,1.0),
-    (4):Vector4(-1.0,0.0,0.0,0.0),(5):Vector4(0.0,-1.0,0.0,0.0),(6):Vector4(0.0,0.0,-1.0,0.0),(7):Vector4(0.0,0.0,0.0,-1.0)}
-    return tiling4_convex_hull(dict([(v,k) for (k,v) in dictionary_of_vertices.iteritems()]))
+        Vector4(1, 0, 0, 0): 0,
+        Vector4(0, 1, 0, 0): 1,
+        Vector4(0, 0, 1, 0): 2,
+        Vector4(0, 0, 0, 1): 3,
+        Vector4(-1, 0, 0, 0): 4,
+        Vector4(0, -1, 0, 0): 5,
+        Vector4(0, 0, -1, 0): 6,
+        Vector4(0, 0, 0, -1): 7 }
+    return tiling4_convex_hull(dictionary_of_vertices)
 
 
 
