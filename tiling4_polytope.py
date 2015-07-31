@@ -3,6 +3,7 @@ from vector4 import Vector4
 from matrix4 import Matrix4, pentatope_hypervolume
 from matrix3 import Matrix3
 
+
 def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hypervolumes):
     """
     This function is designed to help make Tiling4 objects
@@ -24,8 +25,7 @@ def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hy
     for edge in list_edges:
         s = frozenset(edge)
         dict_edges[s] = frozenset(dict_vertices[k] for k in edge)
-    
-    
+
     dict_faces = {}
     for face in list_faces:
         s = frozenset(v for e in face for v in e)
@@ -43,16 +43,15 @@ def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hy
         s = frozenset(v for g in hypervolume for v in g)
         hypervolumes[frozenset(dict_volumes[frozenset(k)] for k in hypervolume)] = s  
         
-        
-        
-    # Now we reverse the keys and values to correct position for a tiling3 input.
+    # Now we reverse the keys and values to correct position for a tiling4.
     vertices = ((k,v) for (v,k) in dict_vertices.iteritems())
     edges = ((k,v) for (v,k) in dict_edges.iteritems())
     faces = ((k,v) for (v,k) in dict_faces.iteritems())
     volumes = ((k,v) for (v,k) in dict_volumes.iteritems())
     
     return Tiling4(vertices, edges, faces, volumes, hypervolumes)
-    
+
+
 def tiling4_convex_hull(vertices, epsilon=1e-7):
     """
     Takes a dictionary of vertices, and creates a polyhedron given by
@@ -60,7 +59,7 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
     """
     vertices = dict(vertices)
     l_vertices = list(vertices)
-
+     
     def cocellular(h,i,j,k):
         """
         Find the vertices in the same cell (3d space) as vertices h,i,j,k.
@@ -77,7 +76,6 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
         u = l_vertices[i] 
         v = l_vertices[j]
         w = l_vertices[k]  
-        
 
         side1 = False
         side2 = False
@@ -118,13 +116,15 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
     for h in xrange(n-3): 
         for i in xrange(h+1,n-2): 
             for j in xrange(i+1,n-1):
-                for k in xrange(j+1, n):
+                for k in xrange(j+1,n):
                     level = cocellular(h,i,j,k) 
                     if level is None: 
                         continue 
                     volumes.append(frozenset(level)) 
 
-    # The faces are the intersections of the volumes that have at least 3 vertices in common.
+    # The faces are the intersections of the volumes that have at
+    # least 3 vertices in common, and the edges are those that have
+    # two vertices in common.
     faces = set()
     n = len(volumes)
     for i in xrange(0,n-1): 
@@ -132,30 +132,28 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
             a = volumes[i].intersection(volumes[j]) 
             if len(a) > 2:
                 faces.add(a)
-    
-    # The edges are the intersections of the faces that have exactly 2 vertices in common.
+
     edges = set()
+    lfaces = list(faces)
     n = len(faces)
     for i in xrange(0,n-1): 
         for j in xrange(i+1,n):
-            a = list(faces)[i].intersection(list(faces)[j]) 
+            a = lfaces[i].intersection(lfaces[j]) 
             if len(a) == 2:
                 edges.add(a)
-
+                
     # Now we need the rest of the data in the preferred form
-
-
-
     edges = [frozenset(vertices[v] for v in e) for e in edges]
     faces = [frozenset(vertices[v] for v in f) for f in faces]
     volumes = [frozenset(vertices[v] for v in g) for g in volumes]
     hypervolumes = [volumes]
     
-    new_faces = [set(e for e in edges if e.issubset(f)) for f in faces]
-    new_volumes = [set(f for f in faces if f.issubset(g)) for g in volumes] 
+    volumes = [set(f for f in faces if f.issubset(g)) for g in volumes] 
+    faces = [set(e for e in edges if e.issubset(f)) for f in faces]
     
     vertices = dict((v,k) for (k,v) in vertices.iteritems())
-    return tiling4_polytope(vertices, edges, new_faces, new_volumes, hypervolumes)
+
+    return tiling4_polytope(vertices, edges, faces, volumes, hypervolumes)
 
 
 def pentatope():
