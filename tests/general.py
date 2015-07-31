@@ -18,7 +18,7 @@ class TilingTest():
             self.assertIsInstance(e, frozenset, "edges should be frozensets")
             for v in e:
                 self.assertIsInstance(v, float, "edges should be made up of vertices")
-    
+
     def type_tiling2(self, t):
         """
         Check that a 2D tiling is made of the things it is supposed to.

@@ -8,7 +8,7 @@ class Tiling2():
     """
     Base class for a 2D tiling.
     """
-    
+
     def __init__(self, v=None, e=None, f=None):
         if v is None:
             self.vertices = {}
@@ -22,22 +22,22 @@ class Tiling2():
             self.faces = {}
         else:
             self.faces = dict(f)
-            
+
     def __repr__(self):
         return "Tiling2(%r, %r, %r)"%(self.vertices, self.edges, self.faces)
 
     def minx(self):
         return min(v.x for v in self.vertices)
-    
+
     def maxx(self):
         return max(v.x for v in self.vertices)
-    
+
     def miny(self):
         return min(v.y for v in self.vertices)
-    
+
     def maxy(self):
-        return max(v.y for v in self.vertices)      
-    
+        return max(v.y for v in self.vertices)
+
     def deform(self, h):
         """
         Applies an arbitrary function h to the vertices.
@@ -49,10 +49,10 @@ class Tiling2():
         f = dict((a,(frozenset(e[i][0] for i in a),x))
                  for (a,x) in self.faces.iteritems())
         return Tiling2(v.itervalues(),e.itervalues(),f.itervalues())
-            
+
     def translate(self, offset):
         return self.deform(lambda x: x+offset)
-            
+
     def scale(self, scalar):
         return self.deform(lambda x: x*scalar)
 
@@ -82,7 +82,7 @@ class Tiling2():
                 if abs(ly[j-1].y-ly[j].y) < epsilon:
                     d[ly[j]] = d.get(ly[j-1],ly[j-1])
             i1 = i2
-        return self.deform(lambda v: d.get(v,v))            
+        return self.deform(lambda v: d.get(v,v))
 
     def clip(self, minx, maxx, miny, maxy):
         """
@@ -143,7 +143,7 @@ class Tiling2():
     def face_count_information_print(self):
         for (k,v) in polygon_count(self).iteritems():
             print 'Number of %s_gons : %s.'%(k,v)
-        
+
 
 def big_union2(tilings, epsilon=0.000001):
     """
@@ -158,5 +158,3 @@ def big_union2(tilings, epsilon=0.000001):
         e.update(t.edges)
         f.update(t.faces)
     return Tiling2(v,e,f).sort_out_duplicates(epsilon)
-
-

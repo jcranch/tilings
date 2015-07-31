@@ -10,7 +10,7 @@ class LatticeSearcherTest(unittest.TestCase):
         Uses the LatticeSearcher to find all lattice points (x,y) with
         |x|+|y| at most 4.
         """
-        
+
         a = []
         g = LatticeSearcher(2)
         for (x,y) in g:

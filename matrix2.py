@@ -12,7 +12,7 @@ class Matrix2():
 
     def __repr__(self):
         return "Matrix2([[%f, %f], [%f, %f]])"%(tuple(self[(i,j)] for i in [1,2] for j in [1,2]))
-        
+
     def __getitem__(self, (r, s)):
         return self.array[r-1][s-1]
 
@@ -45,4 +45,3 @@ def rotation(theta):
 
 def random_special_orthogonal():
     return rotation(random()*2*pi)
-    

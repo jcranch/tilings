@@ -9,10 +9,10 @@ class Vector2():
 
     def __repr__(self):
         return "Vector2(%f, %f)"%(self.x, self.y)
-        
+
     def __hash__(self):
         return hash((Vector2, self.x, self.y))
-        
+
     def __getitem__(self, n):
         if n == 1:
             return self.x
@@ -35,9 +35,9 @@ class Vector2():
 
     def __neg__(self):
         return Vector2(-self.x, -self.y)
-    
+
     def norm(self):
         return sqrt(self.x*self.x + self.y*self.y)
-    
+
     def distance(self, other):
         return (self-other).norm()

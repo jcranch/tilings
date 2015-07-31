@@ -12,7 +12,7 @@ def restrict21(t):
     input produce vertices in the output, and faces in the input
     produce edges in the output.
     """
-    
+
     for (v,a) in t.vertices.iteritems():
         if v.y == 0:
             raise ValueError("Vertex %s lies in plane z=0"%(v,))
@@ -33,5 +33,5 @@ def restrict21(t):
         e = frozenset(newv[e1][0] for e1 in f if e1 in newv)
         if e:
             newe[e] = x
-            
+
     return Tiling1(newv.itervalues(), newe)

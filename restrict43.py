@@ -19,7 +19,7 @@ def restrict43(t):
     output, and hypervolumes in the input produce volumes in the
     output.
     """
-    
+
     for (v,x) in t.vertices.iteritems():
         if v.z == 0:
             raise ValueError("Vertex %s lies in cell z=0"%(v,)) # Check Cell is the right word.
@@ -48,11 +48,11 @@ def restrict43(t):
         f = frozenset(newe[f1][0] for f1 in g if f1 in newe)
         if f:
             newf[g] = (f,x)
-            
+
     newg = {}
     for (h,x) in t.hypervolumes.iteritems():
         g = frozenset(newf[g1][0] for g1 in h if g1 in newf)
         if g:
             newg[h] = (g,x)
-            
+
     return Tiling3(newv.itervalues(), newe.itervalues(), newf.itervalues(), newg.itervalues())

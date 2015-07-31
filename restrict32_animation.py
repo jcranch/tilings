@@ -1,4 +1,3 @@
-
 from periodic_tiling3 import cubic_tiling3
 from matrix3 import rotate_x, rotate_y,rotate_z
 from vector3 import Vector3
@@ -27,7 +26,7 @@ def scale(i,scalar = -1/1.0):
     return float(i * scalar)
 
 def elevation_transformation_1(i):
-    return np.sin(i/10.0)*0.0 
+    return np.sin(i/10.0)*0.0
 
 def azimuth_transformation_1(i):
     return i/10.0
@@ -85,17 +84,17 @@ def full_animation_32(frames = 100,polygon_count_on = True, tiling_3_on = True, 
             tiling3_edges += [transforming_3d_tiling.faces.keys()]
         if intersection_tiling2_on == True:
             tiling2_faces += [transforming_2d_intersection.faces.keys()]
-        
-    
+
+
     # For polygon count.
-    
+
     distinct_n_gons_found = []
     for dictionary_of_n_gons in raw_n_gon_count_results:
         for n_gon in dictionary_of_n_gons:
             if n_gon not in distinct_n_gons_found:
-                distinct_n_gons_found += [n_gon]           
+                distinct_n_gons_found += [n_gon]
     data_lines = dict([(n_gon,[]) for n_gon in distinct_n_gons_found])
-    
+
     max_number_of_faces = 0.0
     for frame in range(frames):
         for n_gon in distinct_n_gons_found:
@@ -104,10 +103,10 @@ def full_animation_32(frames = 100,polygon_count_on = True, tiling_3_on = True, 
                 if raw_n_gon_count_results[frame][n_gon] > max_number_of_faces:
                     max_number_of_faces = raw_n_gon_count_results[frame][n_gon]
             else :
-                data_lines[n_gon] += [0.0] 
-    
-    
-    
+                data_lines[n_gon] += [0.0]
+
+
+
     figure = plt.figure(figsize=(20,15))
 
     #3D Plot
@@ -123,7 +122,7 @@ def full_animation_32(frames = 100,polygon_count_on = True, tiling_3_on = True, 
             axis_3D.get_yaxis().set_visible(False)
             axis_3D.axis('off')
         axis_3D.view_init(initial_elevation, initial_azimuth)
-        lines3D = []  
+        lines3D = []
     #2D Plot
     if intersection_tiling2_on == True:
         axis_2D = plt.subplot(221, xlim = (-5, 5.02), ylim = (-5, 5.02), aspect='equal', frameon = False)
@@ -141,20 +140,20 @@ def full_animation_32(frames = 100,polygon_count_on = True, tiling_3_on = True, 
         for n_gon in data_lines:
             lines_face_count += [axis_polygon_count.plot([],[],'', label = str(n_gon),color = intersection_colours[n_gon-3],\
                                                          alpha = intersection_alpha)[0]]
-        
-    
-    
+
+
+
     def animate(i):
         #face_count
-        if polygon_count_on == True: 
+        if polygon_count_on == True:
             x_s = range(1,i+2)
             for (line,n_gon) in zip(lines_face_count,data_lines):
                 y_s = data_lines[n_gon][:i+1]
-                line.set_data(x_s,y_s)   
+                line.set_data(x_s,y_s)
             axis_polygon_count.legend(loc = 'upper right',framealpha = 1.0, fancybox = True)
         #3D
         lines = []
-        if tiling_3_on == True: 
+        if tiling_3_on == True:
             axis_3D.clear()
             if axis_3D_grid_on == False:
                 axis_3D.grid(False)
@@ -177,7 +176,7 @@ def full_animation_32(frames = 100,polygon_count_on = True, tiling_3_on = True, 
                 figure.canvas.draw()
             polygon_tiles = []
             if axis_3D_intersection_tiling2_on == True:
-                for (j,face) in enumerate(tiling2_faces[i]):   
+                for (j,face) in enumerate(tiling2_faces[i]):
                     polygon_tiles += [axis_3D.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],\
                     facecolor = intersection_colours[len(face)-3],edgecolor = 'black',alpha = intersection_alpha))]
             x_s = []
@@ -185,33 +184,26 @@ def full_animation_32(frames = 100,polygon_count_on = True, tiling_3_on = True, 
             z_s = []
             for (j,face) in enumerate(tiling3_edges[i]):
                 for edge in list(face):
-                    lines  += [axis_3D.plot([],[],[],'',color = tiling3_colours[j%len(tiling3_colours)],alpha = tiling3_alpha)[0]]  
+                    lines  += [axis_3D.plot([],[],[],'',color = tiling3_colours[j%len(tiling3_colours)],alpha = tiling3_alpha)[0]]
                     vertex_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
-                    vertex_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]] 
+                    vertex_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
                     x_s += [[vertex_1[0],vertex_2[0]]]
-                    y_s += [[vertex_1[1],vertex_2[1]]]          
-                    z_s += [[vertex_1[2],vertex_2[2]]]    
+                    y_s += [[vertex_1[1],vertex_2[1]]]
+                    z_s += [[vertex_1[2],vertex_2[2]]]
             for (j,line) in enumerate(lines):
                 line.set_data(x_s[j],y_s[j])
-                line.set_3d_properties(z_s[j])        
+                line.set_3d_properties(z_s[j])
        #2D
         patches = []
         if intersection_tiling2_on == True:
             axis_2D.clear()
             for (n,face) in enumerate(tiling2_faces[i]):
                 patches += [axis_2D.add_patch(plt.Polygon(0 * np.array([(v.x, v.y) for v in cycle(face)])\
-                , facecolor = intersection_colours[len(face)-3], ec='k', alpha = intersection_alpha))]    
-                patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))   
+                , facecolor = intersection_colours[len(face)-3], ec='k', alpha = intersection_alpha))]
+                patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
             figure.savefig(save_name + '_' + str(i) + '.png')
         if print_progress_on == True:
             print str(int(float(i)/frames*100)) + '% completed.'
         return lines_face_count, lines, patches
     return animation.FuncAnimation(figure, animate, frames = frames, interval = 20, blit = True)
-        
-    
-    
-    
-    
-    
-   

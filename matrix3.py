@@ -11,7 +11,7 @@ class Matrix3():
 
     def __repr__(self):
         return "Matrix3([[%f, %f, %f], [%f, %f, %f], [%f, %f, %f]])"%(tuple(self[(i,j)] for i in [1,2,3] for j in [1,2,3]))
-        
+
     def __getitem__(self, (r, s)):
         return self.array[r-1][s-1]
 

@@ -16,7 +16,7 @@ class CubicTilingTest(TilingTest, unittest.TestCase):
 
     def test_type(self):
         self.type_tiling3(self.tiling)
-                        
+
     def test_size(self):
         t = self.tiling
         self.assertEqual(len(t.vertices), 8*7*6)
@@ -26,7 +26,7 @@ class CubicTilingTest(TilingTest, unittest.TestCase):
 
     def test_clip_type(self):
         self.type_tiling3(self.tiling.clip(2.5,7.5,2.5,7.5,2.5,7.5))
-        
+
     def test_useless_clip(self):
         t1 = self.tiling
         t2 = self.tiling.clip(0,10,0,10,0,10)
@@ -38,7 +38,7 @@ class CubicTilingTest(TilingTest, unittest.TestCase):
     def test_restrict_type(self):
         t = restrict32(self.tiling.translate(Vector3(0,0,-3.5)))
         self.type_tiling2(t)
-        
+
     def test_restrict(self):
         t = restrict32(self.tiling.translate(Vector3(0,0,-3.5)))
         self.assertEqual(len(t.vertices), 8*7)
@@ -49,7 +49,7 @@ class CubicTilingTest(TilingTest, unittest.TestCase):
         t = restrict32(self.tiling.translate(Vector3(0,0,-3.5)))
         t = t.clip(1.5,8.5,1.5,8.5)
         self.type_tiling2(t)
-        
+
     def test_restrict_then_useless_clip(self):
         t = restrict32(self.tiling.translate(Vector3(0,0,-3.5)))
         t = t.clip(0,10,0,10)

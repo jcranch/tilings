@@ -58,4 +58,3 @@ class DecahexahedroidTest(unittest.TestCase, TilingTest):
         self.assertEqual(len(self.t.faces), 32)
         self.assertEqual(len(self.t.volumes), 16)
         self.assertEqual(len(self.t.hypervolumes), 1)
-    

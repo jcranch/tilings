@@ -23,7 +23,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
     """
 
     ((minw,maxw),(minx, maxx), (miny, maxy), (minz, maxz)) = bounding_box
-    
+
     n = len(period_vectors) # 4 for a space-filling tiling, but let's not assume
 
     vertices = {}
@@ -31,7 +31,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
 
         if minw > v0.w or maxw < v0.w or minx > v0.x or maxx < v0.x or miny > v0.y or maxy < v0.y or minz > v0.z or maxz < v0.z:
             raise ValueError("The bounding box should contain the fundamental domain")
-        
+
         gen = LatticeSearcher(n)
         for coeffs in gen:
             v = sum((u*c for (c,u) in zip(coeffs, period_vectors)), v0)
@@ -42,7 +42,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
 
     def tsum(t1,t2):
         return tuple(x+y for (x,y) in zip(t1,t2))
-                
+
     edges = {}
     for (label, vs) in fundamental_edges.iteritems():
         gen = LatticeSearcher(n)
@@ -73,7 +73,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
             else:
                 gen.reject()
 
-                
+
     hypervolumes = {}
     for (label, gs) in fundamental_hypervolumes.iteritems():
         gen = LatticeSearcher(n)
@@ -82,15 +82,15 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
             if all(g in volumes for g in s):
                 hypervolumes[(label,coeffs)] = frozenset(volumes[g] for g in s)
             else:
-                gen.reject()  
-                
-                
+                gen.reject()
+
+
     v = dict((x,l) for (l,x) in vertices.iteritems())
     e = dict((x,l) for (l,x) in edges.iteritems())
     f = dict((x,l) for (l,x) in faces.iteritems())
     g = dict((x,l) for (l,x) in volumes.iteritems())
     h = dict((x,l) for (l,x) in hypervolumes.iteritems())
-    
+
     return Tiling4(v,e,f,g,h)
 
 
@@ -98,7 +98,7 @@ def cubic_tiling4(bounding_box):
 
     v = {(): Vector4(0,0,0,0)} # Origin
 
-    e = {(1,2): [((), (0,0,0,0)), ((), (1,0,0,0))], 
+    e = {(1,2): [((), (0,0,0,0)), ((), (1,0,0,0))],
          (1,4): [((), (0,0,0,0)), ((), (0,1,0,0))],
          (1,9): [((), (0,0,0,0)), ((), (0,0,1,0))],
          (1,5): [((), (0,0,0,0)), ((), (0,0,0,1))]}
@@ -106,41 +106,41 @@ def cubic_tiling4(bounding_box):
     f = {
 
         (1,2,3,4): [((1,2), (0,0,0,0)), ((1,2), (0,1,0,0)),
-                         ((1,4), (0,0,0,0)), ((1,4), (1,0,0,0))], 
+                         ((1,4), (0,0,0,0)), ((1,4), (1,0,0,0))],
 
         (1,2,9,10): [((1,2), (0,0,0,0)), ((1,2), (0,0,1,0)),
-                         ((1,9), (0,0,0,0)), ((1,9), (1,0,0,0))], 
+                         ((1,9), (0,0,0,0)), ((1,9), (1,0,0,0))],
 
         (1,2,5,6): [((1,2), (0,0,0,0)), ((1,2), (0,0,0,1)),
-                         ((1,5), (0,0,0,0)), ((1,5), (1,0,0,0))], 
+                         ((1,5), (0,0,0,0)), ((1,5), (1,0,0,0))],
 
         (1,4,9,12): [((1,4), (0,0,0,0)), ((1,4), (0,0,1,0)),
-                         ((1,9), (0,0,0,0)), ((1,9), (0,1,0,0))], 
+                         ((1,9), (0,0,0,0)), ((1,9), (0,1,0,0))],
 
         (1,4,5,8): [((1,4), (0,0,0,0)), ((1,4), (0,0,0,1)),
-                         ((1,5), (0,0,0,0)), ((1,5), (0,1,0,0))], 
+                         ((1,5), (0,0,0,0)), ((1,5), (0,1,0,0))],
 
         (1,5,9,13): [((1,5), (0,0,0,0)), ((1,5), (0,0,1,0)),
-                         ((1,9), (0,0,0,0)), ((1,9), (0,0,0,1))]} 
+                         ((1,9), (0,0,0,0)), ((1,9), (0,0,0,1))]}
 
 
     g = {
-        (1,2,3,4,5,6,7,8): [((1,2,5,6), (0,0,0,0)), ((1,2,5,6), (0,1,0,0)), 
+        (1,2,3,4,5,6,7,8): [((1,2,5,6), (0,0,0,0)), ((1,2,5,6), (0,1,0,0)),
                             ((1,4,5,8), (0,0,0,0)),((1,4,5,8), (1,0,0,0)),
                             ((1,2,3,4), (0,0,0,0)),((1,2,3,4), (0,0,0,1))],
 
-        (1,2,5,6,9,10,13,14): [((1,2,5,6), (0,0,0,0)), ((1,2,5,6), (0,0,1,0)), 
+        (1,2,5,6,9,10,13,14): [((1,2,5,6), (0,0,0,0)), ((1,2,5,6), (0,0,1,0)),
                             ((1,5,9,13), (0,0,0,0)),((1,5,9,13), (1,0,0,0)),
                             ((1,2,9,10), (0,0,0,0)),((1,2,9,10), (0,0,0,1))],
 
-        (1,4,5,8,9,12,13,16): [((1,5,9,13), (0,0,0,0)), ((1,5,9,13), (0,1,0,0)), 
+        (1,4,5,8,9,12,13,16): [((1,5,9,13), (0,0,0,0)), ((1,5,9,13), (0,1,0,0)),
                             ((1,4,9,12), (0,0,0,0)),((1,4,9,12), (0,0,0,1)),
                             ((1,4,5,8), (0,0,0,0)),((1,4,5,8), (0,0,1,0))],
 
-        (1,2,3,4,9,10,11,12): [((1,2,3,4), (0,0,0,0)), ((1,2,3,4), (0,0,1,0)), 
+        (1,2,3,4,9,10,11,12): [((1,2,3,4), (0,0,0,0)), ((1,2,3,4), (0,0,1,0)),
                             ((1,2,9,10), (0,0,0,0)),((1,2,9,10), (0,1,0,0)),
                             ((1,4,9,12), (0,0,0,0)),((1,4,9,12), (1,0,0,0))]}
-    
+
     h = {(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16): [
         ((1,4,5,8,9,12,13,16),(0,0,0,0)),((1,4,5,8,9,12,13,16),(1,0,0,0)),
         ((1,2,5,6,9,10,13,14),(0,0,0,0)),((1,2,5,6,9,10,13,14),(0,1,0,0)),

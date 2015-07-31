@@ -2,7 +2,7 @@ from common import LatticeSearcher
 from vector3 import Vector3
 from tiling3 import Tiling3
 
-    
+
 
 def periodic_tiling3(fundamental_vertices, fundamental_edges,
                      fundamental_faces, fundamental_volumes,
@@ -28,7 +28,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
     """
 
     ((minx, maxx), (miny, maxy), (minz, maxz)) = bounding_box
-    
+
     n = len(period_vectors) # 3 for a space-filling tiling, but let's not assume
 
     vertices = {}
@@ -36,7 +36,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
 
         if minx > v0.x or maxx < v0.x or miny > v0.y or maxy < v0.y or minz > v0.z or maxz < v0.z:
             raise ValueError("The bounding box should contain the fundamental domain")
-        
+
         gen = LatticeSearcher(n)
         for coeffs in gen:
             v = sum((u*c for (c,u) in zip(coeffs, period_vectors)), v0)
@@ -47,7 +47,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
 
     def tsum(t1,t2):
         return tuple(x+y for (x,y) in zip(t1,t2))
-                
+
     edges = {}
     for (label, vs) in fundamental_edges.iteritems():
         gen = LatticeSearcher(n)
@@ -121,7 +121,7 @@ def tetra_octa_tiling3(bounding_box):
         z = z2-z1
         x -= z
         return ((x+y)//2, (x-y)//2, z)
-    
+
     e0 = {"T1": ((0,0,1), (0,1,0)),
           "T2": ((1,0,0), (0,0,1)),
           "T3": ((0,1,0), (1,0,0)),
@@ -138,7 +138,7 @@ def tetra_octa_tiling3(bounding_box):
         for ((v1m,v2m), k) in e1.iteritems():
             if difference(v1m,v1)==difference(v2m,v2):
                 return (k,difference(v1m,v1))
-        
+
     f0 = {"+++": ((1,0,0),(0,1,0),(0,0,1)),
           "++-": ((1,0,0),(0,1,0),(0,0,-1)),
           "+-+": ((1,0,0),(0,-1,0),(0,0,1)),
@@ -150,7 +150,7 @@ def tetra_octa_tiling3(bounding_box):
     f1 = dict((tuple(sorted(vs)), k) for (k,vs) in f0.iteritems())
     f = dict((k, frozenset(recognise_e(t) for t in zip(vs,vs[1:]+(vs[0],))))
              for (k,vs) in f0.iteritems())
-    
+
     def recognise_f(vs):
         l = sorted(vs)
         for (lm,k) in f1.iteritems():
@@ -166,6 +166,5 @@ def tetra_octa_tiling3(bounding_box):
                     recognise_f([(-1,0,0),(0,-1,0),(-1,-1,-1)]),
                     recognise_f([(-1,0,0),(-1,-1,-1),(0,0,-1)]),
                     recognise_f([(-1,-1,-1),(0,-1,0),(0,0,-1)])]}
-    
+
     return periodic_tiling3(v,e,f,g,bounding_box,p)
-    

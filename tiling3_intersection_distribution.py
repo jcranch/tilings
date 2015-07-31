@@ -17,7 +17,7 @@ def tiling3_intersection_distribution(polyhedron, iterations = 100000, colours =
         theta_x = random()*pi/2 # longitude on normal hemisphere
         theta_z = random()*2*pi # latitude
         rotation_matrix = rotate_x(theta_x)*rotate_z(theta_z)
-        translation = (2*random()-1)*bound 
+        translation = (2*random()-1)*bound
         transformed_polyhedron = polyhedron.transform(rotation_matrix).translate(Vector3(0,0,translation))
         intersection = restrict32(transformed_polyhedron)
         case = frozenset(intersection.edges[edge] for face in intersection.faces for edge in face)
@@ -31,7 +31,5 @@ def tiling3_intersection_distribution(polyhedron, iterations = 100000, colours =
     total_length = sum([dictionary_of_tallies[case] for case in cases])
     dictionary_of_distributions = dict([(case,(dictionary_of_tallies[case]/total_length,str(colours[count%len(colours)])))\
                                         for (count,case) in enumerate(cases)])
-    
+
     return dictionary_of_distributions
-    
-    

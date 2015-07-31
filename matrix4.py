@@ -25,7 +25,7 @@ class Matrix4():
         return Vector4(a,b,c,d)
 
     def determinant(self):
-        ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p)) = self.array 
+        ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p)) = self.array
         return a*Matrix3([[f,g,h],[j,k,l],[n,o,p]]).determinant() -\
                b*Matrix3([[e,g,h],[i,k,l],[m,o,p]]).determinant() +\
                c*Matrix3([[e,f,h],[i,j,l],[m,n,p]]).determinant() -\

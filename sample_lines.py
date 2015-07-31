@@ -18,7 +18,7 @@ def sample_lines(polygon):
         p = restrict21(polygon.transform(m).translate(v))
         s = frozenset(p.vertices[v] for e in p.edges for v in e)
         yield (angle, shift, s)
-    
+
 
 
 def plot(polygon, width, height, N=1000000):
@@ -28,7 +28,7 @@ def plot(polygon, width, height, N=1000000):
     def coords(x,y):
         return (int(floor(x * width / pi)),
                 int(floor((y / bound / 2 + 0.5) * height)))
-    
+
     n = 0
     for (a, s, l) in sample_lines(polygon):
         n += 1
@@ -36,7 +36,7 @@ def plot(polygon, width, height, N=1000000):
             print str(n) + " "
         if n > N:
             break
-            
+
         if l:
             if l == frozenset([(0,1), (2,0)]):
                 col = (255,0,0)
@@ -46,7 +46,7 @@ def plot(polygon, width, height, N=1000000):
                 col = (0,0,255)
             else:
                 raise ValueError("Got unexpected label %s"%(l,))
-            
+
             im.putpixel(coords(a,s),col)
 
     for n in xrange(3141):
@@ -56,7 +56,7 @@ def plot(polygon, width, height, N=1000000):
         im.putpixel(coords(x,-cos(x + 11*pi/6) * bound), (0,0,0))
 
     return im
-    
+
 
 if __name__=="__main__":
     from tiling2_polygon import regular_polygon

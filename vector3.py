@@ -11,10 +11,10 @@ class Vector3():
 
     def __repr__(self):
         return "Vector3(%f, %f, %f)"%(self.x, self.y, self.z)
-        
+
     def __hash__(self):
         return hash((Vector3, self.x, self.y, self.z))
-        
+
     def __getitem__(self, n):
         if n == 1:
             return self.x
@@ -39,10 +39,10 @@ class Vector3():
 
     def __neg__(self):
         return Vector3(-self.x, -self.y, -self.z)
-    
+
     def dot(self, other):
         return self.x*other.x + self.y*other.y + self.z*other.z
-    
+
     def cross(self, other):
         return Vector3(self.y*other.z - self.z*other.y,
                        self.z*other.x - self.x*other.z,
@@ -50,7 +50,7 @@ class Vector3():
 
     def norm(self):
         return sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
-    
+
     def distance(self, other):
         return (self-other).norm()
 

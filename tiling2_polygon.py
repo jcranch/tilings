@@ -14,7 +14,7 @@ def tiling2_polygon(vertices):
     f = {frozenset(e): ()}
     return Tiling2(v,e,f)
 
-    
+
 def regular_polygon(n, radius=1.0, theta=0.0, centre=Vector2(0,0), grounded = False):
     if grounded:
         theta = -(n-2)*pi/(2*n)

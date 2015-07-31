@@ -12,13 +12,13 @@ class LatticeSearcher():
         self.old = set()
         self.new = set([tuple(0 for i in xrange(n))])
         self.last = None
-    
+
     def __iter__(self):
         return self
 
     def reject(self):
         self.last = None
-    
+
     def next(self):
         if self.last is not None:
             a = self.last
@@ -58,4 +58,3 @@ def cycle(f):
     for u in e:
         if u != v:
             yield u
-    

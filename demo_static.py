@@ -21,7 +21,7 @@ def draw_cubic1_eps():
     with open("demos/cubic1.eps", "w") as f:
         l2.write_eps(f, (20,220,520,720), (-5,5,-5,5), facecol=facecol)
 
-    
+
 def draw_cubic2_eps():
 
     def edgecol(((i,), t)):
@@ -66,7 +66,7 @@ def draw_tetra_octa_eps():
             return (0.5, 0.5, 0.0)
         else:
             raise ValueError("Should get one of those edge colours.")
-        
+
     l3 = tetra_octa_tiling3(((-3,3),(-3,3),(-3,3))).clip(-3,3,-3,3,-3,3).scale(0.66).translate(Vector3(0,0,3))
     with open("demos/tetra_octa1.eps", "w") as f:
         l3.write_eps(f, (0,0,500,500), (-1.5,5.7,-2.7,4.5),
@@ -99,13 +99,13 @@ def draw_hexagonal():
     with open("demos/hexagonal.eps", "w") as f:
         t.write_eps(f,(0,0,500,500),(-8,8,-8,8),facecol=facecol)
 
-        
-        
+
+
 if __name__=="__main__":
 
     if not os.path.exists("demos/"):
         os.makedirs("demos/")
-    
+
     print "draw_cubic1_eps"
     draw_cubic1_eps()
 

@@ -12,10 +12,10 @@ class Vector4():
 
     def __repr__(self):
         return "Vector4(%f, %f, %f, %f)"%(self.w, self.x, self.y, self.z)
-        
+
     def __hash__(self):
         return hash((Vector4, self.w, self.x, self.y, self.z))
-        
+
     def __getitem__(self, n):
         if n == 1:
             return self.w
@@ -42,7 +42,7 @@ class Vector4():
 
     def norm(self):
         return sqrt(self.w*self.w + self.x*self.x + self.y*self.y + self.z*self.z)
-    
+
     def distance(self, other):
         return (self-other).norm()
 
@@ -51,7 +51,3 @@ class Vector4():
         yield self.x
         yield self.y
         yield self.z
-
-
-
-

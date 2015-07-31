@@ -11,7 +11,7 @@ class TauTest(unittest.TestCase):
         b = tau*5 - 7
         c = 8
         d = 8.3
-        
+
         self.assertAlmostEqual(float(a+b), float(a)+float(b))
         self.assertAlmostEqual(float(a+c), float(a)+float(c))
         self.assertAlmostEqual(float(a+d), float(a)+float(d))
@@ -30,4 +30,3 @@ class TauTest(unittest.TestCase):
         self.assertAlmostEqual(float(b*a), float(b)*float(a))
         self.assertAlmostEqual(float(c*a), float(c)*float(a))
         self.assertAlmostEqual(float(d*a), float(d)*float(a))
-        

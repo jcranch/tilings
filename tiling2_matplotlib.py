@@ -8,8 +8,8 @@ from common import cycle
 
 
 default_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple','blue','darkred','darkblue','lightgreen']
-  
-    
+
+
 def describe_polygon_path(polygon):
     """
     The polygon should be specified as a list of vertices of the form
@@ -25,7 +25,7 @@ def describe_polygon_path(polygon):
 
 def plot_matplotlib(tiling2, figure_size=8, grid_on=True,
                     ticks_on=True, colours=default_colours, alpha=0.85):
-    
+
     """
     Alpha determines translucency.
     """
@@ -41,12 +41,12 @@ def plot_matplotlib(tiling2, figure_size=8, grid_on=True,
     axis.set_xlim(tiling2.minx()-1, tiling2.maxx()+1)
     axis.set_ylim(tiling2.miny()-1, tiling2.maxy()+1)
     if grid_on == True :
-        axis.grid(True)   
+        axis.grid(True)
     if ticks_on == False:
         axis.set_xticks([])
         axis.set_yticks([])
     return figure
-    
+
 
 '''
 Some code for animating plotygons in preparation for animating 2d tiling.
@@ -56,11 +56,10 @@ Some code for animating plotygons in preparation for animating 2d tiling.
 
 Function should take a list of polygons as described before,
 as well as a list of functions of the same length of the list of polygons
-where each function is a function of the form 
+where each function is a function of the form
 
 def f(np.array(polygon), i):
     ......
     return np.array(...)
 
 '''
-

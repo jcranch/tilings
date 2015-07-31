@@ -36,17 +36,17 @@ def matplotlib_display_tiling3(tiling_3_on = True,axis_3D_intersection_tiling2_o
     if user_defined_axis_3D_limit == False:
         absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
                                abs(tiling3.miny()),tiling3.maxy(),
-                               abs(tiling3.minz()),tiling3.maxz()) 
+                               abs(tiling3.minz()),tiling3.maxz())
         axis.set_xlim(-absolute_largest-1,absolute_largest+1)
         axis.set_ylim(-absolute_largest-1,absolute_largest+1)
         axis.set_zlim(-absolute_largest-1,absolute_largest+1)
     else :
         axis.set_xlim(user_defined_axis_3D_limit[0][0][0],user_defined_axis_3D_limit[0][0][1])
         axis.set_ylim(user_defined_axis_3D_limit[0][1][0],user_defined_axis_3D_limit[0][1][1])
-        axis.set_zlim(user_defined_axis_3D_limit[0][2][0],user_defined_axis_3D_limit[0][2][1])      
+        axis.set_zlim(user_defined_axis_3D_limit[0][2][0],user_defined_axis_3D_limit[0][2][1])
     polygon_tiles = []
     if axis_3D_intersection_tiling2_on == True:
-        for (j,face) in enumerate(tiling2.faces.keys()):   
+        for (j,face) in enumerate(tiling2.faces.keys()):
             polygon_tiles += [axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],\
             facecolor = intersection_colours[len(face)-3],edgecolor = 'black',alpha = intersection_alpha))]
     if plane_z0_on == True:
@@ -54,7 +54,7 @@ def matplotlib_display_tiling3(tiling_3_on = True,axis_3D_intersection_tiling2_o
                                                  (-absolute_largest,-absolute_largest,0),(-absolute_largest,absolute_largest,0)]],\
                                                facecolor = plane_z0_colour,\
                                                edgecolor = 'black',alpha = plane_z0_alpha))
-    lines = [] 
+    lines = []
     for (j,edge) in enumerate(tiling3.edges.keys()):
         point_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
         point_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
@@ -62,6 +62,5 @@ def matplotlib_display_tiling3(tiling_3_on = True,axis_3D_intersection_tiling2_o
         axis.plot(co_ordinates[0],co_ordinates[1],co_ordinates[2],'',color = tiling3_colours[j%len(tiling3_colours)],alpha = 0.5)
     if save_on == True:
         plt.savefig(save_name)
-    
+
     return figure
-        

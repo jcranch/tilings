@@ -20,7 +20,7 @@ def restrict32(t):
     edges in the output, and volumes in the input produce faces in the
     output.
     """
-    
+
     for (v,x) in t.vertices.iteritems():
         if v.z == 0:
             raise ValueError("Vertex %s lies in plane z=0"%(v,))
@@ -49,5 +49,5 @@ def restrict32(t):
         f = frozenset(newe[f1][0] for f1 in g if f1 in newe)
         if f:
             newf[f] = x
-            
+
     return Tiling2(newv.itervalues(), newe.itervalues(), newf)

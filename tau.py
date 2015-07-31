@@ -24,7 +24,7 @@ class GoldenInteger():
 
     def __radd__(self, other):
         return self + other
-        
+
     def __sub__(self, other):
         if isinstance(other,int):
             return GoldenInteger(self.a - other, self.b)
@@ -58,15 +58,15 @@ class GoldenInteger():
 
     def __neg__(self):
         return GoldenInteger(-self.a, -self.b)
-    
+
     def __float__(self):
         return self.a + self.b*(1 + 5**0.5)/2
 
     def __abs__(self):
         return abs(float(self))
-    
+
     def conj(self):
         return GoldenInteger(self.a+self.b, -self.b)
-    
+
 
 tau = GoldenInteger(0,1)

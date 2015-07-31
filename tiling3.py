@@ -99,7 +99,7 @@ class Tiling3():
                         d[lz[k]] = d.get(lz[k-1],lz[k-1])
                 j1 = j2
             i1 = i2
-        return self.deform(lambda v: d.get(v,v))            
+        return self.deform(lambda v: d.get(v,v))
 
     def clip(self, minx, maxx, miny, maxy, minz, maxz):
         """

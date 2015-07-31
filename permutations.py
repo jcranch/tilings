@@ -6,7 +6,7 @@ def all_permutations(original):
         for i in xrange(len(original)):
             for p in all_permutations(original[1:]):
                 yield p[:i] + [x] + p[i:]
-  
+
 
 def cycle_decomposition(permutation, original=None):
     if original is None:
@@ -44,7 +44,7 @@ def perform_permutation(permutable, permutation, original=None): #cycle of the f
         original = sorted(permutation)
     d = dict(zip(original,permutation))
     return [d[x] for x in permutable]
-    
+
 
 def produce_permutable_plus_minus(permutable):
     '''

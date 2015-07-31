@@ -5,7 +5,7 @@ from restrict32 import restrict32
 from common import cycle
 from tiling3 import Tiling3
 
-# Conceptually This function takes a tiling and rotates it using a uniformly, randomly selected rotation matrix in SO3 
+# Conceptually This function takes a tiling and rotates it using a uniformly, randomly selected rotation matrix in SO3
 # then counts polygons in the intersection of z = 0. This is designed to be repeated for many iterations.
 
 def montecarlo_so3(iterations, tiling3, transformation_function ):
@@ -15,12 +15,12 @@ def montecarlo_so3(iterations, tiling3, transformation_function ):
         transforming_3d_tiling = transformation_function(tiling3,i)
         transforming_2d_intersection = restrict32(transforming_3d_tiling).clip(-20,20,-20,20)
         raw_n_gon_count_results += [transforming_2d_intersection.face_count_information()]
-    # Determine the unique n-gons that were found in the intersection.        
+    # Determine the unique n-gons that were found in the intersection.
     distinct_n_gons_found = []
     for dictionary_of_n_gons in raw_n_gon_count_results:
         for n_gon in dictionary_of_n_gons:
             if n_gon not in distinct_n_gons_found:
-                distinct_n_gons_found += [n_gon]     
+                distinct_n_gons_found += [n_gon]
     # Count how many of each n-gon were found overall.
     n_gon_tally = dict([(n_gon,0) for n_gon in distinct_n_gons_found])
     total_n_gons = 0.0
@@ -35,9 +35,9 @@ def montecarlo_so3(iterations, tiling3, transformation_function ):
     # Return the fraction of each.
     n_gon_distribution = dict([(n_gon,n_gon_tally[n_gon]/total_n_gons) for n_gon in distinct_n_gons_found])
     return n_gon_distribution
-    
-    
-#Example:    
+
+
+#Example:
 
 unit_cube = cubic_tiling3(((-0.2,1.2),(-0.2,1.2),(-0.2,1.2))).translate(Vector3(-0.50000001,-0.50000001,-0.50000001))
 iterations = 1000
@@ -94,13 +94,13 @@ def montecarlo_polygon_density(transformation_iterations=100,  tiling3 = unit_cu
         for dictionary_of_n_gons in raw_n_gon_count_results:
             for n_gon in dictionary_of_n_gons:
                 if n_gon not in distinct_n_gons_found:
-                    distinct_n_gons_found += [n_gon] 
+                    distinct_n_gons_found += [n_gon]
                 if n_gon not in grand_list_of_distinct_n_gons:
                     grand_list_of_distinct_n_gons += [n_gon]
         # Count how many of each n-gon were found overall.
         for k in range(translation_count):
             for n_gon in distinct_n_gons_found:
-                if n_gon in raw_n_gon_count_results[k]:                    
+                if n_gon in raw_n_gon_count_results[k]:
                     grand_total_n_gons += raw_n_gon_count_results[k][n_gon]
                     # Add results to our overall list
                     try :
@@ -109,9 +109,9 @@ def montecarlo_polygon_density(transformation_iterations=100,  tiling3 = unit_cu
                         grand_n_gon_tally[n_gon] = raw_n_gon_count_results[k][n_gon]
     grand_n_gon_distribution = dict((n_gon,grand_n_gon_tally[n_gon]/grand_total_n_gons ) for n_gon in grand_list_of_distinct_n_gons)
     return grand_n_gon_distribution
-    
 
-    
+
+
 '''
 For unit cube with 10000 transformation iterations I got this :
 montecarlo_polygon_density()

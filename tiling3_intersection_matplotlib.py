@@ -18,7 +18,7 @@ def distribution_plot(polyhedron,iterations = 100000, colours = default_intersec
         theta_x = random()*pi/2 # longitude on normal hemisphere
         theta_z = random()*2*pi # latitude
         rotation_matrix = rotate_x(theta_x)*rotate_z(theta_z)
-        translation = (2*random()-1)*bound 
+        translation = (2*random()-1)*bound
         transformed_polyhedron = polyhedron.transform(rotation_matrix).translate(Vector3(0,0,translation))
         intersection = restrict32(transformed_polyhedron)
         case = frozenset(intersection.edges[edge] for face in intersection.faces for edge in face)
@@ -43,11 +43,11 @@ def distribution_plot(polyhedron,iterations = 100000, colours = default_intersec
             for (theta_x,theta_z,translation) in cases[case] :
                 x_s += [theta_x]
                 y_s += [theta_z]
-                z_s += [translation]            
+                z_s += [translation]
             axis.plot(x_s, y_s, z_s, ',', color = colours[count%len(colours)], label = str(case) )
             total_length += len(x_s)
     plt.show()
     dictionary_of_distributions = dict([(case,(dictionary_of_tallies[case]/total_length,str(colours[count%len(colours)])))\
                                         for (count,case) in enumerate(cases)])
-    
+
     return dictionary_of_distributions
