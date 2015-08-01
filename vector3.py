@@ -75,7 +75,14 @@ def random_norm1():
             return v/n
 
 
-def tetra_volume(t,u,v,w):
+def triangle3_area(u,v,w):
+    """
+    The area of a triangle with vertices u, v, w.
+    """
+    return (v-u).cross(w-u).norm()/2.0
+
+
+def tetra3_volume(t,u,v,w):
     """
     The volume of a tetrahedron with vertices t, u, v, w.
     """

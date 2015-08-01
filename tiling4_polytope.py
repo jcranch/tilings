@@ -1,10 +1,10 @@
 from tiling4 import Tiling4
 from vector4 import Vector4
-from matrix4 import Matrix4, pentatope_hypervolume
+from matrix4 import Matrix4, tetra4_volume, pentatope4_hypervolume
 from matrix3 import Matrix3
 
 
-def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hypervolumes):
+def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):
     """
     This function is designed to help make Tiling4 objects
     corresponding to polytopes.
@@ -15,10 +15,6 @@ def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hy
     joining those vertices; similarly for list_faces, list_volumes and list_hypervolumes.
     """
     dict_vertices = dict(dict_vertices)
-    list_edges = list(list_edges)
-    list_faces = list(list_faces)
-    list_volumes = list(list_volumes)
-    list_of_hypervolumes = list(list_hypervolumes)
 
     # We reverse the keys and values for now and change them at the end.
     dict_edges = {}
@@ -31,12 +27,10 @@ def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes,list_hy
         s = frozenset(v for e in face for v in e)
         dict_faces[s] = frozenset(dict_edges[frozenset(k)] for k in face)
 
-
     dict_volumes = {}
     for volume in list_volumes:
         s = frozenset(v for f in volume for v in f)
         dict_volumes[s] = frozenset(dict_faces[frozenset(k)] for k in volume)
-
 
     hypervolumes = {}
     for hypervolume in list_hypervolumes:
@@ -59,45 +53,43 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
     """
     vertices = dict(vertices)
     l_vertices = list(vertices)
+    n = len(l_vertices)
+    volumes = []
 
-    def cocellular(h,i,j,k):
+    def cohyperplanar(h,i,j,k):
         """
-        Find the vertices in the same cell (3d space) as vertices h,i,j,k.
-        If any occur before k, then we bale out as we should have
-        already considered this cell.
+        Find the vertices in the same hyperplane as vertices h,i,j,k.
+
+        At the beginning, we bale out if these vertices already lie in
+        some volume we've constructed already, and if the vertices are
+        in fact coplanar.
+
         We calculate by considering the hypervolume of the pentatope
         formed by vertices h,i,j,k and one other. If (close to) zero,
-        the five points are cocellular. If positive, the other point is
+        the five points are cohyperplanar. If positive, the other point is
         on one side of the cell, and if negative it's on the
-        other. Hence we bale out if we find points on both sides of
-        the cell.
+        other. We bale out if we find points on both sides of the cell.
         """
+        level = set([h,i,j,k])
+
+        if any(level.issubset(s) for s in volumes):
+            return None
+
         t = l_vertices[h]
         u = l_vertices[i]
         v = l_vertices[j]
         w = l_vertices[k]
 
+        if abs(tetra4_volume(t,u,v,w)) < epsilon:
+            return None
+
         side1 = False
         side2 = False
-        for r in range(0,h)+range(h+1,i)+range(i+1,j)+range(j+1,k):
+        for r in range(0,h)+range(h+1,i)+range(i+1,j)+range(j+1,k)+range(k+1,n):
             x = l_vertices[r]
-            a = pentatope_hypervolume(t,u,v,w,x)
+            a = pentatope4_hypervolume(t,u,v,w,x)
             if abs(a) < epsilon:
-                return None
-            elif a < 0:
-                if side2:
-                    return None
-                side1 = True
-            else:
-                if side1:
-                    return None
-                side2 = True
-        level = [t,u,v,w]
-        for r in range(k+1,n):
-            x = l_vertices[r]
-            a = pentatope_hypervolume(t,u,v,w,x)
-            if abs(a) < epsilon:
-                level.append(x)
+                level.add(r)
             elif a < 0:
                 if side2:
                     return None
@@ -108,19 +100,17 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
                 side2 = True
         return level
 
-    # Produce the volumes: they're the maximal subsets of cocellular
+    # Produce the volumes: they're the maximal subsets of cohyperplanar
     # vertices, with the property that every other vertex is on the
     # same side.
-    n = len(l_vertices)
-    volumes = []
     for h in xrange(n-3):
         for i in xrange(h+1,n-2):
             for j in xrange(i+1,n-1):
                 for k in xrange(j+1,n):
-                    level = cocellular(h,i,j,k)
-                    if level is None:
-                        continue
-                    volumes.append(frozenset(level))
+                    level = cohyperplanar(h,i,j,k)
+                    if level is not None:
+                        volumes.append(level)
+    volumes = [frozenset(vertices[l_vertices[i]] for i in l) for l in volumes]
 
     # The faces are the intersections of the volumes that have at
     # least 3 vertices in common, and the edges are those that have
@@ -135,7 +125,7 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
 
     edges = set()
     lfaces = list(faces)
-    n = len(faces)
+    n = len(lfaces)
     for i in xrange(0,n-1):
         for j in xrange(i+1,n):
             a = lfaces[i].intersection(lfaces[j])
@@ -143,16 +133,10 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
                 edges.add(a)
 
     # Now we need the rest of the data in the preferred form
-    edges = [frozenset(vertices[v] for v in e) for e in edges]
-    faces = [frozenset(vertices[v] for v in f) for f in faces]
-    volumes = [frozenset(vertices[v] for v in g) for g in volumes]
     hypervolumes = [volumes]
-
     volumes = [set(f for f in faces if f.issubset(g)) for g in volumes]
     faces = [set(e for e in edges if e.issubset(f)) for f in faces]
-
     vertices = dict((v,k) for (k,v) in vertices.iteritems())
-
     return tiling4_polytope(vertices, edges, faces, volumes, hypervolumes)
 
 
@@ -170,7 +154,7 @@ def pentatope():
 def hypercube():
     vertices = [Vector4(w,x,y,z)
                 for w in [-1,1] for x in [-1,1] for y in [-1,1] for z in [-1,1]]
-    return tiling4_convex_hull(dict(zip(vertices, xrange(16))))
+    return tiling4_convex_hull(zip(vertices, xrange(16)))
 
 
 def decahexahedroid():
