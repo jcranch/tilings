@@ -9,6 +9,9 @@ class GoldenInteger():
         self.a = a
         self.b = b
 
+    def __hash__(self):
+        return hash((GoldenInteger, self.a, self.b))
+
     def __repr__(self):
         return "%d + %d*tau"%(self.a, self.b)
 
@@ -70,3 +73,4 @@ class GoldenInteger():
 
 
 tau = GoldenInteger(0,1)
+root5 = GoldenInteger(-1,2)

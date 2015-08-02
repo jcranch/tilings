@@ -1,7 +1,6 @@
 from tiling4 import Tiling4
 from vector4 import Vector4
-from matrix4 import Matrix4, tetra4_volume, pentatope4_hypervolume
-from matrix3 import Matrix3
+from matrix4 import tetra4_volume, pentatope4_hypervolume
 
 
 def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):
