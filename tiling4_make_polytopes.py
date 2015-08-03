@@ -58,7 +58,7 @@ def cell600():
             yield p
         for p in all_permutations_plus_minus([0,0,0,2]):
             yield p
-        for p in even_permutations_plus_minus([tau*2,2,tau.conj()*2,0]):
+        for p in even_permutations_plus_minus([tau,1,tau.conj(),0]):
             yield p
 
     vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
