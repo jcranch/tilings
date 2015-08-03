@@ -1,9 +1,7 @@
 from tiling4 import Tiling4
 from vector4 import Vector4
 from matrix4 import tetra4_volume, pentatope4_hypervolume
-from permutations import all_permutations_plus_minus, even_permutations_plus_minus, plus_minuses
-from common import remove_duplicates
-from tau import tau, root5
+from permutations import plus_minuses
 
 
 def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):
@@ -48,7 +46,7 @@ def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes, list_h
     return Tiling4(vertices, edges, faces, volumes, hypervolumes)
 
 
-def tiling4_convex_hull(vertices, epsilon=1e-7):
+def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False):
     """
     Takes a dictionary of vertices, and creates a polyhedron given by
     the convex hull.
@@ -112,6 +110,8 @@ def tiling4_convex_hull(vertices, epsilon=1e-7):
                     level = cohyperplanar(h,i,j,k)
                     if level is not None:
                         volumes.append(level)
+                        if statusreport:
+                            print "  found %d volumes"%(len(volumes),)
     volumes = [frozenset(vertices[l_vertices[i]] for i in l) for l in volumes]
 
     # The faces are the intersections of the volumes that have at
@@ -169,58 +169,14 @@ def cell16():
     return tiling4_convex_hull(dictionary_of_vertices)
 
 def cell24():
-    '''
-    The 24 Cell.
-    '''
-    def vertices():
-        for p in all_permutations_plus_minus([2,0,0,0]):
-            yield p
-        for p in all_permutations_plus_minus([1,1,1,1]):
-            yield p
-
-    vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
-    return tiling4_convex_hull(dict(zip(vs,xrange(24))))
+    with open("autotilings/cell24.data", 'r') as f:
+        return(eval(f.read()))
 
 def cell120():
-    '''
-    The 120 Cell.
-    '''
-    tau2 = tau*tau
-    taui = tau.conj()
-    tau2i = tau2.conj()
-
-    def vertices():
-        for p in all_permutations_plus_minus([2,2,0,0]):
-            yield p
-        for p in all_permutations_plus_minus([1,1,1,root5]):
-            yield p
-        for p in all_permutations_plus_minus([tau,tau,tau,tau2i]):
-            yield p
-        for p in all_permutations_plus_minus([taui,taui,taui,tau2]):
-            yield p
-        for p in even_permutations_plus_minus([0,tau2i,1,tau2]):
-            yield p
-        for p in even_permutations_plus_minus([0,taui,tau,root5]):
-            yield p
-        for p in even_permutations_plus_minus([taui,1,tau,2]):
-            yield p
-
-    vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
-
-    return tiling4_convex_hull(dict(zip(vs,xrange(600))))
+    with open("autotilings/cell120.data", 'r') as f:
+        return(eval(f.read()))
 
 def cell600():
-    '''
-    The 600 Cell.
-    '''
-    def vertices():
-        for p in all_permutations_plus_minus([1,1,1,1]):
-            yield p
-        for p in all_permutations_plus_minus([0,0,0,2]):
-            yield p
-        for p in even_permutations_plus_minus([tau*2,2,tau.conj()*2,0]):
-            yield p
+    with open("autotilings/cell600.data", 'r') as f:
+        return(eval(f.read()))
 
-    vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
-
-    return tiling4_convex_hull(dict(zip(vs,xrange(120))))
