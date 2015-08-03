@@ -1,3 +1,5 @@
+import time
+
 from tiling4 import Tiling4
 from vector4 import Vector4
 from matrix4 import tetra4_volume, pentatope4_hypervolume
@@ -51,11 +53,12 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False):
     Takes a dictionary of vertices, and creates a polyhedron given by
     the convex hull.
     """
+    start_time = time.time()
     vertices = dict(vertices)
     l_vertices = list(vertices)
     n = len(l_vertices)
     volumes = []
-
+    
     def cohyperplanar(h,i,j,k):
         """
         Find the vertices in the same hyperplane as vertices h,i,j,k.
@@ -111,7 +114,11 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False):
                     if level is not None:
                         volumes.append(level)
                         if statusreport:
-                            print "  found %d volumes"%(len(volumes),)
+                            elapsed = time.time() - start_time
+                            hours, elapsed = divmod(elapsed, 3600)
+                            minutes, elapsed = divmod(elapsed, 60)
+                            seconds, elapsed = divmod(elapsed, 1) 
+                            print "  found %d volumes (after %02d:%02d:%02d.%02d)"%(len(volumes), int(hours), int(minutes), int(seconds), int(elapsed*100))
     volumes = [frozenset(vertices[l_vertices[i]] for i in l) for l in volumes]
 
     # The faces are the intersections of the volumes that have at
