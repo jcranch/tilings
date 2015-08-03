@@ -1,5 +1,6 @@
 import time
 
+from tiling4 import tiling4
 from vector4 import Vector4
 from matrix4 import tetra4_volume, pentatope4_hypervolume
 from permutations import plus_minuses
