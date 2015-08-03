@@ -58,3 +58,11 @@ def cycle(f):
     for u in e:
         if u != v:
             yield u
+
+
+def remove_duplicates(g):
+    s = set()
+    for x in g:
+        if x not in s:
+            yield x
+            s.add(x)

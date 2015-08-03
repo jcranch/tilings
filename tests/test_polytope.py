@@ -44,10 +44,10 @@ class HypercubeTest(unittest.TestCase, TilingTest):
         self.assertEqual(len(self.t.hypervolumes), 1)
 
 
-class DecahexahedroidTest(unittest.TestCase, TilingTest):
+class Cell16Test(unittest.TestCase, TilingTest):
 
     def setUp(self):
-        self.t = decahexahedroid()
+        self.t = cell16()
 
     def test_type(self):
         self.type_tiling4(self.t)
@@ -57,4 +57,20 @@ class DecahexahedroidTest(unittest.TestCase, TilingTest):
         self.assertEqual(len(self.t.edges), 24)
         self.assertEqual(len(self.t.faces), 32)
         self.assertEqual(len(self.t.volumes), 16)
+        self.assertEqual(len(self.t.hypervolumes), 1)
+
+
+class Cell24Test(unittest.TestCase, TilingTest):
+
+    def setUp(self):
+        self.t = cell24()
+
+    def test_type(self):
+        self.type_tiling4(self.t)
+
+    def test_numerics(self):
+        self.assertEqual(len(self.t.vertices), 24)
+        self.assertEqual(len(self.t.edges), 96)
+        self.assertEqual(len(self.t.faces), 96)
+        self.assertEqual(len(self.t.volumes), 24)
         self.assertEqual(len(self.t.hypervolumes), 1)

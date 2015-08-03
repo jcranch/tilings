@@ -98,7 +98,7 @@ class TilingTest():
                         self.assertIsInstance(v, Vector4, "volumes should be made up of frozensets made up of frozensets made up of vertices")
         self.assertIsInstance(t.hypervolumes, dict, "hypervolumes should form a dict")
         for h in t.hypervolumes:
-            self.assertIsInstance(g, frozenset, "hypervolumes should be frozensets")
+            self.assertIsInstance(h, frozenset, "hypervolumes should be frozensets")
             for g in h:
                 self.assertIsInstance(g, frozenset, "hypervolumes should be made up of frozensets")
                 for f in g:
