@@ -1,7 +1,7 @@
 from tiling4 import Tiling4
 from vector4 import Vector4
 from matrix4 import tetra4_volume, pentatope4_hypervolume
-
+from permutations import all_unique_permutation_plus_minus, only_even_unique_permutation_plus_minus
 
 def tiling4_polytope(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):
     """
@@ -149,12 +149,9 @@ def pentatope():
         Vector4(0, 0, 0, root5 - 1/root5): 4 }
     return tiling4_convex_hull(dictionary_of_vertices)
 
-
 def hypercube():
-    vertices = [Vector4(w,x,y,z)
-                for w in [-1,1] for x in [-1,1] for y in [-1,1] for z in [-1,1]]
-    return tiling4_convex_hull(zip(vertices, xrange(16)))
-
+    vertices = [Vector4(w,x,y,z) for (w,x,y,z) in all_unique_permutation_plus_minus([1,1,1,1])]
+    return tiling4_convex_hull(dict(zip(vertices,xrange(16))))
 
 def decahexahedroid():
     dictionary_of_vertices = {
@@ -167,3 +164,54 @@ def decahexahedroid():
         Vector4(0, 0, -1, 0): 6,
         Vector4(0, 0, 0, -1): 7 }
     return tiling4_convex_hull(dictionary_of_vertices)
+
+def icosatetrahedroid():
+    '''
+    The 24 Cell.
+    '''
+    vertices_1 = all_unique_permutation_plus_minus([2,0,0,0])
+    vertices_2 = all_unique_permutation_plus_minus([1,1,1,1])
+    vertices = [Vector4(w,x,y,z) for (w,x,y,z) in vertices_1 + vertices_2]
+    
+    return tiling4_convex_hull(dict(zip(vertices,xrange(24))))
+    
+def dual_icosatetrahedroid():
+    vertices = [Vector4(w,x,y,z) for (w,x,y,z) in all_unique_permutation_plus_minus([1,1,0,0])]
+    return tiling4_convex_hull(dict(zip(vertices,xrange(24))))   
+
+def hecantonicosahedroid(): 
+    ''' 
+    The 120 Cell.
+    '''
+    sqrt5 = 5**0.5
+    phi = (1+5**0.5)/2.0
+    phi2 = phi**2
+    phii = 1/phi
+    phi2i = 1/phi2
+    
+    vertices_11 = all_unique_permutation_plus_minus([2,2,0,0])
+    vertices_12 = all_unique_permutation_plus_minus([1,1,1,5**0.5])   
+    vertices_13 = all_unique_permutation_plus_minus([phi,phi,phi,phi2i])
+    vertices_14 = all_unique_permutation_plus_minus([phii,phii,phii,phi2])
+    vertices_1 = vertices_11 + vertices_12 + vertices_13 + vertices_14
+
+    vertices_21 = only_even_unique_permutation_plus_minus([0,phi**-2,1,phi**2])
+    vertices_22 = only_even_unique_permutation_plus_minus([0,phi**-1,phi,5**0.5])
+    vertices_23 = only_even_unique_permutation_plus_minus([phi**-1,1,phi,2])
+    vertices_2 = vertices_21 + vertices_22 + vertices_23
+    
+    vertices = [Vector4(w,x,y,z) for (w,x,y,z) in vertices_1 + vertices_2]
+    
+    return tiling4_convex_hull(dict(zip(vertices,xrange(600))))
+
+def hexacosidedroid(): 
+    '''
+    The 600 Cell.
+    '''
+    phi = (1 + 5**0.5)/2.0
+    vertices_1 = all_unique_permutation_plus_minus([1/2.0,1/2.0,1/2.0,1/2.0])
+    vertices_2 = all_unique_permutation_plus_minus([0,0,0,1.0])
+    vertices_3 = only_even_unique_permutation_plus_minus([phi,1,1/phi,0])
+    vertices = [Vector4(w,x,y,z) for (w,x,y,z) in vertices_1 + vertices_2 + vertices_3]
+
+    return tiling4_convex_hull(dict(zip(vertices,xrange(120))))
