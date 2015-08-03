@@ -91,3 +91,44 @@ class Tiling4():
         newg = dict((g,x) for (g,x) in self.volumes.iteritems() if any(f in newf for f in g))
         newh = dict((h,x) for (h,x) in self.hypervolumes.iteritems() if any(g in newg for g in h))
         return Tiling4(newv, newe, newf, newg, newh)
+
+def tiling4(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):
+    """
+    This function is designed to help make Tiling4 objects
+    corresponding to polytopes.
+    dict_vertices should be a dictionary with Vector4 objects
+    as values.
+    list_edges should be a list of lists where each sublists contains
+    two labels of vertices which corresponds to the edge defined by
+    joining those vertices; similarly for list_faces, list_volumes and list_hypervolumes.
+    """
+    dict_vertices = dict(dict_vertices)
+
+    # We reverse the keys and values for now and change them at the end.
+    dict_edges = {}
+    for edge in list_edges:
+        s = frozenset(edge)
+        dict_edges[s] = frozenset(dict_vertices[k] for k in edge)
+
+    dict_faces = {}
+    for face in list_faces:
+        s = frozenset(v for e in face for v in e)
+        dict_faces[s] = frozenset(dict_edges[frozenset(k)] for k in face)
+
+    dict_volumes = {}
+    for volume in list_volumes:
+        s = frozenset(v for f in volume for v in f)
+        dict_volumes[s] = frozenset(dict_faces[frozenset(k)] for k in volume)
+
+    hypervolumes = {}
+    for hypervolume in list_hypervolumes:
+        s = frozenset(v for g in hypervolume for v in g)
+        hypervolumes[frozenset(dict_volumes[frozenset(k)] for k in hypervolume)] = s
+
+    # Now we reverse the keys and values to correct position for a tiling4.
+    vertices = ((k,v) for (v,k) in dict_vertices.iteritems())
+    edges = ((k,v) for (v,k) in dict_edges.iteritems())
+    faces = ((k,v) for (v,k) in dict_faces.iteritems())
+    volumes = ((k,v) for (v,k) in dict_volumes.iteritems())
+
+    return Tiling4(vertices, edges, faces, volumes, hypervolumes)
