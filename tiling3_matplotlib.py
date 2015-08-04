@@ -16,8 +16,7 @@ default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgree
 
 
 
-def matplotlib_display_tiling3(tiling_3_on = True,axis_3D_intersection_tiling2_on = True,\
-                               tiling3 = cubic_tiling3(((-1,4),(-1,1),(-1,1))).translate(Vector3(0,0,-0.000051)),\
+def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_tiling2_on = True,\
                                intersection_colours = default_intersection_colours, intersection_alpha = 0.5,\
                                plane_z0_on = False ,plane_z0_alpha = 0.3,tiling3_colours = ['black'],plane_z0_colour = 'blue',\
                                tiling3_alpha = 0.5,initial_elevation = 20, initial_azimuth = 30, axis_3D_on = False,\
