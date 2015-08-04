@@ -4,6 +4,7 @@ from vector3 import Vector3
 from restrict32 import restrict32
 from common import cycle
 
+import os
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib import pyplot as plt
@@ -71,6 +72,10 @@ def full_animation_32(tiling3,frames = 100,polygon_count_on = True, tiling_3_on 
     - save_name : the name you wish to save the image as in save_on == True.
     - print_progress_on : this argument should be either True or False and determines if you want the progress of animation to be printed.
     '''
+    folder_name = "demos/"+save_name+"_png/"
+    
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
     raw_n_gon_count_results = []
     tiling2_faces = []
     tiling3_edges = []
@@ -201,7 +206,7 @@ def full_animation_32(tiling3,frames = 100,polygon_count_on = True, tiling_3_on 
                 , facecolor = intersection_colours[len(face)-3], ec='k', alpha = intersection_alpha))]
                 patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
-            figure.savefig(save_name + '_' + str(i) + '.png')
+            figure.savefig("demos/"+save_name+"_png/"+str(i))
         if print_progress_on == True:
             print str(int(float(i)/frames*100)) + '% completed.'
         return lines_face_count, lines, patches
