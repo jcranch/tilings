@@ -1,4 +1,4 @@
-from tiling3 import Tiling3, tiling3
+from tiling3 import tiling3
 from tau import tau
 from vector3 import Vector3, triangle3_area, tetra3_volume
 
