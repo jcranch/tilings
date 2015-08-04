@@ -1,46 +1,6 @@
-from tiling3 import Tiling3
+from tiling3 import Tiling3, tiling3
 from tau import tau
 from vector3 import Vector3, triangle3_area, tetra3_volume
-
-
-
-def tiling3_polyhedron(dict_vertices, list_edges, list_faces, list_volumes):
-    """
-    This function is designed to help make Tiling3 objects
-    corresponding to polyhedra.
-
-    dict_vertices should be a dictionary with Vector3 objects
-    as values.
-
-    list_edges should be a list of lists where each sublists contains
-    two labels of vertices which corresponds to the edge defined by
-    joining those vertices; similarly for list_faces and list_volumes.
-    """
-    dict_vertices = dict(dict_vertices)
-
-    # We reverse the keys and values for now and change them at the end.
-    dict_edges = {}
-    for edge in list_edges:
-        s = frozenset(edge)
-        dict_edges[s] = frozenset(dict_vertices[k] for k in edge)
-
-    dict_faces = {}
-    for face in list_faces:
-        s = frozenset(v for e in face for v in e)
-        dict_faces[s] = frozenset(dict_edges[frozenset(k)] for k in face)
-
-    volumes = {}
-    for volume in list_volumes:
-        s = frozenset(v for f in volume for v in f)
-        volumes[frozenset(dict_faces[frozenset(k)] for k in volume)] = s
-
-    # Now we reverse the keys and values to correct position for a tiling3 input.
-    vertices = ((k,v) for (v,k) in dict_vertices.iteritems())
-    edges = ((k,v) for (v,k) in dict_edges.iteritems())
-    faces = ((k,v) for (v,k) in dict_faces.iteritems())
-
-    return Tiling3(vertices, edges, faces, volumes)
-
 
 def tiling3_convex_hull(vertices, epsilon=1e-7):
     """
@@ -120,7 +80,7 @@ def tiling3_convex_hull(vertices, epsilon=1e-7):
     volumes = [faces]
     faces = [set(e for e in edges if e.issubset(f)) for f in faces]
     vertices = dict((v,k) for (k,v) in vertices.iteritems())
-    return tiling3_polyhedron(vertices, edges, faces, volumes)
+    return tiling3(vertices, edges, faces, volumes)
 
 
 def tetrahedron():
