@@ -41,15 +41,11 @@ default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgree
 
 
 
-def full_animation_43(frames = 10,polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True, \
-    tiling4 = hypercube(),\
-    transformation_function = rotate_transformation,\
-    intersection_colours = default_intersection_colours, intersection_alpha = 0.5,\
-    plane_z0_on = True ,rotate_view_on = True,\
-    plane_z0_alpha = 0.3,\
-    elevation_transformation = elevation_transformation_1, azimuth_transformation = azimuth_transformation_1,\
-    tiling3_colours = ['black'],plane_z0_colour = 'white',\
-    tiling3_alpha = 0.5,\
+def full_animation_43(tiling4,frames = 10,polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True,
+    transformation_function = rotate_transformation,intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
+    plane_z0_on = True ,rotate_view_on = True,plane_z0_alpha = 0.3,
+    elevation_transformation = elevation_transformation_1, azimuth_transformation = azimuth_transformation_1,
+    tiling3_colours = ['black'],plane_z0_colour = 'white',tiling3_alpha = 0.5,
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
     axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict43_animation', print_progress_on = True):
     '''
