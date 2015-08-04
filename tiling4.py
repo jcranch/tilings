@@ -29,7 +29,38 @@ class Tiling4():
             self.hypervolumes = dict(h)
 
     def __repr__(self):
-        return "Tiling4(%r, %r, %r, %r, %r)"%(self.vertices, self.edges, self.faces, self.volumes, self.hypervolumes)
+        '''
+        Produces outputs of the form that should be valid inputs for the tiling4 function.
+        '''
+        dict_vertices = dict([(v,k) for(k,v) in self.vertices.iteritems()])
+        
+        list_of_edges = list()
+        for i in self.edges.values():
+            list_of_edges.append(frozenset(list(i)))
+        set(list_of_edges) 
+        
+        list_of_faces = list()
+        for face in self.faces:
+            list_of_edge = set()
+            for edge in face:
+                list_of_edge.add(self.edges[edge])
+            list_of_faces.append(list_of_edge)
+        
+        list_of_volumes = list()
+        for volume in self.volumes:
+            list_of_face = set()
+            for face in volume:       
+                list_of_face.add(self.faces[face])
+            list_of_volumes.append(list_of_face)
+        
+        list_of_hypervolumes = list()
+        for hypervolume in self.hypervolumes:
+            list_of_volume = set()
+            for volume in hypervolume:       
+                list_of_volume.add(self.volumes[volume])
+            list_of_hypervolumes.append(list_of_volume)
+        
+        return "tiling4(%r, %r, %r, %r, %r)"%(dict_vertices, list_of_edges, list_of_faces, list_of_volumes, list_of_hypervolumes)
 
     def minw(self):
         return min(v.w for v in self.vertices)
