@@ -25,7 +25,31 @@ class Tiling3():
             self.volumes = dict(g)
 
     def __repr__(self):
-        return "Tiling3(%r, %r, %r, %r)"%(self.vertices, self.edges, self.faces, self.volumes)
+        '''
+        Produces outputs of the form that should be valid inputs for the tiling3 function.
+        '''
+        dict_vertices = dict([(v,k) for(k,v) in self.vertices.iteritems()])
+        
+        list_of_edges = list()
+        for i in self.edges.values():
+            list_of_edges.append(frozenset(list(i)))
+        set(list_of_edges) 
+        
+        list_of_faces = list()
+        for face in self.faces:
+            list_of_edge = set()
+            for edge in face:
+                list_of_edge.add(self.edges[edge])
+            list_of_faces.append(list_of_edge)
+        
+        list_of_volumes = list()
+        for volume in self.volumes:
+            list_of_face = set()
+            for face in volume:       
+                list_of_face.add(self.faces[face])
+            list_of_volumes.append(list_of_face)
+        
+        return "tiling3(%r, %r, %r, %r)"%(dict_vertices, list_of_edges, list_of_faces, list_of_volumes)
 
     def minx(self):
         return min(v.x for v in self.vertices)
@@ -208,3 +232,40 @@ def big_union3(tilings, epsilon=0.000001):
         f.update(t.faces)
         g.update(t.volumes)
     return Tiling3(v,e,f,g).sort_out_duplicates(epsilon)
+
+def tiling3(dict_vertices, list_edges, list_faces, list_volumes):
+    """
+    This function is designed to help make Tiling3 objects
+    corresponding to polyhedra.
+
+    dict_vertices should be a dictionary with Vector3 objects
+    as values.
+
+    list_edges should be a list of lists where each sublists contains
+    two labels of vertices which corresponds to the edge defined by
+    joining those vertices; similarly for list_faces and list_volumes.
+    """
+    dict_vertices = dict(dict_vertices)
+
+    # We reverse the keys and values for now and change them at the end.
+    dict_edges = {}
+    for edge in list_edges:
+        s = frozenset(edge)
+        dict_edges[s] = frozenset(dict_vertices[k] for k in edge)
+
+    dict_faces = {}
+    for face in list_faces:
+        s = frozenset(v for e in face for v in e)
+        dict_faces[s] = frozenset(dict_edges[frozenset(k)] for k in face)
+
+    volumes = {}
+    for volume in list_volumes:
+        s = frozenset(v for f in volume for v in f)
+        volumes[frozenset(dict_faces[frozenset(k)] for k in volume)] = s
+
+    # Now we reverse the keys and values to correct position for a tiling3 input.
+    vertices = ((k,v) for (v,k) in dict_vertices.iteritems())
+    edges = ((k,v) for (v,k) in dict_edges.iteritems())
+    faces = ((k,v) for (v,k) in dict_faces.iteritems())
+
+    return Tiling3(vertices, edges, faces, volumes)
