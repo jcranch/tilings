@@ -5,6 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def rotation_matrix_producer(normal = Vector3(1,0,0)):
+    '''
+    This function creates a special orthogonal matrix
+    that will rotate the vector Vector3(0,0,1) to the 
+    desired user-defined normal vector.
+    '''
     u = normal/normal.norm()
     v0 = random_norm1()
     v1 = v0-u*(u.dot(v0))
@@ -21,6 +26,12 @@ def rotation_matrix_producer(normal = Vector3(1,0,0)):
 def polyhedron_fixed_plane_exact_distribution(polyhedron, plane_vector_1, plane_vector_2, number_of_planes = 1000,
                                               colours = default_intersection_colours, epsilon = 0.00001, construction_lines_on = True,
                                               plot_on = True):
+    '''
+    This function takes a polyhedron and intersects it with a family of parallel planes
+    specified by the user and intersects the planes with the polyhedron. The function 
+    then calculates the proportion of which combination of faces were intersected and 
+    has an optional matplotlib display to demonstrate this.
+    '''
     bound = max(v.norm() for v in polyhedron.vertices)
     if plot_on == True:
         figure = matplotlib_display_tiling3(tiling3 = polyhedron, axis_3D_grid_on = True,user_defined_axis_3D_limit = False)  
@@ -83,6 +94,7 @@ def polyhedron_fixed_plane_exact_distribution(polyhedron, plane_vector_1, plane_
     # Now we find out where the planes spanned at the mid points of where the planes intersects normal vectors
     # intersect the faces of the polyhedron.
     for key in dictionary_of_distributions:
+        # We only consider vertices are not epsilon apart as they are probably duplicates due to symetry.
         if key[0].distance(key[1]) >epsilon:
             mid_point = (key[0]+key[1])/2.0
             n = 1.0
