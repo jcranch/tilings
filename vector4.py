@@ -40,6 +40,9 @@ class Vector4():
     def __div__(self, s):
         return Vector4(self.w/s, self.x/s, self.y/s, self.z/s)
 
+    def dot(self, other):
+        return self.w*other.w + self.x*other.x + self.y*other.y + self.z*other.z
+
     def norm(self):
         return sqrt(self.w*self.w + self.x*self.x + self.y*self.y + self.z*self.z)
 
