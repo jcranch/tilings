@@ -4,6 +4,20 @@ from vector3 import Vector3
 import numpy as np
 import matplotlib.pyplot as plt
 
+def rotation_matrix_producer(normal = Vector3(1,0,0)):
+    u = normal/normal.norm()
+    v0 = random_norm1()
+    v1 = v0-u*(u.dot(v0))
+    v = v1/(v1.norm())
+    w0 = random_norm1()
+    w1 = w0-u*(u.dot(w0))-v*(v.dot(w0))
+    w = w1/(w1.norm())
+    m = Matrix3([v,w,u])
+    if m.determinant() < 0:
+        return Matrix3([v,-w,u])
+    else:
+        return m
+
 def polyhedron_fixed_plane_exact_distribution(polyhedron, plane_vector_1, plane_vector_2, number_of_planes = 1000,
                                               colours = default_intersection_colours, epsilon = 0.00001, construction_lines_on = True,
                                               plot_on = True):
