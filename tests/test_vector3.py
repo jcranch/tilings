@@ -9,9 +9,9 @@ class Vector3Tests(unittest.TestCase):
         v2 = Vector3(1,0,0)
         v3 = Vector3(0,0,0)
         v4 = Vector3(0,sqrt(3)/2,0)
-        self.assertEqual(v.norm() , sqrt(v.dot(v)))    
-        self.assertEqual((v/v.norm()).norm(), 1)
-        self.assertEqual(v.distance(v), 0)
+        self.assertEqual(v1.norm() , sqrt(v1.dot(v1)))    
+        self.assertEqual((v1/v1.norm()).norm(), 1)
+        self.assertEqual(v1.distance(v1), 0)
         self.assertEqual(triangle3_area(v2,v3,v4),sqrt(3)/4)
                
     def test_type(self):
