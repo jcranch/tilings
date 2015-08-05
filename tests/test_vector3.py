@@ -20,7 +20,9 @@ class Vector3Tests(unittest.TestCase):
         m = Matrix3([[1,1,1],[2,2,2],[3,3,3]])
         self.assertTrue(isinstance(v1.cross(v2),Vector3))
         self.assertTrue(isinstance(v1*10, Vector3))
+        self.assertTrue(isinstance(v1/10, Vector3))
         self.assertTrue(isinstance(v1+v2, Vector3))
+        self.assertTrue(isinstance(v1-v2, Vector3))
         self.assertTrue(isinstance(m(v1), Vector3))
         self.assertTrue(isinstance(v1.dot(v2), float))
      
