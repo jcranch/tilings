@@ -26,8 +26,8 @@ def cell120():
     The 120 Cell.
     '''
     tau2 = tau*tau
-    taui = tau.conj()
-    tau2i = tau2.conj()
+    taui = 1.0/float(tau)
+    tau2i = 1.0/float(tau2)
 
     def vertices():
         for p in all_permutations_plus_minus([2,2,0,0]):
