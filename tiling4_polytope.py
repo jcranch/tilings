@@ -1,3 +1,4 @@
+from collections import defaultdict
 import time
 
 from tiling4 import tiling4
@@ -5,17 +6,21 @@ from vector4 import Vector4
 from matrix4 import tetra4_volume, pentatope4_hypervolume
 from permutations import plus_minuses
 
-def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False):
+def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_per_vertex=None):
     """
     Takes a dictionary of vertices, and creates a polyhedron given by
     the convex hull.
+
+    If max_volumes_per_vertex is set, only looks for that number of
+    volumes around each vertex.
     """
     start_time = time.time()
     vertices = dict(vertices)
     l_vertices = list(vertices)
     n = len(l_vertices)
     volumes = []
-    
+    vcount = defaultdict(int)
+
     def cohyperplanar(h,i,j,k):
         """
         Find the vertices in the same hyperplane as vertices h,i,j,k.
@@ -60,13 +65,24 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False):
                 side2 = True
         return level
 
+    def gotenough(i):
+        return max_volumes_per_vertex is not None and vcount[i] >= max_volumes_per_vertex
+
     # Produce the volumes: they're the maximal subsets of cohyperplanar
     # vertices, with the property that every other vertex is on the
     # same side.
     for h in xrange(n-3):
+        if gotenough(h):
+            continue
         for i in xrange(h+1,n-2):
+            if gotenough(i):
+                continue
             for j in xrange(i+1,n-1):
+                if gotenough(j):
+                    continue
                 for k in xrange(j+1,n):
+                    if gotenough(k):
+                        continue
                     level = cohyperplanar(h,i,j,k)
                     if level is not None:
                         volumes.append(level)
@@ -74,8 +90,16 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False):
                             elapsed = time.time() - start_time
                             hours, elapsed = divmod(elapsed, 3600)
                             minutes, elapsed = divmod(elapsed, 60)
-                            seconds, elapsed = divmod(elapsed, 1) 
+                            seconds, elapsed = divmod(elapsed, 1)
                             print "  found %d volumes (after %02d:%02d:%02d.%02d)"%(len(volumes), int(hours), int(minutes), int(seconds), int(elapsed*100))
+                        for x in level:
+                            vcount[x] += 1
+                        if gotenough(j) or gotenough(i) or gotenough(h):
+                            break
+                if gotenough(i) or gotenough(h):
+                    break
+            if gotenough(h):
+                break
     volumes = [frozenset(vertices[l_vertices[i]] for i in l) for l in volumes]
 
     # The faces are the intersections of the volumes that have at
@@ -143,4 +167,3 @@ def cell120():
 def cell600():
     with open("autotilings/cell600.data", 'r') as f:
         return(eval(f.read()))
-

@@ -19,15 +19,17 @@ def cell24():
             yield p
 
     vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
-    return tiling4_convex_hull(dict(zip(vs,xrange(24))), statusreport=True)
+    return tiling4_convex_hull(dict(zip(vs,xrange(24))),
+                               statusreport=True,
+                               max_volumes_per_vertex=6)
 
 def cell120():
     '''
     The 120 Cell.
     '''
     tau2 = tau*tau
-    taui = 1.0/float(tau)
-    tau2i = 1.0/float(tau2)
+    taui = -tau.conj()
+    tau2i = taui*taui
 
     def vertices():
         for p in all_permutations_plus_minus([2,2,0,0]):
@@ -47,7 +49,9 @@ def cell120():
 
     vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
 
-    return tiling4_convex_hull(dict(zip(vs,xrange(600))), statusreport=True)
+    return tiling4_convex_hull(dict(zip(vs,xrange(600))),
+                               statusreport=True,
+                               max_volumes_per_vertex=4)
 
 def cell600():
     '''

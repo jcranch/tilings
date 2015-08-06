@@ -76,7 +76,6 @@ class Cell24Test(unittest.TestCase, TilingTest):
         self.assertEqual(len(self.t.hypervolumes), 1)
 
 
-@unittest.skip("We don't have a 120-cell yet.")
 class Cell120Test(unittest.TestCase, TilingTest):
 
     def setUp(self):

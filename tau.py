@@ -9,8 +9,21 @@ class GoldenInteger():
         self.a = a
         self.b = b
 
+    def __eq__(self, other):
+        if isinstance(other,int):
+            return self.b==0 and self.a==other
+        elif isinstance(other,GoldenInteger):
+            return self.a==other.a and self.b==other.b
+        elif isinstance(other,float):
+            return self.float==other
+        else:
+            return False
+
     def __hash__(self):
-        return hash((GoldenInteger, self.a, self.b))
+        if self.b==0:
+            return hash(self.a)
+        else:
+            return hash((GoldenInteger, self.a, self.b))
 
     def __repr__(self):
         return "%d + %d*tau"%(self.a, self.b)
