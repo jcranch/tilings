@@ -10,6 +10,10 @@ class PentatopeTest(unittest.TestCase, TilingTest):
     def setUp(self):
         self.t = pentatope()
 
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
+
     def test_type(self):
         self.type_tiling4(self.t)
 
@@ -33,6 +37,10 @@ class HypercubeTest(unittest.TestCase, TilingTest):
     def setUp(self):
         self.t = hypercube()
 
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
+
     def test_type(self):
         self.type_tiling4(self.t)
 
@@ -48,6 +56,10 @@ class Cell16Test(unittest.TestCase, TilingTest):
 
     def setUp(self):
         self.t = cell16()
+
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
 
     def test_type(self):
         self.type_tiling4(self.t)
@@ -65,6 +77,10 @@ class Cell24Test(unittest.TestCase, TilingTest):
     def setUp(self):
         self.t = cell24()
 
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
+
     def test_type(self):
         self.type_tiling4(self.t)
 
@@ -81,6 +97,10 @@ class Cell120Test(unittest.TestCase, TilingTest):
     def setUp(self):
         self.t = cell120()
 
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
+
     def test_type(self):
         self.type_tiling4(self.t)
 
@@ -96,6 +116,10 @@ class Cell600Test(unittest.TestCase, TilingTest):
 
     def setUp(self):
         self.t = cell600()
+
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
 
     def test_type(self):
         self.type_tiling4(self.t)

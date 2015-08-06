@@ -6,6 +6,16 @@ from vector4 import Vector4
 
 class TilingTest():
 
+    def assertSpherical(self, t):
+        l = list(v.norm() for v in t.vertices)
+        for (d1,d2) in zip(l, l[1:]):
+            self.assertAlmostEqual(d1, d2)
+
+    def assertEqualEdgeLengths(self, t):
+        l = list((v1-v2).norm() for (v1,v2) in t.edges)
+        for (e1,e2) in zip(l, l[1:]):
+            self.assertAlmostEqual(e1, e2)
+
     def type_tiling1(self, t):
         """
         Check that a 1D tiling is made of the things it is supposed to.

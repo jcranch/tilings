@@ -10,6 +10,10 @@ class TetrahedronTest(unittest.TestCase, TilingTest):
     def setUp(self):
         self.t = tetrahedron()
 
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
+
     def test_type(self):
         self.type_tiling3(self.t)
 
@@ -24,6 +28,10 @@ class CubeTest(unittest.TestCase, TilingTest):
 
     def setUp(self):
         self.t = cube()
+
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
 
     def test_type(self):
         self.type_tiling3(self.t)
@@ -40,6 +48,10 @@ class OctahedronTest(unittest.TestCase, TilingTest):
     def setUp(self):
         self.t = octahedron()
 
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
+
     def test_type(self):
         self.type_tiling3(self.t)
 
@@ -55,6 +67,10 @@ class DodecahedronTest(unittest.TestCase, TilingTest):
     def setUp(self):
         self.t = dodecahedron()
 
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
+
     def test_type(self):
         self.type_tiling3(self.t)
 
@@ -69,6 +85,10 @@ class IcosahedronTest(unittest.TestCase, TilingTest):
 
     def setUp(self):
         self.t = icosahedron()
+
+    def test_equilateral(self):
+        self.assertSpherical(self.t)
+        self.assertEqualEdgeLengths(self.t)
 
     def test_type(self):
         self.type_tiling3(self.t)
