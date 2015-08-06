@@ -94,7 +94,7 @@ def polyhedron_fixed_plane_exact_distribution(polyhedron, plane_vector_1, plane_
     # Now we find out where the planes spanned at the mid points of where the planes intersects normal vectors
     # intersect the faces of the polyhedron.
     for key in dictionary_of_distributions:
-        # We only consider vertices are not epsilon apart as they are probably duplicates due to symetry.
+        # We do not consider vertices are epsilon apart as they are probably duplicates due to symetry.
         if key[0].distance(key[1]) >epsilon:
             mid_point = (key[0]+key[1])/2.0
             n = 1.0
