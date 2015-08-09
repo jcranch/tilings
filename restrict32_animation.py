@@ -16,7 +16,7 @@ def rotate_transformation(tiling3, i,rate = 10.0, theta_x = 0.0, theta_y = 0.0,t
     return tiling3.deform(rotation_matrix)
 
 def rotate_z_transformation(tiling3,i,rate):
-    rotation_matrix = rotate_z(theta_z+i/rate)
+    rotation_matrix = rotate_z(i/rate)
     return tiling3.deform(rotation_matrix)
 
 def translate_z(tiling3, i, rate = 20.0):
