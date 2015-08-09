@@ -1,4 +1,3 @@
-from tiling4_polytope import hypercube
 from matrix4 import rotate_wx, rotate_wy, rotate_wz, rotate_xy, rotate_xz, rotate_yz
 from vector4 import Vector4
 from restrict43 import restrict43
