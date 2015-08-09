@@ -43,7 +43,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
     axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict43_animation', print_progress_on = True):
     '''
     This function creates a series of png files saved to a demos folder that show the desired polytope intersecting 
-    z = 0
+    z = 0.
     '''
     folder_name = "demos/"+save_name+"_png/"
     
