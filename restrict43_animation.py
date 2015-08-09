@@ -174,7 +174,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
             axis_2D.clear()
             for (n,face) in enumerate(tiling2_faces[i]):
                 patches += [axis_2D.add_patch(plt.Polygon(0 * np.array([(v.x, v.y) for v in cycle(face)])\
-                , facecolor = intersection_colours[len(face)-3], ec='k', alpha = intersection_alpha))]
+                , facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)], ec='k', alpha = intersection_alpha))]
                 patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
             figure.savefig("demos/"+save_name+"_png/"+str(i))
