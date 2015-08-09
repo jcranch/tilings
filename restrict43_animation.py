@@ -4,22 +4,21 @@ from vector4 import Vector4
 from restrict43 import restrict43
 from restrict32 import restrict32
 from common import cycle
+from tiling3_matplotlib import default_intersection_colours
 
 import os
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.colors import cnames
-from matplotlib import animation
 import numpy as np
-import itertools
 
 
 
-def rotate_transformation(tiling3, i, theta_wx = np.pi, theta_wy= np.pi,theta_wz= np.pi, theta_xy= np.pi, theta_xz= np.pi, theta_yz= np.pi):
-    rotation_matrix = rotate_wx(theta_wx*i/300.0) * rotate_wy(theta_wy*i/300.0)*rotate_wz(theta_wz*i/300.0)\
-    *rotate_xy(theta_xy*i/300.0)*rotate_xz(theta_xz+i/300.0)*rotate_yz(theta_yz*i/300.0)
+
+def uniform_rotate_transformation(tiling3, i, rate = 20.0, theta_wx = np.pi, theta_wy= np.pi,theta_wz= np.pi, theta_xy= np.pi, theta_xz= np.pi, theta_yz= np.pi):
+    rotation_matrix = rotate_wx(theta_wx+i/rate) * rotate_wy(theta_wy+i/rate)*rotate_wz(theta_wz+i/rate)\
+    *rotate_xy(theta_xy+i/rate)*rotate_xz(theta_xz+i/rate)*rotate_yz(theta_yz*i/rate)
     return tiling3.deform(rotation_matrix)
 
 def identity_transformation(tiling, i = 0):
@@ -35,39 +34,17 @@ def azimuth_transformation_1(i):
     return i/10.0
 
 
-
-default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple','blue','darkred','darkblue','lightgreen']
-
-
-
-
-
-def full_animation_43(tiling4,frames = 10,polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True,
-    transformation_function = rotate_transformation,intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
+def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rotate_transformation,
+    polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True,
+    intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
     plane_z0_on = True ,rotate_view_on = True,plane_z0_alpha = 0.3,
     elevation_transformation = elevation_transformation_1, azimuth_transformation = azimuth_transformation_1,
     tiling3_colours = ['black'],plane_z0_colour = 'white',tiling3_alpha = 0.5,
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
     axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict43_animation', print_progress_on = True):
     '''
-    Arguments:
-    - frames : the number of times we wish to aply the transformation function and record the results.
-    - blit_on : this argument should be either True or False and determine whether or not blit is on or off in the animation,
-    - polygon_count_on : this argument should be either True or False and determine whether or not polygon count is on or off in the animation,
-    - tiling_3_on : this argument should be either True or False and determine whether or not tiling3 is on or off in the animation,
-    - intersection_tiling2_on : this argument should be either True or False and determine whether or not the intersection tiling2 is on or off in the animation,
-    - transformation_function : the transformation we wish to apply th the tiling3. This function shouls return a tiling3.
-    - intersection_colours : the colours used in the intersection tiling 2.
-    - intersection_alpha : determines the transparancy of these colours should be a number n s.t. 0 <= n <= 1.
-    - plane_z0_on : this argument should be either True or False and determine whether or not the plane z = 0 is on or off in the animation,
-    - rotate_view_on : this argument should be either True or False and determine whethter or not the tiling3 animation will have a fixed view or not.
-    - elevation_transformation : if rotate_view_on == True then this function determines how the elevation changes with respect to each frame and ret
-    - azimuth_transformation : similar to elevation_transformation.
-    - tiling3_colours : determines the colour of the edges in the tiling3.
-    - tiling3_alpha : determines the transparancy of these colours should be a number n s.t. 0 <= n <= 1.
-    - save_on : this argument should be either True or False and determine whether or not the animation is saved as a .png file.
-    - save_name : the name you wish to save the image as in save_on == True.
-    - print_progress_on : this argument should be either True or False and determines if you want the progress of animation to be printed.
+    This function creates a series of png files saved to a demos folder that show the desired polytope intersecting 
+    z = 0
     '''
     folder_name = "demos/"+save_name+"_png/"
     
@@ -145,7 +122,7 @@ def full_animation_43(tiling4,frames = 10,polygon_count_on = True, tiling_3_on =
 
 
 
-    def animate(i):
+    for i in range(frames):
         #face_count
         if polygon_count_on == True:
             x_s = range(1,i+2)
@@ -207,5 +184,5 @@ def full_animation_43(tiling4,frames = 10,polygon_count_on = True, tiling_3_on =
             figure.savefig("demos/"+save_name+"_png/"+str(i))
         if print_progress_on == True:
             print str(int(float(i)/frames*100)) + '% completed.'
-        return lines_face_count, lines, patches
-    return animation.FuncAnimation(figure, animate, frames = frames, interval = 20, blit = True)
+        
+    return None
