@@ -12,14 +12,18 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
-
-
-
 def uniform_rotate_transformation(tiling3, i, rate = 20.0, theta_wx = np.pi, theta_wy= np.pi,theta_wz= np.pi, theta_xy= np.pi, theta_xz= np.pi, theta_yz= np.pi):
     rotation_matrix = rotate_wx(theta_wx+i/rate) * rotate_wy(theta_wy+i/rate)*rotate_wz(theta_wz+i/rate)\
     *rotate_xy(theta_xy+i/rate)*rotate_xz(theta_xz+i/rate)*rotate_yz(theta_yz*i/rate)
     return tiling3.deform(rotation_matrix)
 
+def rotate_wz_transformation(tiling4,i,rate):
+    rotation_matrix = rotate_wz(i/rate)
+    return tiling3.deform(rotation_matrix)
+
+def translate_z(tiling3, i, rate = 20.0):
+    max_z = tiling4.maxz()
+    return tiling4.translate(Vector4(0,0,0,max_z-i/rate))
 def identity_transformation(tiling, i = 0):
     return tiling
 
@@ -31,7 +35,6 @@ def elevation_transformation_1(i):
 
 def azimuth_transformation_1(i):
     return i/10.0
-
 
 def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rotate_transformation,
     polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True,
@@ -63,9 +66,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
         if intersection_tiling2_on == True:
             tiling2_faces += [transforming_2d_intersection.faces.keys()]
 
-
     # For polygon count.
-
     distinct_n_gons_found = []
     for dictionary_of_n_gons in raw_n_gon_count_results:
         for n_gon in dictionary_of_n_gons:
@@ -82,8 +83,6 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
                     max_number_of_faces = raw_n_gon_count_results[frame][n_gon]
             else :
                 data_lines[n_gon] += [0.0]
-
-
 
     figure = plt.figure(figsize=(20,15))
 
@@ -118,8 +117,6 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
         for n_gon in data_lines:
             lines_face_count += [axis_polygon_count.plot([],[],'', label = str(n_gon),color = intersection_colours[n_gon-3],\
                                                          alpha = intersection_alpha)[0]]
-
-
 
     for i in range(frames):
         #face_count
@@ -183,5 +180,5 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
             figure.savefig("demos/"+save_name+"_png/"+str(i))
         if print_progress_on == True:
             print str(int(float(i)/frames*100)) + '% completed.'
-        
+            
     return None
