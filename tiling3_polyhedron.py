@@ -121,3 +121,7 @@ def icosahedron():
                 for q in [tau, -tau]
                 for v in [Vector3(p,q,0), Vector3(q,0,p), Vector3(0,p,q)]]
     return tiling3_convex_hull(dict(zip(vertices,xrange(12))))
+
+regular_polytopes_3d = {'tetrahedron': tetrahedron(), 'cube':cube(), 'octahedron' : octahedron(), 
+                         'dodecahedron': dodecahedron(), 'icosahedron' : icosahedron()}
+    
