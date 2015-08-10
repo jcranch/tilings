@@ -169,3 +169,7 @@ def cell120():
 def cell600():
     with open(os.path.join("autotilings", "cell600.data"), 'r') as f:
         return(eval(f.read()))
+
+
+regular_polytopes_4d = {'pentatope': pentatope(), 'hypercube' : hypercube(), 'cell16': cell16(),
+                     'cell24':cell24(), 'cell120':cell120(), 'cell600': cell600()}
