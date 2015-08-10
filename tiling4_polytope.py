@@ -1,10 +1,12 @@
 from collections import defaultdict
+import os
 import time
 
 from tiling4 import tiling4
 from vector4 import Vector4
 from matrix4 import tetra4_volume, pentatope4_hypervolume
 from permutations import plus_minuses
+
 
 def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_per_vertex=None):
     """
@@ -157,13 +159,13 @@ def cell16():
     return tiling4_convex_hull(dictionary_of_vertices)
 
 def cell24():
-    with open("autotilings/cell24.data", 'r') as f:
+    with open(os.path.join("autotilings", "cell24.data"), 'r') as f:
         return(eval(f.read()))
 
 def cell120():
-    with open("autotilings/cell120.data", 'r') as f:
+    with open(os.path.join("autotilings", "cell120.data"), 'r') as f:
         return(eval(f.read()))
 
 def cell600():
-    with open("autotilings/cell600.data", 'r') as f:
+    with open(os.path.join("autotilings", "cell600.data"), 'r') as f:
         return(eval(f.read()))

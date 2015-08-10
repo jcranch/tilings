@@ -83,20 +83,20 @@ if __name__=="__main__":
         if v == "cell24":
             print "cell24:"
             c = cell24()
-            with open("autotilings/cell24.data", 'w') as f:
+            with open(os.path.join("autotilings", "cell24.data"), 'w') as f:
                 f.write(repr(c))
 
         elif v == "cell120":
             print "cell120:"
             c = cell120()
-            with open("autotilings/cell120.data", 'w') as f:
+            with open(os.path.join("autotilings", "cell120.data"), 'w') as f:
                 f.write(repr(c))
 
         elif v == "cell600":
             print "cell600:"
             c = cell600()
-            with open("autotilings/cell600.data", 'w') as f:
+            with open(os.path.join("autotilings", "cell600.data"), 'w') as f:
                 f.write(repr(c))
-                
+
         else:
             raise ValueError("Argument unrecognised: " + v)

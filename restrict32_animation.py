@@ -41,7 +41,7 @@ def special_transformation_1(tiling3, i, theta_x = 5**0.5*10.0, theta_y = 2**0.5
 
 
 def full_animation_32(tiling3,frames = 10,transformation_function = special_transformation_1,polygon_count_on = True,
-    tiling_3_on = True, intersection_tiling2_on = True, 
+    tiling_3_on = True, intersection_tiling2_on = True,
     intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
     plane_z0_on = True ,rotate_view_on = True,
     plane_z0_alpha = 0.3,
@@ -51,13 +51,13 @@ def full_animation_32(tiling3,frames = 10,transformation_function = special_tran
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
     axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict32_animation', print_progress_on = True):
     '''
-    This function creates a series of png files saved to a demos folder that show the desired polytope intersecting 
-    z = 0.    
+    This function creates a series of png files saved to a demos folder that show the desired polytope intersecting
+    z = 0.
     '''
-    folder_name = "demos/"+save_name+"_png/"
-    
+    folder_name = os.path.join("demos", save_name+"_png/")
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
+
     raw_n_gon_count_results = []
     tiling2_faces = []
     tiling3_edges = []
@@ -184,7 +184,7 @@ def full_animation_32(tiling3,frames = 10,transformation_function = special_tran
                 , facecolor = intersection_colours[len(face)-3], ec='k', alpha = intersection_alpha))]
                 patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
-            figure.savefig("demos/"+save_name+"_png/"+str(i))
+            figure.savefig(os.path.join(folder_name, str(i)))
         if print_progress_on == True:
             print str(int(float(i)/frames*100)) + '% completed.'
     return None
