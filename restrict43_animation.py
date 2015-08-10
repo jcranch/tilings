@@ -17,30 +17,36 @@ def uniform_rotate_transformation(tiling3, i, rate = 20.0, theta_wx = np.pi, the
     *rotate_xy(theta_xy+i/rate)*rotate_xz(theta_xz+i/rate)*rotate_yz(theta_yz*i/rate)
     return tiling3.deform(rotation_matrix)
 
-def rotate_wz_transformation(tiling4,i,rate):
+def rotate_wz_transformation(tiling4,i,rate = 20.0):
     rotation_matrix = rotate_wz(i/rate)
-    return tiling3.deform(rotation_matrix)
+    return tiling4.deform(rotation_matrix)
 
-def translate_z(tiling3, i, rate = 20.0):
+def rotate_wx_transformation(tiling4,i,rate = 20.0):
+    rotation_matrix = rotate_wx(i/rate)
+    return tiling4.deform(rotation_matrix)
+
+def translate_z(tiling4, i,rate = 50.0):
     max_z = tiling4.maxz()
-    return tiling4.translate(Vector4(0,0,0,max_z-i/rate))
+    min_z = tiling4.minz()
+    return tiling4.translate(Vector4(0,0,0.0000001,abs(min_z)-i/rate+0.0000000000001))
+
 def identity_transformation(tiling, i = 0):
     return tiling
 
 def scale(i,scalar = -1/1.0):
     return float(i * scalar)
 
-def elevation_transformation_1(i):
-    return np.sin(i/10.0)*0.0
+def elevation_transformation_fixed(i, elevation = 20.0):
+    return elevation
 
-def azimuth_transformation_1(i):
-    return i/10.0
+def azimuth_transformation_rate(i, rate = 2.0):
+    return i/float(rate)
 
 def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rotate_transformation,
     polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True,
     intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
     plane_z0_on = True ,rotate_view_on = True,plane_z0_alpha = 0.3,
-    elevation_transformation = elevation_transformation_1, azimuth_transformation = azimuth_transformation_1,
+    elevation_transformation = elevation_transformation_fixed, azimuth_transformation = azimuth_transformation_rate,
     tiling3_colours = ['black'],plane_z0_colour = 'white',tiling3_alpha = 0.5,
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
     axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict43_animation', print_progress_on = True):
@@ -115,7 +121,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
         axis_polygon_count.grid(True)
         lines_tiling3 = []
         for n_gon in data_lines:
-            lines_face_count += [axis_polygon_count.plot([],[],'', label = str(n_gon),color = intersection_colours[n_gon-3],\
+            lines_face_count += [axis_polygon_count.plot([],[],'', label = str(n_gon),color = intersection_colours[(n_gon-3)%len(intersection_colours)],\
                                                          alpha = intersection_alpha)[0]]
 
     for i in range(frames):
@@ -153,7 +159,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
             if axis_3D_intersection_tiling2_on == True:
                 for (j,face) in enumerate(tiling2_faces[i]):
                     polygon_tiles += [axis_3D.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],\
-                    facecolor = intersection_colours[len(face)-3],edgecolor = 'black',alpha = intersection_alpha))]
+                    facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)],edgecolor = 'black',alpha = intersection_alpha))]
             x_s = []
             y_s = []
             z_s = []
@@ -168,7 +174,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
             for (j,line) in enumerate(lines):
                 line.set_data(x_s[j],y_s[j])
                 line.set_3d_properties(z_s[j])
-       #2D
+        #2D
         patches = []
         if intersection_tiling2_on == True:
             axis_2D.clear()
