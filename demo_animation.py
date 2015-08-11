@@ -13,10 +13,11 @@ def make_translate_z(name, polytope):
                       save_name = name)
 
 def make_rotate_wx(name, polytope):
-    full_animation_43(tiling4 = regular_polytopes[polytope].translate(Vector4(0,0,0.000000001,0.0000000001)),
+    epsilon = Vector4(1e-9,1e-9,1e-9,1e-9)
+    full_animation_43(tiling4 = polytope.translate(epsilon),
                       frames = 180,
 	              transformation_function = rotate_wx_transformation,
-                      save_name = polytope +'_rotate_wx')
+                      save_name = name)
 
 if __name__=="__main__":
     for a in sys.argv[1:]:

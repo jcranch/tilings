@@ -124,4 +124,4 @@ if __name__=="__main__":
     draw_triangular(demo_directory)
 
     print "draw_hexagonal"
-    draw_hexagonal()
+    draw_hexagonal(demo_directory)
