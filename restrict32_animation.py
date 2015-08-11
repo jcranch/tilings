@@ -184,7 +184,7 @@ def full_animation_32(tiling3,frames = 10,transformation_function = special_tran
                 , facecolor = intersection_colours[len(face)-3], ec='k', alpha = intersection_alpha))]
                 patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
-            figure.savefig(os.path.join(folder_name, str(i)))
+            figure.savefig(os.path.join(folder_name, "img%06d.png"%(i+1,)))
         if print_progress_on == True:
             print str(int(float(i)/frames*100)) + '% completed.'
     return None

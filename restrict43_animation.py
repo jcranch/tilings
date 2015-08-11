@@ -49,7 +49,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
     elevation_transformation = elevation_transformation_fixed, azimuth_transformation = azimuth_transformation_rate,
     tiling3_colours = ['black'],plane_z0_colour = 'white',tiling3_alpha = 0.5,
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
-    axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict43_animation', print_progress_on = True):
+    axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict43_animation', print_progress = True):
     '''
     This function creates a series of png files saved to a demos folder that show the desired polytope intersecting
     z = 0.
@@ -61,7 +61,7 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
     raw_n_gon_count_results = []
     tiling2_faces = []
     tiling3_edges = []
-    for frame in range(frames):
+    for frame in xrange(frames):
         transforming_4d_tiling = transformation_function(tiling4, frame)
         transforming_3d_tiling = restrict43(transforming_4d_tiling)
         transforming_2d_intersection = restrict32(transforming_3d_tiling).clip(-20,20,-20,20)
@@ -183,8 +183,8 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
                 , facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)], ec='k', alpha = intersection_alpha))]
                 patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
-            figure.savefig(os.path.join(folder_name, str(i)))
-        if print_progress_on == True:
+            figure.savefig(os.path.join(folder_name, "img%06d.png"%(i+1,)))
+        if print_progress == True:
             print str(int(float(i)/frames*100)) + '% completed.'
 
     return None
