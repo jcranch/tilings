@@ -2,6 +2,7 @@ all: build-posters build-animation
 
 clean:
 	rm -f demos/*.eps demos/*.pdf demos/*.png
+	rm -f demos/*.mp4
 	rm -rf demos/*_png
 	rm -f posters/*.aux posters/*.log posters/*.pdf
 
@@ -33,12 +34,17 @@ VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \
 build-animation: $(VIDEOS)
 
 demos/%.mp4: demos/%_png/img000001.png
-	avconv -y -framerate 25 -i demos/$*_png/img%06d.png -c:v libx264 -r 30 -pix_fmt yuv420p $@
+	avconv -y -framerate 15 -i demos/$*_png/img%06d.png -c:v libx264 -r 30 -pix_fmt yuv420p $@
 
 demos/%_png/img000001.png: demo_animation.py
 	python demo_animation.py $*
 
 
-build-polytopes:
-	python tiling4_make_polytopes.py cell24 cell120 cell600
+POLYTOPES = autotilings/cell24.data \
+            autotilings/cell120.data \
+            autotilings/cell600.data
 
+build-polytopes: $(POLYTOPES)
+
+autotilings/%.data:
+	python tiling4_make_polytopes.py $*

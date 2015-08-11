@@ -4,6 +4,7 @@ from restrict43 import restrict43
 from restrict32 import restrict32
 from common import cycle
 from tiling3_matplotlib import default_intersection_colours
+from progress import progressrange
 
 import os
 from mpl_toolkits.mplot3d import Axes3D
@@ -42,7 +43,7 @@ def elevation_transformation_fixed(i, elevation = 20.0):
 def azimuth_transformation_rate(i, rate = 2.0):
     return i/float(rate)
 
-def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rotate_transformation,
+def full_animation_43(tiling4, frames = 10, transformation_function = uniform_rotate_transformation,
     polygon_count_on = True, tiling_3_on = True, intersection_tiling2_on = True,
     intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
     plane_z0_on = True ,rotate_view_on = True,plane_z0_alpha = 0.3,
@@ -124,7 +125,8 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
             lines_face_count += [axis_polygon_count.plot([],[],'', label = str(n_gon),color = intersection_colours[(n_gon-3)%len(intersection_colours)],\
                                                          alpha = intersection_alpha)[0]]
 
-    for i in range(frames):
+    
+    for i in progressrange(frames, name=save_name, visible=print_progress):
         #face_count
         if polygon_count_on == True:
             x_s = range(1,i+2)
@@ -184,7 +186,5 @@ def full_animation_43(tiling4,frames = 10,transformation_function = uniform_rota
                 patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
             figure.savefig(os.path.join(folder_name, "img%06d.png"%(i+1,)))
-        if print_progress == True:
-            print str(int(float(i)/frames*100)) + '% completed.'
 
     return None

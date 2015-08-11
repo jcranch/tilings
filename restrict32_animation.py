@@ -2,6 +2,7 @@ from matrix3 import rotate_x, rotate_y,rotate_z
 from vector3 import Vector3
 from restrict32 import restrict32
 from common import cycle
+from progress import progressrange
 
 import os
 from mpl_toolkits.mplot3d import Axes3D
@@ -49,7 +50,7 @@ def full_animation_32(tiling3,frames = 10,transformation_function = special_tran
     tiling3_colours = ['black'],plane_z0_colour = 'white',
     tiling3_alpha = 0.5,
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
-    axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict32_animation', print_progress_on = True):
+    axis_3D_intersection_tiling2_on = True, save_on = True, save_name = 'restrict32_animation', print_progress = True):
     '''
     This function creates a series of png files saved to a demos folder that show the desired polytope intersecting
     z = 0.
@@ -125,7 +126,7 @@ def full_animation_32(tiling3,frames = 10,transformation_function = special_tran
             lines_face_count += [axis_polygon_count.plot([],[],'', label = str(n_gon),color = intersection_colours[n_gon-3],\
                                                          alpha = intersection_alpha)[0]]
 
-    for i in range(frames):
+    for i in progressrange(frames, name=save_name, visible=print_progress):
         #face_count
         if polygon_count_on == True:
             x_s = range(1,i+2)
@@ -185,6 +186,4 @@ def full_animation_32(tiling3,frames = 10,transformation_function = special_tran
                 patches[n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         if save_on == True:
             figure.savefig(os.path.join(folder_name, "img%06d.png"%(i+1,)))
-        if print_progress_on == True:
-            print str(int(float(i)/frames*100)) + '% completed.'
     return None
