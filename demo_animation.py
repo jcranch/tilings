@@ -1,5 +1,5 @@
 from tiling4_polytope import regular_polytopes_4d 
-from restrict43_animation import full_animation_43, translate_z
+from restrict43_animation import full_animation_43, translate_z, rotate_wx_transformation
 
 if __name__=="__main__":
     for polytope in regular_polytopes_4d:
