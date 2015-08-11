@@ -7,3 +7,6 @@ if __name__=="__main__":
                           frames = int(regular_polytopes[polytope].maxz() - regular_polytopes[polytope].minz())*50+2,
                           transformation_function = translate_z, 
                           save_name = polytope +'_translate_z')
+        full_animation_43(tiling4 = regular_polytopes[polytope].translate(Vector4(0,0,0.000000001,0.0000000001)),frames = 180,
+                          transformation_function = rotate_wx_transformation, 
+                          save_name = polytope +'_rotate_wx')
