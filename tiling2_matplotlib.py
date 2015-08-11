@@ -46,20 +46,3 @@ def plot_matplotlib(tiling2, figure_size=8, grid_on=True,
         axis.set_xticks([])
         axis.set_yticks([])
     return figure
-
-
-'''
-Some code for animating plotygons in preparation for animating 2d tiling.
-'''
-
-'''
-
-Function should take a list of polygons as described before,
-as well as a list of functions of the same length of the list of polygons
-where each function is a function of the form
-
-def f(np.array(polygon), i):
-    ......
-    return np.array(...)
-
-'''
