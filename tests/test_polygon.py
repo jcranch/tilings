@@ -66,7 +66,7 @@ class EquivalenceTest(unittest.TestCase):
         self.assertEqual(len(list(self.p1a.isomorphisms(self.p2a))), 10)
         self.assertEqual(len(list(self.p1a.isomorphisms(self.h1a))), 0)
         self.assertEqual(len(list(self.h1a.isomorphisms(self.h2a))), 12)
-        
+
     def test_isomorphic(self):
         self.assertTrue(self.p1a.isomorphic(self.p2a))
         self.assertFalse(self.p1a.isomorphic(self.h1a))

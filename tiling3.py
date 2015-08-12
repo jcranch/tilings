@@ -29,26 +29,26 @@ class Tiling3():
         Produces outputs of the form that should be valid inputs for the tiling3 function.
         '''
         dict_vertices = dict([(v,k) for(k,v) in self.vertices.iteritems()])
-        
+
         list_of_edges = list()
         for i in self.edges.values():
             list_of_edges.append(frozenset(list(i)))
-        set(list_of_edges) 
-        
+        set(list_of_edges)
+
         list_of_faces = list()
         for face in self.faces:
             list_of_edge = set()
             for edge in face:
                 list_of_edge.add(self.edges[edge])
             list_of_faces.append(list_of_edge)
-        
+
         list_of_volumes = list()
         for volume in self.volumes:
             list_of_face = set()
-            for face in volume:       
+            for face in volume:
                 list_of_face.add(self.faces[face])
             list_of_volumes.append(list_of_face)
-        
+
         return "tiling3(%r, %r, %r, %r)"%(dict_vertices, list_of_edges, list_of_faces, list_of_volumes)
 
     def minx(self):
@@ -182,6 +182,107 @@ class Tiling3():
             if y1 > pmaxy and y2 > pmaxy:
                 continue
             f.write("gsave %f %f %f setrgbcolor %f setlinewidth newpath %f %f moveto %f %f lineto stroke grestore\n"%(r,g,b,t,x1,y1,x2,y2))
+
+    def map(self, v, e, f, g):
+        """
+        Adjust the labelling by v, e, f and g (on vertices, edges,
+        faces and volumes respectively).
+        """
+        vertices = dict((x,v(l)) for (x,l) in self.vertices.iteritems())
+        edges = dict((x,e(l)) for (x,l) in self.edges.iteritems())
+        faces = dict((x,f(l)) for (x,l) in self.faces.iteritems())
+        volumes = dict((x,g(l)) for (x,l) in self.volumes.iteritems())
+        return Tiling3(vertices, edges, faces, volumes)
+
+    def isometries(self, other, epsilon=1e-7):
+        """
+        Generates dicts from the vertices of self to the vertices of
+        other which are isometries (ie. preserve distances within
+        epsilon) and preserve labelling.
+        """
+        vertices = list(self.vertices.iteritems())
+
+        def extensions(i, d):
+            if i==len(vertices):
+                yield d
+            else:
+                (v1,l1) = vertices[i]
+                s = set(d.itervalues())
+                for (v2,l2) in other.vertices.iteritems():
+                    if v2 not in s and l1==l2 and all(abs(u1.distance(v1) - u2.distance(v2)) < epsilon for (u1,u2) in d.iteritems()):
+                        newd = d.copy()
+                        newd[v1] = v2
+                        for a in extensions(i+1, newd):
+                            yield a
+
+        if len(vertices)==len(other.vertices):
+            for a in extensions(0, {}):
+                yield a
+
+    def isometric(self, other, epsilon=1e-7):
+        """
+        Are there any isometries between the two?
+        """
+        for i in self.isometries(other, epsilon):
+            return True
+        return False
+
+    def __eq__(self, other):
+        """
+        Do they have identical structure? Use with care.
+        """
+        return self.vertices == other.vertices and self.edges == other.edges and self.faces == other.faces and self.volumes == other.volumes
+
+    def isomorphisms(self, other):
+        """
+        Generates dicts from the vertices of self to the vertices of
+        other which are isomorphisms (ie. preserve combinatorial
+        structure, including labellings)
+        """
+        vertices = list(self.vertices.iteritems())
+
+        def extensions(i, d):
+            if i==len(vertices):
+                yield d
+            else:
+                (v1,l1) = vertices[i]
+                s = set(d.itervalues())
+                for (v2,l2) in other.vertices.iteritems():
+                    if v2 not in s and l1==l2:
+                        newd = d.copy()
+                        newd[v1] = v2
+                        news = set(newd.itervalues())
+                        def characteristic(x):
+                            if x in news:
+                                return x
+                            else:
+                                return None
+                        edges1 = set((frozenset([newd.get(x), newd.get(y)]), l) for ((x,y),l) in self.edges.iteritems())
+                        edges2 = set((frozenset([characteristic(x), characteristic(y)]), l) for ((x,y),l) in other.edges.iteritems())
+                        if edges1 != edges2:
+                            continue
+                        faces1 = set((frozenset(frozenset(newd.get(v) for v in e) for e in f), l) for (f,l) in self.faces.iteritems())
+                        faces2 = set((frozenset(frozenset(characteristic(v) for v in e) for e in f), l) for (f,l) in other.faces.iteritems())
+                        if faces1 != faces2:
+                            continue
+                        volumes1 = set((frozenset(frozenset(frozenset(newd.get(v) for v in e) for e in f) for f in g), l) for (g,l) in self.volumes.iteritems())
+                        volumes2 = set((frozenset(frozenset(frozenset(characteristic(v) for v in e) for e in f) for f in g), l) for (g,l) in other.volumes.iteritems())
+                        if volumes1 != volumes2:
+                            continue
+                        for a in extensions(i+1, newd):
+                            yield a
+
+        if len(vertices)==len(other.vertices):
+            for a in extensions(0, {}):
+                yield a
+
+    def isomorphic(self, other):
+        """
+        Are there any isomorphisms between the two?
+        """
+        for i in self.isomorphisms(other):
+            return True
+        return False
 
 
 def tiling3(dict_vertices, list_edges, list_faces, list_volumes):

@@ -128,7 +128,7 @@ class Tiling2():
         edges = dict((x,e(l)) for (x,l) in self.edges.iteritems())
         faces = dict((x,f(l)) for (x,l) in self.faces.iteritems())
         return Tiling2(vertices, edges, faces)
-            
+
     def isometries(self, other, epsilon=1e-7):
         """
         Generates dicts from the vertices of self to the vertices of
@@ -136,7 +136,7 @@ class Tiling2():
         epsilon) and preserve labelling.
         """
         vertices = list(self.vertices.iteritems())
-        
+
         def extensions(i, d):
             if i==len(vertices):
                 yield d
@@ -167,7 +167,7 @@ class Tiling2():
         Do they have identical structure? Use with care.
         """
         return self.vertices == other.vertices and self.edges == other.edges and self.faces == other.faces
-    
+
     def isomorphisms(self, other):
         """
         Generates dicts from the vertices of self to the vertices of
@@ -175,7 +175,7 @@ class Tiling2():
         structure, including labellings)
         """
         vertices = list(self.vertices.iteritems())
-        
+
         def extensions(i, d):
             if i==len(vertices):
                 yield d
@@ -202,7 +202,7 @@ class Tiling2():
                             continue
                         for a in extensions(i+1, newd):
                             yield a
-                            
+
         if len(vertices)==len(other.vertices):
             for a in extensions(0, {}):
                 yield a
@@ -214,4 +214,3 @@ class Tiling2():
         for i in self.isomorphisms(other):
             return True
         return False
-        
