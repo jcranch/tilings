@@ -13,7 +13,7 @@ def make_translate_z(name, polytope):
                       save_name = name)
 
 def make_rotate_wx(name, polytope):
-    epsilon = Vector4(1e-9,1e-9,1e-9,1e-9)
+    epsilon = Vector4(1e-10,1e-11,1e-12,1e-13)
     full_animation_43(tiling4 = polytope.translate(epsilon),
                       frames = 180,
 	              transformation_function = rotate_wx_transformation,
