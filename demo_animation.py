@@ -18,7 +18,7 @@ def make_rotate_wx(name, polytope):
                       frames = 180,
 	              transformation_function = rotate_wx_transformation,
                       save_name = name)
-                      
+
 def make_full_uniform_rotate(name, polytope):
     epsilon = Vector4(1e-6,1e-7,1e-8,1e-9)
     full_animation_43(tiling4 = polytope.translate(epsilon),
@@ -63,6 +63,6 @@ if __name__=="__main__":
         elif a=="cell120_full_uniform_rotate":
             make_rotate_wx(a, cell120())
         elif a=="cell600_full_uniform_rotate":
-            make_rotate_wx(a, cell600()) 
+            make_rotate_wx(a, cell600())
         else:
             raise ValueError("Unrecognised argument: "+a)
