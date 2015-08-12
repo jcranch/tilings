@@ -92,39 +92,6 @@ class Tiling3():
     def transform(self, matrix):
         return self.deform(matrix) # matrix action is overloaded function call
 
-    def sort_out_duplicates(self, epsilon=0.000001):
-        """
-        Replace very close vertices by the same vertex.
-
-        This is more efficient than before: we sort by x
-        coordinate. In groups where the x coordinates are close, we
-        sort by y coordinate. In groups where that too is close, we
-        sort by z coordinate. Consecutive pairs where that is again
-        close are identified.
-
-        It's still slow.
-        """
-        lx = sorted(self.vertices, key=lambda v:v.x)
-        d = {}
-        i1 = 0
-        while i1 < len(lx):
-            i2 = i1+1
-            while i2 < len(lx) and abs(lx[i2-1].x-lx[i2].x) < epsilon:
-                i2 += 1
-            ly = sorted(lx[i1:i2], key=lambda v:v.y)
-            j1 = 0
-            while j1 < len(ly):
-                j2 = j1+1
-                while j2 < len(ly) and abs(ly[j2-1].y-ly[j2].y) < epsilon:
-                    j2 += 1
-                lz = sorted(ly[j1:j2], key=lambda v:v.z)
-                for k in xrange(1,len(lz)):
-                    if abs(lz[k-1].z-lz[k].z) < epsilon:
-                        d[lz[k]] = d.get(lz[k-1],lz[k-1])
-                j1 = j2
-            i1 = i2
-        return self.deform(lambda v: d.get(v,v))
-
     def clip(self, minx, maxx, miny, maxy, minz, maxz):
         """
         Take only the structure that intersects the box with given
@@ -216,22 +183,6 @@ class Tiling3():
                 continue
             f.write("gsave %f %f %f setrgbcolor %f setlinewidth newpath %f %f moveto %f %f lineto stroke grestore\n"%(r,g,b,t,x1,y1,x2,y2))
 
-
-def big_union3(tilings, epsilon=0.000001):
-    """
-    Take a union of a collection of tilings. This should be avoided,
-    as it's really slow.
-    """
-    v = {}
-    e = {}
-    f = {}
-    g = {}
-    for t in tilings:
-        v.update(t.vertices)
-        e.update(t.edges)
-        f.update(t.faces)
-        g.update(t.volumes)
-    return Tiling3(v,e,f,g).sort_out_duplicates(epsilon)
 
 def tiling3(dict_vertices, list_edges, list_faces, list_volumes):
     """

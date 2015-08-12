@@ -59,31 +59,6 @@ class Tiling2():
     def transform(self, matrix):
         return self.deform(matrix) # matrix action is overloaded function call
 
-    def sort_out_duplicates(self, epsilon=0.000001):
-        """
-        Replace very close vertices by the same vertex.
-
-        This is more efficient than before: we sort by x
-        coordinate. In groups where the x coordinates are close, we
-        sort by y coordinate. Consecutive pairs where that is also
-        close are identified.
-
-        It's still slow.
-        """
-        lx = sorted(self.vertices, key=lambda v:v.x)
-        d = {}
-        i1 = 0
-        while i1 < len(lx):
-            i2 = i1+1
-            while i2 < len(lx) and abs(lx[i2-1].x-lx[i2].x) < epsilon:
-                i2 += 1
-            ly = sorted(lx[i1:i2], key=lambda v:v.y)
-            for j in xrange(1,len(ly)):
-                if abs(ly[j-1].y-ly[j].y) < epsilon:
-                    d[ly[j]] = d.get(ly[j-1],ly[j-1])
-            i1 = i2
-        return self.deform(lambda v: d.get(v,v))
-
     def clip(self, minx, maxx, miny, maxy):
         """
         Take only the structure that intersects the box with given
@@ -143,18 +118,3 @@ class Tiling2():
     def face_count_information_print(self):
         for (k,v) in polygon_count(self).iteritems():
             print 'Number of %s_gons : %s.'%(k,v)
-
-
-def big_union2(tilings, epsilon=0.000001):
-    """
-    Take a union of a collection of tilings. This should be avoided,
-    as it's really slow.
-    """
-    v = {}
-    e = {}
-    f = {}
-    for t in tilings:
-        v.update(t.vertices)
-        e.update(t.edges)
-        f.update(t.faces)
-    return Tiling2(v,e,f).sort_out_duplicates(epsilon)
