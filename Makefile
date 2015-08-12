@@ -30,7 +30,9 @@ VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \
          demos/pentatope_rotate_wx.mp4 demos/hypercube_rotate_wx.mp4 \
          demos/cell16_rotate_wx.mp4 demos/cell24_rotate_wx.mp4 \
          demos/cell120_rotate_wx.mp4 demos/cell600_rotate_wx.mp4 \
-
+         demos/pentatope_full_uniform_rotate.mp4 demos/hypercube_full_uniform_rotate.mp4 \
+         demos/cell16_full_uniform_rotate.mp4 demos/cell24_full_uniform_rotate.mp4 \
+         demos/cell120_full_uniform_rotate.mp4 demos/cell600_full_uniform_rotate.mp4 \
 build-animation: $(VIDEOS)
 
 demos/%.mp4: demos/%_png/img000001.png
