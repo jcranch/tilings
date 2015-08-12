@@ -118,3 +118,100 @@ class Tiling2():
     def face_count_information_print(self):
         for (k,v) in polygon_count(self).iteritems():
             print 'Number of %s_gons : %s.'%(k,v)
+
+    def map(self, v, e, f):
+        """
+        Adjust the labelling by v, e and f (on vertices, edges and
+        faces respectively).
+        """
+        vertices = dict((x,v(l)) for (x,l) in self.vertices.iteritems())
+        edges = dict((x,e(l)) for (x,l) in self.edges.iteritems())
+        faces = dict((x,f(l)) for (x,l) in self.faces.iteritems())
+        return Tiling2(vertices, edges, faces)
+            
+    def isometries(self, other, epsilon=1e-7):
+        """
+        Generates dicts from the vertices of self to the vertices of
+        other which are isometries (ie. preserve distances within
+        epsilon) and preserve labelling.
+        """
+        vertices = list(self.vertices.iteritems())
+        
+        def extensions(i, d):
+            if i==len(vertices):
+                yield d
+            else:
+                (v1,l1) = vertices[i]
+                s = set(d.itervalues())
+                for (v2,l2) in other.vertices.iteritems():
+                    if v2 not in s and l1==l2 and all(abs(u1.distance(v1) - u2.distance(v2)) < epsilon for (u1,u2) in d.iteritems()):
+                        newd = d.copy()
+                        newd[v1] = v2
+                        for a in extensions(i+1, newd):
+                            yield a
+
+        if len(vertices)==len(other.vertices):
+            for a in extensions(0, {}):
+                yield a
+
+    def isometric(self, other, epsilon=1e-7):
+        """
+        Are there any isometries between the two?
+        """
+        for i in self.isometries(other, epsilon):
+            return True
+        return False
+
+    def __eq__(self, other):
+        """
+        Do they have identical structure? Use with care.
+        """
+        return self.vertices == other.vertices and self.edges == other.edges and self.faces == other.faces
+    
+    def isomorphisms(self, other):
+        """
+        Generates dicts from the vertices of self to the vertices of
+        other which are isomorphisms (ie. preserve combinatorial
+        structure, including labellings)
+        """
+        vertices = list(self.vertices.iteritems())
+        
+        def extensions(i, d):
+            if i==len(vertices):
+                yield d
+            else:
+                (v1,l1) = vertices[i]
+                s = set(d.itervalues())
+                for (v2,l2) in other.vertices.iteritems():
+                    if v2 not in s and l1==l2:
+                        newd = d.copy()
+                        newd[v1] = v2
+                        news = set(newd.itervalues())
+                        def characteristic(x):
+                            if x in news:
+                                return x
+                            else:
+                                return None
+                        edges1 = set((frozenset([newd.get(x), newd.get(y)]), l) for ((x,y),l) in self.edges.iteritems())
+                        edges2 = set((frozenset([characteristic(x), characteristic(y)]), l) for ((x,y),l) in other.edges.iteritems())
+                        if edges1 != edges2:
+                            continue
+                        faces1 = set((frozenset(frozenset(newd.get(v) for v in e) for e in f), l) for (f,l) in self.faces.iteritems())
+                        faces2 = set((frozenset(frozenset(characteristic(v) for v in e) for e in f), l) for (f,l) in other.faces.iteritems())
+                        if faces1 != faces2:
+                            continue
+                        for a in extensions(i+1, newd):
+                            yield a
+                            
+        if len(vertices)==len(other.vertices):
+            for a in extensions(0, {}):
+                yield a
+
+    def isomorphic(self, other):
+        """
+        Are there any isomorphisms between the two?
+        """
+        for i in self.isomorphisms(other):
+            return True
+        return False
+        
