@@ -156,7 +156,7 @@ class Tiling4():
                         for a in extensions(i+1, newd):
                             yield a
 
-        if len(vertices)==len(other.vertices):
+        if self.invariant()==other.invariant():
             for a in extensions(0, {}):
                 yield a
 
@@ -228,6 +228,45 @@ class Tiling4():
         for i in self.isomorphisms(other):
             return True
         return False
+
+    def invariant(self):
+        """
+        A handy invariant, useful as a first step in deciding
+        isomorphism.
+        """
+        edges = {}
+        for (e,le) in self.edges.iteritems():
+            edge_inv = {}
+            for v in e:
+                vertex_inv = self.vertices[v]
+                edge_inv[vertex_inv] = 1 + edge_inv.get(vertex_inv, 0)
+            edges[e] = (tuple(sorted(edge_inv.iteritems())), le)
+
+        faces = {}
+        for (f,lf) in self.faces.iteritems():
+            face_inv = {}
+            for e in f:
+                edge_inv = edges[e]
+                face_inv[edge_inv] = 1 + face_inv.get(edge_inv, 0)
+            faces[f] = (tuple(sorted(face_inv.iteritems())), lf)
+
+        volumes = {}
+        for (g,lg) in self.volumes.iteritems():
+            volume_inv = {}
+            for f in g:
+                face_inv = faces[f]
+                volume_inv[face_inv] = 1 + volume_inv.get(face_inv, 0)
+            volumes[g] = (tuple(sorted(volume_inv.iteritems())), lg)
+
+        inv = {}
+        for (h,lh) in self.hypervolumes.iteritems():
+            hypervolume_inv = {}
+            for g in h:
+                volume_inv = volumes[g]
+                hypervolume_inv[volume_inv] = 1 + hypervolume_inv.get(volume_inv, 0)
+            hypervolume_inv = (tuple(sorted(hypervolume_inv.iteritems())), lh)
+            inv[hypervolume_inv] = 1 + inv.get(hypervolume_inv, 0)
+        return tuple(sorted(inv.iteritems()))
 
 
 def tiling4(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):

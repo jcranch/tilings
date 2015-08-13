@@ -203,7 +203,7 @@ class Tiling2():
                         for a in extensions(i+1, newd):
                             yield a
 
-        if len(vertices)==len(other.vertices):
+        if self.invariant()==other.invariant():
             for a in extensions(0, {}):
                 yield a
 
@@ -214,3 +214,27 @@ class Tiling2():
         for i in self.isomorphisms(other):
             return True
         return False
+
+    def invariant(self):
+        """
+        A handy invariant, useful as a first step in deciding
+        isomorphism.
+        """
+
+        edges = {}
+        for (e,le) in self.edges.iteritems():
+            edge_inv = {}
+            for v in e:
+                vertex_inv = self.vertices[v]
+                edge_inv[vertex_inv] = 1 + edge_inv.get(vertex_inv, 0)
+            edges[e] = (tuple(sorted(edge_inv.iteritems())), le)
+
+        inv = {}
+        for (f,lf) in self.faces.iteritems():
+            face_inv = {}
+            for e in f:
+                edge_inv = edges[e]
+                face_inv[edge_inv] = 1 + face_inv.get(edge_inv, 0)
+            face_inv = (tuple(sorted(face_inv.iteritems())), lf)
+            inv[face_inv] = 1 + inv.get(face_inv, 0)
+        return tuple(sorted(inv.iteritems()))
