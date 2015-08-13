@@ -108,14 +108,11 @@ class EquivalenceTest(unittest.TestCase):
         self.c2 = cube().translate(Vector3(4,5,6))
         self.o1 = octahedron()
         self.o2 = octahedron().scale(2.5)
-        self.c1a = self.c1.map(lambda x:None, lambda x:None,
-                               lambda x:None, lambda x:None)
-        self.c2a = self.c2.map(lambda x:None, lambda x:None,
-                               lambda x:None, lambda x:None)
-        self.o1a = self.o1.map(lambda x:None, lambda x:None,
-                               lambda x:None, lambda x:None)
-        self.o2a = self.o2.map(lambda x:None, lambda x:None,
-                               lambda x:None, lambda x:None)
+        n = lambda x: None
+        self.c1a = self.c1.map(n, n, n, n)
+        self.c2a = self.c2.map(n, n, n, n)
+        self.o1a = self.o1.map(n, n, n, n)
+        self.o2a = self.o2.map(n, n, n, n)
 
     def test_isometries(self):
         self.assertEqual(len(list(self.c1.isometries(self.c2))), 1)

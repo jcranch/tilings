@@ -41,10 +41,11 @@ class EquivalenceTest(unittest.TestCase):
         self.p2 = regular_polygon(5, theta=0.3)
         self.h1 = regular_polygon(6, theta=0.5, radius=1.0)
         self.h2 = regular_polygon(6, theta=0.7, radius=2.0)
-        self.p1a = self.p1.map(lambda x:None, lambda x:None, lambda x:None)
-        self.p2a = self.p2.map(lambda x:None, lambda x:None, lambda x:None)
-        self.h1a = self.h1.map(lambda x:None, lambda x:None, lambda x:None)
-        self.h2a = self.h2.map(lambda x:None, lambda x:None, lambda x:None)
+        n = lambda x: None
+        self.p1a = self.p1.map(n, n, n)
+        self.p2a = self.p2.map(n, n, n)
+        self.h1a = self.h1.map(n, n, n)
+        self.h2a = self.h2.map(n, n, n)
 
     def test_isometries(self):
         self.assertEqual(len(list(self.p1.isometries(self.p2))), 1)
