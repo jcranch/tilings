@@ -16,8 +16,8 @@ def rotate_transformation(tiling3, i,rate = 10.0, theta_x = 0.0, theta_y = 0.0,t
     rotation_matrix = rotate_x(theta_x+i/rate)*rotate_y(theta_y+i/rate)*rotate_z(theta_z+i/rate)
     return tiling3.deform(rotation_matrix)
 
-def rotate_z_transformation(tiling3,i,rate):
-    rotation_matrix = rotate_z(i/rate)
+def rotate_z_transformation(tiling3,i,rate = 20.0):
+    rotation_matrix = rotate_z(i/float(rate))
     return tiling3.deform(rotation_matrix)
 
 def translate_z(tiling3, i, rate = 20.0):
@@ -30,23 +30,18 @@ def identity_transformation(tiling, i = 0):
 def scale(i,scalar = -1/1.0):
     return float(i * scalar)
 
-def elevation_transformation_1(i):
-    return np.sin(i/10.0)*0.0
+def elevation_transformation_fixed(i, elevation = 20.0):
+    return elevation
 
-def azimuth_transformation_1(i):
-    return i/10.0
-
-def special_transformation_1(tiling3, i, theta_x = 5**0.5*10.0, theta_y = 2**0.5*10.0,theta_z = 3**0.5*10.0):
-    rotation_matrix = rotate_x(theta_x*i/1000.0) * rotate_y(theta_y*i/1000.0)*rotate_z(theta_z*i/1000.0)
-    return tiling3.deform(rotation_matrix).translate(Vector3(np.sin(3**0.5*i/100.0),np.sin(2**0.5*i/100.0), np.sin(2**0.5*i/10.0)))
-
+def azimuth_transformation_rate(i, rate = 2.0):
+    return i/float(rate)
 
 def full_animation_32(tiling3,frames = 10,transformation_function = special_transformation_1,polygon_count_on = True,
     tiling_3_on = True, intersection_tiling2_on = True,
     intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
     plane_z0_on = True ,rotate_view_on = True,
     plane_z0_alpha = 0.3,
-    elevation_transformation = elevation_transformation_1, azimuth_transformation = azimuth_transformation_1,
+    elevation_transformation = elevation_transformation_fixed, azimuth_transformation = azimuth_transformation_rate,
     tiling3_colours = ['black'],plane_z0_colour = 'white',
     tiling3_alpha = 0.5,
     initial_elevation = 20, initial_azimuth = 30, axis_limit = 2.5, axis_3D_on = False, axis_3D_grid_on = False,
