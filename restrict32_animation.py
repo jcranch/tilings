@@ -36,7 +36,7 @@ def elevation_transformation_fixed(i, elevation = 20.0):
 def azimuth_transformation_rate(i, rate = 2.0):
     return i/float(rate)
 
-def full_animation_32(tiling3,frames = 10,transformation_function = special_transformation_1,polygon_count_on = True,
+def full_animation_32(tiling3,frames = 10,transformation_function = None, polygon_count_on = True,
     tiling_3_on = True, intersection_tiling2_on = True,
     intersection_colours = default_intersection_colours, intersection_alpha = 0.5,
     plane_z0_on = True ,rotate_view_on = True,

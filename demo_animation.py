@@ -3,7 +3,8 @@ import sys
 from vector4 import Vector4
 from tiling4_polytope import *
 from tiling3_polyhedron import *
-from restrict43_animation import full_animation_43, translate_z, rotate_wx_transformation
+from restrict43_animation import full_animation_43, translate_z, rotate_wx_transformation, uniform_rotate_transformation
+from restrict32_animation import full_animation_32, rotate_z_transformation
 
 
 def make_translate_z_4d(name, polytope):
@@ -24,14 +25,14 @@ def make_full_uniform_rotate_4d(name, polytope):
     epsilon = Vector4(1e-6,1e-7,1e-8,1e-9)
     full_animation_43(tiling4 = polytope.translate(epsilon),
                       frames = 180,
-             transformation_function = uniform_rotate_transformation,
+                      transformation_function = uniform_rotate_transformation,
                       save_name = name)
 
 def make_rotate_z_3d(name, polytope):
     epsilon = Vector3(1e-6,1e-7,1e-8)
     full_animation_32(tiling3 = polytope.translate(epsilon),
                       frames = 180,
-             transformation_function = rotate_z_transformation,
+                      transformation_function = rotate_z_transformation,
                       save_name = name)
 
 if __name__=="__main__":
@@ -73,14 +74,14 @@ if __name__=="__main__":
         elif a=="cell600_full_uniform_rotate":
             make_rotate_wx(a, cell600())
         elif a=="tetrahedron_rotate_z":
-            make_translate_z_3d(a, tetrahedron())
+            make_rotate_z_3d(a, tetrahedron())
         elif a=="cube_rotate_z":
-            make_translate_z_4d(a, cube())
+            make_rotate_z_3d(a, cube())
         elif a=="octahedron_rotate_z":
-            make_translate_z_4d(a, octahedron())
+            make_rotate_z_3d(a, octahedron())
         elif a=="icosahedron_rotate_z":
-            make_translate_z_4d(a, icosahedron())
+            make_rotate_z_3d(a, icosahedron())
         elif a=="dodecahedron_rotate_z":
-            make_translate_z_4d(a, dodecahedron())            
+            make_rotate_z_3d(a, dodecahedron())
         else:
             raise ValueError("Unrecognised argument: "+a)
