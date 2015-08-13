@@ -2,10 +2,11 @@ import sys
 
 from vector4 import Vector4
 from tiling4_polytope import *
+from tiling3_polyhedron import *
 from restrict43_animation import full_animation_43, translate_z, rotate_wx_transformation
 
 
-def make_translate_z(name, polytope):
+def make_translate_z_4d(name, polytope):
     epsilon = Vector4(0,0,1e-9,1e-9)
     full_animation_43(tiling4 = polytope.translate(epsilon),
                       frames = int((polytope.maxz()-polytope.minz())*50)+2,
@@ -19,27 +20,34 @@ def make_rotate_wx(name, polytope):
 	              transformation_function = rotate_wx_transformation,
                       save_name = name)
 
-def make_full_uniform_rotate(name, polytope):
+def make_full_uniform_rotate_4d(name, polytope):
     epsilon = Vector4(1e-6,1e-7,1e-8,1e-9)
     full_animation_43(tiling4 = polytope.translate(epsilon),
                       frames = 180,
              transformation_function = uniform_rotate_transformation,
                       save_name = name)
 
+def make_rotate_z_3d(name, polytope):
+    epsilon = Vector3(1e-6,1e-7,1e-8)
+    full_animation_32(tiling3 = polytope.translate(epsilon),
+                      frames = 180,
+             transformation_function = rotate_z_transformation,
+                      save_name = name)
+
 if __name__=="__main__":
     for a in sys.argv[1:]:
         if a=="pentatope_translate_z":
-            make_translate_z(a, pentatope())
+            make_translate_z_4d(a, pentatope())
         elif a=="hypercube_translate_z":
-            make_translate_z(a, hypercube())
+            make_translate_z_4d(a, hypercube())
         elif a=="cell16_translate_z":
-            make_translate_z(a, cell16())
+            make_translate_z_4d(a, cell16())
         elif a=="cell24_translate_z":
-            make_translate_z(a, cell24())
+            make_translate_z_4d(a, cell24())
         elif a=="cell120_translate_z":
-            make_translate_z(a, cell120())
+            make_translate_z_4d(a, cell120())
         elif a=="cell600_translate_z":
-            make_translate_z(a, cell600())
+            make_translate_z_4d(a, cell600())
         elif a=="pentatope_rotate_wx":
             make_rotate_wx(a, pentatope())
         elif a=="hypercube_rotate_wx":
@@ -64,5 +72,15 @@ if __name__=="__main__":
             make_rotate_wx(a, cell120())
         elif a=="cell600_full_uniform_rotate":
             make_rotate_wx(a, cell600())
+        elif a=="tetrahedron_rotate_z":
+            make_translate_z_3d(a, tetrahedron())
+        elif a=="cube_rotate_z":
+            make_translate_z_4d(a, cube())
+        elif a=="octahedron_rotate_z":
+            make_translate_z_4d(a, octahedron())
+        elif a=="icosahedron_rotate_z":
+            make_translate_z_4d(a, icosahedron())
+        elif a=="dodecahedron_rotate_z":
+            make_translate_z_4d(a, dodecahedron())            
         else:
             raise ValueError("Unrecognised argument: "+a)
