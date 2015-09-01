@@ -46,3 +46,31 @@ def plot_matplotlib(tiling2, figure_size=8, grid_on=True,
         axis.set_xticks([])
         axis.set_yticks([])
     return figure
+
+def plot_matplotlib_multiple(tiling2_s, figure_size=8, grid_on=True,
+                    ticks_on=True, colours=default_colours, alpha=0.85, userdefined_limits = False):
+
+    """
+    The tiling2_s argument should be a list of tiling2 objects.
+    """
+
+    figure = plt.figure(frameon = True)
+    figure.set_size_inches(figure_size,figure_size)
+    axis = figure.add_subplot(111)
+    for tiling2 in tiling2_s:
+        for (i,face) in enumerate(tiling2.faces):
+            l = describe_polygon_path([(v.x, v.y) for v in cycle(face)])
+            patch = patches.PathPatch(l, facecolor=colours[(len(face)-3)%len(colours)], lw=1.3, ec='k', alpha=alpha)
+            axis.add_patch(patch)
+    plt.axis('scaled')
+    if userdefined_limits != False:
+        axis.set_xlim(-userdefined_limits[0][0],userdefined_limits[0][1])
+        axis.set_ylim(-userdefined_limits[1][0],userdefined_limits[1][1])
+    axis.axis()
+    if grid_on == True :
+        axis.grid(True)
+    if ticks_on == False:
+        axis.set_xticks([])
+        axis.set_yticks([])
+    return figure
+
