@@ -10,6 +10,6 @@ if __name__=="__main__":
     for platonic_solid in platonic_solids:
         matplotlib_display_tiling3(tiling3 = platonic_solid.translate(Vector3(0,0,0.0001)))
         distribution_plot(platonic_solid)
-    #First nine regular polygon.
+    #First 6 regular polygon.
     plot_matplotlib_multiple([regular_polygon(i, grounded= True).translate(Vector2(i*2.5 -4,0)) for i in range(3,10)],
                          ticks_on = False, grid_on = False, userdefined_limits = [[2,20],[-2,2]] )
