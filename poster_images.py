@@ -32,3 +32,11 @@ if __name__=="__main__":
 
     for platonic_solid in poster_polyhedra.itervalues():
         matplotlib_display_tiling3(tiling3 = platonic_solid)
+    matplotlib_display_tiling3_multiple([regular_polytopes_3d[polytope].translate(Vector3(0,0,0.000001)) 
+                                        for polytope in ['cube','octahedron']], user_defined_axis_3D_limit = False)
+    matplotlib_display_tiling3_multiple([regular_polytopes_3d['dodecahedron'].translate(Vector3(0,0,0.000001)).scale(2**0.5),
+                                        regular_polytopes_3d['icosahedron'].translate(Vector3(0,0,0.000001))],
+                                       user_defined_axis_3D_limit = False)
+    matplotlib_display_tiling3_multiple([regular_polytopes_3d['tetrahedron'].translate(Vector3(0,0,0.000001)).scale(-1/3.0),
+                                        regular_polytopes_3d['tetrahedron'].translate(Vector3(0,0,0.000001))],
+                                       user_defined_axis_3D_limit = False)
