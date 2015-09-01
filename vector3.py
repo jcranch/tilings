@@ -2,7 +2,7 @@ from math import sqrt
 from random import random
 
 
-class Vector3():
+class Vector3(object):
 
     def __init__(self, x, y, z):
         self.x = float(x)

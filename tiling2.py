@@ -4,7 +4,7 @@ from common import cycle
 from vector2 import Vector2
 
 
-class Tiling2():
+class Tiling2(object):
     """
     Base class for a 2D tiling.
     """

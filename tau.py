@@ -3,7 +3,7 @@ Exact arithmetic with the golden ratio: it shows up in a vast
 number of constructions of polyhedra and polytopes.
 """
 
-class GoldenInteger():
+class GoldenInteger(object):
 
     def __init__(self, a, b):
         self.a = a

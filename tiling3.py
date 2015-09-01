@@ -1,7 +1,7 @@
 from vector3 import Vector3
 
 
-class Tiling3():
+class Tiling3(object):
     """
     Base class for a 3D tiling.
     """

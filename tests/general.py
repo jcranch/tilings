@@ -4,7 +4,7 @@ from vector4 import Vector4
 
 
 
-class TilingTest():
+class TilingTest(object):
 
     def assertSpherical(self, t):
         l = list(v.norm() for v in t.vertices)

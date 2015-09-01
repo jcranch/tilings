@@ -12,7 +12,7 @@ except ImportError:
     got_progressbar = False
 
 
-class Progress():
+class Progress(object):
 
     def __init__(self, maxval, name=None, visible=True,
                  use_progressbar=got_progressbar):

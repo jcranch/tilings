@@ -1,6 +1,6 @@
 
 
-class LatticeSearcher():
+class LatticeSearcher(object):
     """
     Helper class for generating bounded lattice vectors: it generates
     tuples of integers of length n, moving to neighbours of previously

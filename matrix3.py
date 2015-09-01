@@ -3,7 +3,7 @@ from math import sin, cos
 from vector3 import Vector3, random_norm1
 
 
-class Matrix3():
+class Matrix3(object):
 
     def __init__(self, l):
         ((a,b,c),(d,e,f),(g,h,i)) = l

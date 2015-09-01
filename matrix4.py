@@ -3,7 +3,7 @@ from matrix3 import Matrix3
 from vector4 import Vector4
 
 
-class Matrix4():
+class Matrix4(object):
 
     def __init__(self, ll):
         ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p)) = ll

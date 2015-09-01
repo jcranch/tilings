@@ -4,7 +4,7 @@ from random import random
 from vector2 import Vector2
 
 
-class Matrix2():
+class Matrix2(object):
 
     def __init__(self, l):
         ((a,b),(c,d)) = l

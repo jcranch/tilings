@@ -1,7 +1,7 @@
 from vector4 import Vector4
 
 
-class Tiling4():
+class Tiling4(object):
     """
     Base class for a 4D tiling.
     """

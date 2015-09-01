@@ -2,7 +2,7 @@ from math import sqrt
 
 
 
-class Vector4():
+class Vector4(object):
 
     def __init__(self, w, x, y, z):
         self.w = float(w)

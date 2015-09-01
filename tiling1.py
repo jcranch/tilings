@@ -1,7 +1,7 @@
 from math import floor, ceil
 
 
-class Tiling1():
+class Tiling1(object):
     """
     Base class for a 1D tiling.
     """
