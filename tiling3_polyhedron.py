@@ -124,21 +124,3 @@ def icosahedron():
 
 regular_polytopes_3d = {'tetrahedron': tetrahedron(), 'cube':cube(), 'octahedron' : octahedron(), 
                          'dodecahedron': dodecahedron(), 'icosahedron' : icosahedron()}
-    
-poster_polyhedra = {'tetrahedron': regular_polytopes_3d['tetrahedron']
-                                    .translate(Vector3(0,0,0.001))
-                                    .deform(rotate_x(pi/9)*rotate_y(-6)*rotate_z(-pi/7))
-                                    .scale(1.25),
-                   'cube' : regular_polytopes_3d['cube']
-                                    .translate(Vector3(0,0,0.001))
-                                    .deform(rotate_x(pi/1)*rotate_y(pi/1)*rotate_z(-pi/1)),
-                   'octahedron' : regular_polytopes_3d['octahedron']
-                                    .translate(Vector3(0,0,0.001))
-                                    .scale(1.25)
-                                    .deform(rotate_x(-4.1)*rotate_y(-0.1)*rotate_z(2.2)),
-                   'dodecahedron' : regular_polytopes_3d['dodecahedron']
-                                    .translate(Vector3(0,0,0.001))
-                                    .deform(rotate_x(0.3)*rotate_y(0)*rotate_z(0)),
-                   'icosahedron' : regular_polytopes_3d['icosahedron']
-                                    .translate(Vector3(0,0,0.001))
-                                    .deform(rotate_x(0)*rotate_y(0.1)*rotate_z(0.25))}
