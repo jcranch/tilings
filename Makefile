@@ -21,7 +21,7 @@ demos/%.pdf: demos/%.eps
 build-demos: demos/cubic2.pdf demos/hexagonal.pdf
 
 build-posters: build-demos
-	$(MAKE) -C posters
+	$(MAKE) --directory posters --no-print-directory
 
 
 VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \
