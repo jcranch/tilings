@@ -18,24 +18,3 @@ if __name__=="__main__":
 
     plot_matplotlib_multiple([regular_polygon(i, grounded= True).translate(Vector2(i*2.5 -4,0)) for i in range(3,10)],
                          ticks_on = False, grid_on = False, userdefined_limits = [[2,20],[-2,2]])
-
-    poster_polyhedra = {'tetrahedron': tetrahedron()
-                                       .translate(Vector3(0,0,0.001))
-                                       .deform(rotate_x(pi/9)*rotate_y(-6)*rotate_z(-pi/7))
-                                       .scale(1.25),
-                        'cube': cube()
-                                .translate(Vector3(0,0,0.001))
-                                .deform(rotate_x(pi/1)*rotate_y(pi/1)*rotate_z(-pi/1)),
-                        'octahedron': octahedron()
-                                      .translate(Vector3(0,0,0.001))
-                                      .scale(1.25)
-                                      .deform(rotate_x(-4.1)*rotate_y(-0.1)*rotate_z(2.2)),
-                        'dodecahedron': dodecahedron()
-                                        .translate(Vector3(0,0,0.001))
-                                        .deform(rotate_x(0.3)*rotate_y(0)*rotate_z(0)),
-                        'icosahedron': icosahedron()
-                                       .translate(Vector3(0,0,0.001))
-                                       .deform(rotate_x(0)*rotate_y(0.1)*rotate_z(0.25))}
-
-    for platonic_solid in poster_polyhedra.itervalues():
-        matplotlib_display_tiling3(tiling3 = platonic_solid)
