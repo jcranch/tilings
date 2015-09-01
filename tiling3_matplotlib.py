@@ -80,7 +80,7 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
         axis.get_xaxis().set_visible(False)
         axis.get_yaxis().set_visible(False)
         axis.axis('off')
-    for tiling3 in tiling3_s:
+    for (count,tiling3) in enumerate(tiling3_s):
         tiling2 = restrict32(tiling3)
         if user_defined_axis_3D_limit == False:
             absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
@@ -104,11 +104,12 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
                                                    facecolor = plane_z0_colour,\
                                                    edgecolor = 'black',alpha = plane_z0_alpha))
         lines = []
-        for (j,edge) in enumerate(tiling3.edges.keys()):
+        for edge in tiling3.edges.keys():
             point_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
             point_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
             co_ordinates = zip(point_1,point_2)
-            axis.plot(co_ordinates[0],co_ordinates[1],co_ordinates[2],'',color = tiling3_colours[j%len(tiling3_colours)],alpha = 0.5)
+            axis.plot(co_ordinates[0],co_ordinates[1],co_ordinates[2],'',color = tiling3_colours[count%len(tiling3_colours)],
+            alpha = 0.5)
     if save_on == True:
         plt.savefig(save_name)
 
