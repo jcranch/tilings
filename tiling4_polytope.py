@@ -131,6 +131,23 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_
     vertices = dict((v,k) for (k,v) in vertices.iteritems())
     return tiling4(vertices, edges, faces, volumes, hypervolumes)
 
+def tiling4_dual(tiling4):
+    '''
+    This function is designed for producing the duals of convex polytopes.
+    '''
+    dual_vertices = []
+    for volume in tiling4.volumes:
+        distinct_verticies = set()
+        for face in volume :
+            for edge in face:
+                for vertex in edge:
+                    distinct_verticies.add(vertex)
+        sum_vertex = Vector4(0,0,0,0)
+        for vertex in distinct_verticies :
+            sum_vertex += vertex
+        centroid = sum_vertex/len(distinct_verticies)
+        dual_vertices.append(centroid)
+    return tiling4_convex_hull(dict(zip(dual_vertices,xrange(len(dual_vertices)))))
 
 def pentatope():
     root5 = 5**0.5
