@@ -3,7 +3,7 @@ from math import pi
 from vector2 import Vector2
 from vector3 import Vector3
 from matrix3 import rotate_x, rotate_y, rotate_z
-from tiling3_matplotlib import matplotlib_display_tiling3
+from tiling3_matplotlib import matplotlib_display_tiling3, matplotlib_display_tiling3_multiple
 from tiling3_polyhedron import tetrahedron, octahedron, cube, icosahedron, dodecahedron
 from tiling3_intersection_matplotlib import distribution_plot
 from tiling2_matplotlib import plot_matplotlib_multiple
@@ -32,11 +32,13 @@ if __name__=="__main__":
 
     for platonic_solid in poster_polyhedra.itervalues():
         matplotlib_display_tiling3(tiling3 = platonic_solid)
-    matplotlib_display_tiling3_multiple([regular_polytopes_3d[polytope].translate(Vector3(0,0,0.000001)) 
-                                        for polytope in ['cube','octahedron']], user_defined_axis_3D_limit = False)
-    matplotlib_display_tiling3_multiple([regular_polytopes_3d['dodecahedron'].translate(Vector3(0,0,0.000001)).scale(2**0.5),
-                                        regular_polytopes_3d['icosahedron'].translate(Vector3(0,0,0.000001))],
-                                       user_defined_axis_3D_limit = False)
-    matplotlib_display_tiling3_multiple([regular_polytopes_3d['tetrahedron'].translate(Vector3(0,0,0.000001)).scale(-1/3.0),
-                                        regular_polytopes_3d['tetrahedron'].translate(Vector3(0,0,0.000001))],
+        
+    matplotlib_display_tiling3_multiple([polytope.translate(Vector3(0,0,0.000001)) for polytope in [cube(), octahedron()]], user_defined_axis_3D_limit = False)
+    
+    matplotlib_display_tiling3_multiple([dodecahedron().translate(Vector3(0,0,0.000001)).scale(2**0.5),
+                                         icosahedron().translate(Vector3(0,0,0.000001))],
+                                        user_defined_axis_3D_limit = False)
+                                       
+    matplotlib_display_tiling3_multiple([tetrahedron().translate(Vector3(0,0,0.000001)).scale(-1/3.0),
+                                         tetrahedron().translate(Vector3(0,0,0.000001))],
                                        user_defined_axis_3D_limit = False)
