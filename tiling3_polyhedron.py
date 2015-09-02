@@ -81,7 +81,23 @@ def tiling3_convex_hull(vertices, epsilon=1e-7):
     faces = [set(e for e in edges if e.issubset(f)) for f in faces]
     vertices = dict((v,k) for (k,v) in vertices.iteritems())
     return tiling3(vertices, edges, faces, volumes)
-
+    
+def tiling3_dual(tiling3):
+    '''
+    This function is designed for producing the duals of convex polyhedra.
+    '''
+    dual_vertices = []
+    for face in tiling3.faces:
+        distinct_verticies = set()
+        for edge in face :
+            for vertex in edge:
+                distinct_verticies.add(vertex)
+        sum_vertex = Vector3(0,0,0)
+        for vertex in distinct_verticies :
+            sum_vertex += vertex
+        centroid = sum_vertex/len(distinct_verticies)
+        dual_vertices.append(centroid)
+    return tiling3_convex_hull(dict(zip(dual_vertices,xrange(len(dual_vertices)))))
 
 def tetrahedron():
     d = {Vector3(-1,-1,-1): 1,
