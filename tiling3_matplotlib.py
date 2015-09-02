@@ -47,7 +47,8 @@ def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_t
     if axis_3D_intersection_tiling2_on == True:
         for (j,face) in enumerate(tiling2.faces.keys()):
             polygon_tiles += [axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],\
-            facecolor = intersection_colours[len(face)-3],edgecolor = 'black',alpha = intersection_alpha))]
+            facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)],
+            edgecolor = 'black',alpha = intersection_alpha))]
     if plane_z0_on == True:
         axis.add_collection3d(Poly3DCollection([[(absolute_largest,absolute_largest,0),(absolute_largest,-absolute_largest,0),\
                                                  (-absolute_largest,-absolute_largest,0),(-absolute_largest,absolute_largest,0)]],\
@@ -97,7 +98,8 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
         if axis_3D_intersection_tiling2_on == True:
             for (j,face) in enumerate(tiling2.faces.keys()):
                 polygon_tiles += [axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],\
-                facecolor = intersection_colours[len(face)-3],edgecolor = 'black',alpha = intersection_alpha))]
+                facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)],
+                edgecolor = 'black',alpha = intersection_alpha))]
         if plane_z0_on == True:
             axis.add_collection3d(Poly3DCollection([[(absolute_largest,absolute_largest,0),(absolute_largest,-absolute_largest,0),\
                                                      (-absolute_largest,-absolute_largest,0),(-absolute_largest,absolute_largest,0)]],\
