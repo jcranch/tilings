@@ -32,16 +32,17 @@ def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_t
         axis.get_xaxis().set_visible(False)
         axis.get_yaxis().set_visible(False)
         axis.axis('off')
-    absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
-                           abs(tiling3.miny()),tiling3.maxy(),
-                           abs(tiling3.minz()),tiling3.maxz())
     if user_defined_axis_3D_limit == False:
         axis.set_xlim(-absolute_largest-1,absolute_largest+1)
+        x_limits = [-absolute_largest-1,absolute_largest+1]
         axis.set_ylim(-absolute_largest-1,absolute_largest+1)
+        y_limits = [-absolute_largest-1,absolute_largest+1]
         axis.set_zlim(-absolute_largest-1,absolute_largest+1)
     else :
         axis.set_xlim(user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1])
+        x_limits = [user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1]]
         axis.set_ylim(user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1])
+        y_limits = [user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1]]
         axis.set_zlim(user_defined_axis_3D_limit[2][0],user_defined_axis_3D_limit[2][1])
     polygon_tiles = []
     if axis_3D_intersection_tiling2_on == True:
@@ -50,8 +51,8 @@ def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_t
             facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)],
             edgecolor = 'black',alpha = intersection_alpha))]
     if plane_z0_on == True:
-        axis.add_collection3d(Poly3DCollection([[(absolute_largest,absolute_largest,0),(absolute_largest,-absolute_largest,0),\
-                                                 (-absolute_largest,-absolute_largest,0),(-absolute_largest,absolute_largest,0)]],\
+        axis.add_collection3d(Poly3DCollection([[(x_limits[0],y_limits[0],0),(x_limits[0],y_limits[1],0),\
+                                                 (x_limits[1],y_limits[1],0),(x_limits[1],y_limits[0],0)]],\
                                                facecolor = plane_z0_colour,\
                                                edgecolor = 'black',alpha = plane_z0_alpha))
     lines = []
@@ -66,8 +67,8 @@ def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_t
     return figure
 
 def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_intersection_tiling2_on = True,\
-                               intersection_colours = default_intersection_colours, intersection_alpha = 0,\
-                               plane_z0_on = False ,plane_z0_alpha = 0.3,tiling3_colours = ['black'],plane_z0_colour = 'blue',\
+                               intersection_colours = default_intersection_colours, intersection_alpha = 0.8,\
+                               plane_z0_on = False ,plane_z0_alpha = 0.3,tiling3_colours = ['black'],plane_z0_colour = 'white',\
                                tiling3_alpha = 0.5,initial_elevation = 20, initial_azimuth = 30, axis_3D_on = False,\
                                axis_3D_grid_on = False, user_defined_axis_3D_limit = False,\
                                save_on = True, save_name = 'demos/tiling3_figure'):
@@ -83,19 +84,17 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
         axis.axis('off')
     for (count,tiling3) in enumerate(tiling3_s):
         tiling2 = restrict32(tiling3)
-        absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
-                               abs(tiling3.miny()),tiling3.maxy(),
-                               abs(tiling3.minz()),tiling3.maxz())
         if user_defined_axis_3D_limit == False:
-            absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
-                                   abs(tiling3.miny()),tiling3.maxy(),
-                                   abs(tiling3.minz()),tiling3.maxz())
             axis.set_xlim(-absolute_largest-1,absolute_largest+1)
+            x_limits = [-absolute_largest-1,absolute_largest+1]
             axis.set_ylim(-absolute_largest-1,absolute_largest+1)
+            y_limits = [-absolute_largest-1,absolute_largest+1]
             axis.set_zlim(-absolute_largest-1,absolute_largest+1)
         else :
             axis.set_xlim(user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1])
+            x_limits = [user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1]]
             axis.set_ylim(user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1])
+            y_limits = [user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1]]
             axis.set_zlim(user_defined_axis_3D_limit[2][0],user_defined_axis_3D_limit[2][1])
         polygon_tiles = []
         if axis_3D_intersection_tiling2_on == True:
@@ -104,8 +103,8 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
                 facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)],
                 edgecolor = 'black',alpha = intersection_alpha))]
         if plane_z0_on == True:
-            axis.add_collection3d(Poly3DCollection([[(absolute_largest,absolute_largest,0),(absolute_largest,-absolute_largest,0),\
-                                                     (-absolute_largest,-absolute_largest,0),(-absolute_largest,absolute_largest,0)]],\
+            axis.add_collection3d(Poly3DCollection([[(x_limits[0],y_limits[0],0),(x_limits[0],y_limits[1],0),\
+                                                     (x_limits[1],y_limits[1],0),(x_limits[1],y_limits[0],0)]],\
                                                    facecolor = plane_z0_colour,\
                                                    edgecolor = 'black',alpha = plane_z0_alpha))
         lines = []
