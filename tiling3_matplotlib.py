@@ -32,17 +32,17 @@ def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_t
         axis.get_xaxis().set_visible(False)
         axis.get_yaxis().set_visible(False)
         axis.axis('off')
+    absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
+                           abs(tiling3.miny()),tiling3.maxy(),
+                           abs(tiling3.minz()),tiling3.maxz())
     if user_defined_axis_3D_limit == False:
-        absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
-                               abs(tiling3.miny()),tiling3.maxy(),
-                               abs(tiling3.minz()),tiling3.maxz())
         axis.set_xlim(-absolute_largest-1,absolute_largest+1)
         axis.set_ylim(-absolute_largest-1,absolute_largest+1)
         axis.set_zlim(-absolute_largest-1,absolute_largest+1)
     else :
-        axis.set_xlim(user_defined_axis_3D_limit[0][0][0],user_defined_axis_3D_limit[0][0][1])
-        axis.set_ylim(user_defined_axis_3D_limit[0][1][0],user_defined_axis_3D_limit[0][1][1])
-        axis.set_zlim(user_defined_axis_3D_limit[0][2][0],user_defined_axis_3D_limit[0][2][1])
+        axis.set_xlim(user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1])
+        axis.set_ylim(user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1])
+        axis.set_zlim(user_defined_axis_3D_limit[2][0],user_defined_axis_3D_limit[2][1])
     polygon_tiles = []
     if axis_3D_intersection_tiling2_on == True:
         for (j,face) in enumerate(tiling2.faces.keys()):
@@ -83,6 +83,9 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
         axis.axis('off')
     for (count,tiling3) in enumerate(tiling3_s):
         tiling2 = restrict32(tiling3)
+        absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
+                               abs(tiling3.miny()),tiling3.maxy(),
+                               abs(tiling3.minz()),tiling3.maxz())
         if user_defined_axis_3D_limit == False:
             absolute_largest = max(abs(tiling3.minx()),tiling3.maxx(),\
                                    abs(tiling3.miny()),tiling3.maxy(),
@@ -91,9 +94,9 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
             axis.set_ylim(-absolute_largest-1,absolute_largest+1)
             axis.set_zlim(-absolute_largest-1,absolute_largest+1)
         else :
-            axis.set_xlim(user_defined_axis_3D_limit[0][0][0],user_defined_axis_3D_limit[0][0][1])
-            axis.set_ylim(user_defined_axis_3D_limit[0][1][0],user_defined_axis_3D_limit[0][1][1])
-            axis.set_zlim(user_defined_axis_3D_limit[0][2][0],user_defined_axis_3D_limit[0][2][1])
+            axis.set_xlim(user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1])
+            axis.set_ylim(user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1])
+            axis.set_zlim(user_defined_axis_3D_limit[2][0],user_defined_axis_3D_limit[2][1])
         polygon_tiles = []
         if axis_3D_intersection_tiling2_on == True:
             for (j,face) in enumerate(tiling2.faces.keys()):
