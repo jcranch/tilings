@@ -33,6 +33,9 @@ def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_t
         axis.get_yaxis().set_visible(False)
         axis.axis('off')
     if user_defined_axis_3D_limit == False:
+        absolute_largest = max(abs(tiling3.minx()),abs(tiling3.maxx()),
+                               abs(tiling3.miny()),abs(tiling3.maxy()),
+                               abs(tiling3.minz()),abs(tiling3.maxz()))
         axis.set_xlim(-absolute_largest-1,absolute_largest+1)
         x_limits = [-absolute_largest-1,absolute_largest+1]
         axis.set_ylim(-absolute_largest-1,absolute_largest+1)
@@ -85,6 +88,9 @@ def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_int
     for (count,tiling3) in enumerate(tiling3_s):
         tiling2 = restrict32(tiling3)
         if user_defined_axis_3D_limit == False:
+            absolute_largest = max(abs(tiling3.minx()),abs(tiling3.maxx()),
+                                   abs(tiling3.miny()),abs(tiling3.maxy()),
+                                   abs(tiling3.minz()),abs(tiling3.maxz()))
             axis.set_xlim(-absolute_largest-1,absolute_largest+1)
             x_limits = [-absolute_largest-1,absolute_largest+1]
             axis.set_ylim(-absolute_largest-1,absolute_largest+1)
