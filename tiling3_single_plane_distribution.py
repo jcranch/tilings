@@ -1,5 +1,6 @@
 from tiling3_matplotlib import default_intersection_colours
 from vector3 import Vector3, random_norm1
+from matrix3 import Matrix3
 
 import numpy as np
 import matplotlib.pyplot as plt
