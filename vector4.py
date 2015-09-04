@@ -39,7 +39,10 @@ class Vector4(object):
 
     def __div__(self, s):
         return Vector4(self.w/s, self.x/s, self.y/s, self.z/s)
-
+        
+    def __neg__(self):
+        return Vector4(-self.w,-self.x, -self.y, -self.z)
+        
     def dot(self, other):
         return self.w*other.w + self.x*other.x + self.y*other.y + self.z*other.z
 
