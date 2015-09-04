@@ -80,3 +80,49 @@ def tetra4_volume(v0, v1, v2, v3):
 
 def pentatope4_hypervolume(v0, v1, v2, v3, v4):
     return Matrix4([v1-v0, v2-v0, v3-v0, v4-v0]).determinant()/24.0
+
+def random_orthogonal_4():
+    u = random_norm1_4()
+    v0 = random_norm1_4()
+    v1 = v0-u*(u.dot(v0))
+    v = v1/(v1.norm())
+    w0 = random_norm1_4()
+    w1 = w0-u*(u.dot(w0))-v*(v.dot(w0))
+    w = w1/(w1.norm())
+    x0 = random_norm1_4()
+    x1 = x0-w*(w.dot(x0))-u*(u.dot(x0))-v*(v.dot(x0))
+    x = x1/x1.norm()
+    return Matrix4([u,v,w,x])
+
+
+def random_special_orthogonal_4():
+    u = random_norm1_4()
+    v0 = random_norm1_4()
+    v1 = v0-u*(u.dot(v0))
+    v = v1/(v1.norm())
+    w0 = random_norm1_4()
+    w1 = w0-u*(u.dot(w0))-v*(v.dot(w0))
+    w = w1/(w1.norm())
+    x0 = random_norm1_4()
+    x1 = x0-w*(w.dot(x0))-u*(u.dot(x0))-v*(v.dot(x0))
+    x = x1/x1.norm()
+    m = Matrix4([u,v,w,x])
+    if m.determinant() < 0 :
+        m = Matrix4([u,v,w,-x])
+    return m
+
+def rotation_matrix_producer_4(normal = Vector4(1,1,1,1)):
+    u = normal/normal.norm()
+    v0 = random_norm1_4()
+    v1 = v0-u*(u.dot(v0))
+    v = v1/(v1.norm())
+    w0 = random_norm1_4()
+    w1 = w0-u*(u.dot(w0))-v*(v.dot(w0))
+    w = w1/(w1.norm())
+    x0 = random_norm1_4()
+    x1 = x0-w*(w.dot(x0))-u*(u.dot(x0))-v*(v.dot(x0))
+    x = x1/x1.norm()
+    m = Matrix4([x,v,w,u])
+    if m.determinant() < 0 :
+        m = Matrix4([x,v,-w,u])
+    return m
