@@ -1,5 +1,5 @@
 from math import sqrt
-
+from random import random
 
 
 class Vector4(object):
@@ -54,3 +54,17 @@ class Vector4(object):
         yield self.x
         yield self.y
         yield self.z
+
+def random_norm1_4():
+    """
+    A random vector on the unit sphere.
+    """
+    while True:
+        # A point uniformly distributed in the box [-1,1] * [-1,1] * [-1,1]
+        v = Vector4(random()*2-1, random()*2-1, random()*2-1,random()*2-1)
+        n = v.norm()
+        # We restrict to points inside the unit sphere so as to get
+        # points of uniformly distributed direction, and reject points
+        # with tiny norm because we're worried about dividing by zero.
+        if n < 1.0 and n > 0.01:
+            return v/n
