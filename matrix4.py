@@ -1,6 +1,6 @@
 from math import sin, cos
 from matrix3 import Matrix3
-from vector4 import Vector4
+from vector4 import Vector4, random_norm1_4
 
 
 class Matrix4(object):
