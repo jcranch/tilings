@@ -8,10 +8,14 @@ class Matrix4(object):
     def __init__(self, ll):
         ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p)) = ll
         self.array = ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p))
-
+        
     def __getitem__(self, (r, s)):
         return self.array[r-1][s-1]
 
+    def __repr__(self):
+        return "Matrix4([[%f, %f, %f,%f], [%f, %f, %f,%f], [%f, %f, %f,%f],[%f, %f, %f,%f]])"%(
+            tuple(self[(i,j)] for i in [1,2,3,4] for j in [1,2,3,4]))
+            
     def __add__(self, other):
         return Matrix4([[self[(i,j)]+other[(i,j)] for j in [1,2,3,4]] for i in [1,2,3,4]])
 
