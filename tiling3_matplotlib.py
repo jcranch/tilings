@@ -32,7 +32,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
     
     '''
     if figure == False :
-      figure = plt.figure()
+        figure = plt.figure()
     folder_name = os.path.join("demos", save_name+"_png")
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
