@@ -13,9 +13,9 @@ default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgree
 
 def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours = default_intersection_colours, 
                       plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
-                       tiling3_faces_on = False,
+                      tiling3_faces_on = False,
                       axis_limit = [[-2,2],[-2,2],[-2,2]], elevation = 30, azumith = 30, 
-                      save_name = 'tiling3_image', save_on = True):
+                      save_name = 'tiling3_image', folder = 'demos/tiling3' save_on = True):
     '''
     This function creates a 3D subplot that is able to produce images of :
     - a Tiling3 instance's edges and/or faces,
@@ -33,7 +33,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
     '''
     if figure == False :
         figure = plt.figure()
-    folder_name = os.path.join("demos", save_name+"_png")
+    folder_name = os.path.join(folder, save_name+"_png")
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
     axis = plt.subplot(position_code, projection = '3d', aspect = 'equal')
