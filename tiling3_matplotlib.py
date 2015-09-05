@@ -78,5 +78,5 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
                                                facecolor = 'white',\
                                                edgecolor = 'black',alpha = 0.2))
     if save_on == True:
-        figure.savefig(os.path.join(folder_name, "img%06d.png"%(str(save_name),)))
+        figure.savefig(os.path.join(folder_name, str(save_name)))
     return axis
