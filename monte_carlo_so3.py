@@ -1,4 +1,3 @@
-from tiling3_polyhedron import *
 from matrix3 import rotate_x, rotate_y,rotate_z, random_special_orthogonal
 from vector3 import Vector3
 from restrict32 import restrict32
