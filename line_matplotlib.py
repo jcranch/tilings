@@ -1,0 +1,61 @@
+from tiling3_matplotlib import default_intersection_colours
+import matplotlib.pyplot as plt
+
+
+
+
+
+
+def default_line_plot_2d_dictionary_of_y_s_maker(y_s, n, colours = default_intersection_colours):
+    
+    '''
+    n should be the value the n for which n-gon the data corresponds to.
+    This is an auxillary function for making quick dictionaries for line_plot_2d. 
+    '''
+    return {'name':str(n)+'-gon', 'data':y_s, 'colour' : colours[(n-3)%len(colours)], 'alpha' : 0.9, 'n':n}
+
+def line_plot_2d(x_s,  list_of_dictionary_of_y_s, position_key = '111', figure = False,
+                 legend_on = True, marker_style = 'polygon',
+                 x_label = 'Iteration', y_label = 'Polygon Count',index_start = False , index_end = False):
+    
+    '''
+    list_of_dictionary_of_ys should be of the form
+    [...{'name':'data_name', 'data':y_s, 'colour' : data_colour, 'alpha' : 1 }...]
+    If marker_style = 'polygon' an 'n-gon' will be used as the marker
+    '''
+    if figure == False:
+        figure = plt.figure(figsize(20,5))
+    if index_start:
+        x_s = x_s[index_start:]
+        for dictionary_of_y_s in list_of_dictionary_of_y_s:
+            dictionary_of_y_s[data] = dictionary_of_y_s[data][index_start:]
+            
+    if index_end:
+        x_s = x_s[:index_end]
+        for dictionary_of_y_s in list_of_dictionary_of_y_s:
+            dictionary_of_y_s[data] = dictionary_of_y_s[data][:index_end] 
+            
+    max_value = 0.0
+    for dictionary_of_y_s in list_of_dictionary_of_y_s:
+        max_data = max(dictionary_of_y_s['data'])
+        if  max_data > max_value:
+            max_value = max_data 
+             
+    axis = plt.subplot(position_key, frameon = False,
+                                     xlim = (-1.01+index_start, max(x_s)*1.1), 
+                                     ylim = (-0.01, max_value*1.1 ))
+    axis.set_xlabel(x_label, fontsize = 18)
+    axis.set_ylabel(y_label, fontsize = 18)
+    axis.grid(True)
+    lines = []
+    if marker_style == 'polygon':
+        marker_style = (dictionary_of_y_s['n'],0,0)
+    for dictionary_of_y_s in list_of_dictionary_of_y_s:
+        lines.append(axis.plot(x_s,dictionary_of_y_s['data'],linestyle = '--', label = dictionary_of_y_s['name'],
+                               color = dictionary_of_y_s['colour'],alpha = dictionary_of_y_s['alpha'], 
+                               marker = marker_style, markersize = 10,
+                               markevery = (len(x_s)-1,len(x_s)-1), markeredgecolor = dictionary_of_y_s['colour'])[0])
+    if legend_on == True:
+        axis.legend(loc = 'upper right',framealpha = 0.0, fancybox = True)
+    return axis
+        
