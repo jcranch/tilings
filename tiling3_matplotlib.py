@@ -15,7 +15,8 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
                       plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
                       tiling3_faces_on = False,
                       axis_limit = [[-2,2],[-2,2],[-2,2]], elevation = 30, azumith = 30, 
-                      save_name = 'tiling3_image', folder = 'demos/tiling3' save_on = True):
+                      save_name = 'tiling3_image', folder = 'demos/tiling3', save_on = True, 
+                      plane_z0_alpha = 0.2, restrict32_alpha = 0.8, tiling3_faces_alpha = 0.8, tiling3_edges_alpha = 0.8):
     '''
     This function creates a 3D subplot that is able to produce images of :
     - a Tiling3 instance's edges and/or faces,
@@ -55,7 +56,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
         if tiling3_edges_on == True:
             for (j,face) in enumerate(tiling3.faces):
                 for edge in list(face):
-                    lines.append(axis.plot([],[],[],'',color = 'black',alpha = 1)[0])
+                    lines.append(axis.plot([],[],[],'',color = 'black',alpha = tiling3_edges_alpha)[0])
                     vertex_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
                     vertex_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
                     x_s += [[vertex_1[0],vertex_2[0]]]
@@ -67,7 +68,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
         if tiling3_faces_on == True:
             for (j,face) in enumerate((tiling3).faces):
                 polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,v.z) for v in cycle(face)]],
-                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',alpha = 0.8)))
+                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',tiling3_faces_alpha = 0.8)))
         if restrict32_intersection_on == True:
             for (j,face) in enumerate(restrict32(tiling3).faces):
                 polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],
@@ -76,7 +77,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
         axis.add_collection3d(Poly3DCollection([[(axis_limit[0][0],axis_limit[1][0],0),(axis_limit[0][0],axis_limit[1][1],0),\
                                                  (axis_limit[0][1],axis_limit[0][1],0),(axis_limit[0][1],axis_limit[1][0],0)]],\
                                                facecolor = 'white',\
-                                               edgecolor = 'black',alpha = 0.2))
+                                               edgecolor = 'black',plane_z0_alpha = 0.2))
     if save_on == True:
         figure.savefig(os.path.join(folder_name, str(save_name)))
     return axis
