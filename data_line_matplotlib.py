@@ -26,12 +26,12 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', 
     if index_start:
         x_s = x_s[index_start:]
         for dictionary_of_y_s in list_of_dictionary_of_y_s:
-            dictionary_of_y_s[data] = dictionary_of_y_s[data][index_start:]
+            dictionary_of_y_s['data'] = dictionary_of_y_s['data'][index_start:]
             
     if index_end:
         x_s = x_s[:index_end]
         for dictionary_of_y_s in list_of_dictionary_of_y_s:
-            dictionary_of_y_s[data] = dictionary_of_y_s[data][:index_end] 
+            dictionary_of_y_s['data'] = dictionary_of_y_s['data'][:index_end] 
             
     max_value = 0.0
     for dictionary_of_y_s in list_of_dictionary_of_y_s:
