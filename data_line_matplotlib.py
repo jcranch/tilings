@@ -39,7 +39,7 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', 
         if  max_data > max_value:
             max_value = max_data 
              
-    axis = plt.subplot(position_key, frameon = False,
+    axis = plt.subplot(position_code, frameon = False,
                                      xlim = (-1.01+index_start, max(x_s)*1.1), 
                                      ylim = (-0.01, max_value*1.1 ))
     axis.set_xlabel(x_label, fontsize = 18)
