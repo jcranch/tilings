@@ -48,14 +48,16 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', 
     lines = []
     if marker_style == 'polygon':
         marker_style = (dictionary_of_y_s['n'],0,0)
+    marker_frequency = (len(x_s)-1,len(x_s)-1)
+    if len(x_s) == 1:
+        marker_frequency = 1
     for dictionary_of_y_s in list_of_dictionary_of_y_s:
-        lines.append(axis.plot(x_s,dictionary_of_y_s['data'],linestyle = '--', label = dictionary_of_y_s['name'],
+        lines.append(axis.plot(x_s,dictionary_of_y_s['data'],linestyle = '-', label = dictionary_of_y_s['name'],
                                color = dictionary_of_y_s['colour'],alpha = dictionary_of_y_s['alpha'], 
                                marker = marker_style, markersize = 10,
-                               markevery = (len(x_s)-1,len(x_s)-1), markeredgecolor = dictionary_of_y_s['colour'])[0])
+                               markevery = marker_frequency, markeredgecolor = dictionary_of_y_s['colour'])[0])
     if legend_on == True:
         axis.legend(loc = 'upper right',framealpha = 0.0, fancybox = True)
     if save_on == True:
         figure.savefig(os.path.join(folder_name, str(save_name)))     
     return axis
-        
