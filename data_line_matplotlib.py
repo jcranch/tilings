@@ -1,27 +1,20 @@
 from tiling3_matplotlib import default_intersection_colours
 import matplotlib.pyplot as plt
 
-
-
-
-
-
-def default_line_plot_2d_dictionary_of_y_s_maker(y_s, n, colours = default_intersection_colours):
-    
-    '''
-    n should be the value the n for which n-gon the data corresponds to.
-    This is an auxillary function for making quick dictionaries for line_plot_2d. 
-    '''
-    return {'name':str(n)+'-gon', 'data':y_s, 'colour' : colours[(n-3)%len(colours)], 'alpha' : 0.9, 'n':n}
-
 def line_plot_2d(x_s,  list_of_dictionary_of_y_s, position_key = '111', figure = False,
                  legend_on = True, marker_style = 'polygon',
                  x_label = 'Iteration', y_label = 'Polygon Count',index_start = False , index_end = False):
     
     '''
+    This is a function for plotting multiple data lines on one 2d graph.
+    
     list_of_dictionary_of_ys should be of the form
-    [...{'name':'data_name', 'data':y_s, 'colour' : data_colour, 'alpha' : 1 }...]
-    If marker_style = 'polygon' an 'n-gon' will be used as the marker
+    [...{'name':'data_name', 'data':y_s, 'colour' : data_colour, 'alpha' : 1 }...]. 
+    
+    It is recommended to use the polygon_count functions to help create this.
+    
+    If marker_style = 'polygon' an 'n-gon' will be used as the marker. 
+    
     '''
     if figure == False:
         figure = plt.figure(figsize(20,5))
