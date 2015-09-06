@@ -13,5 +13,8 @@ all: example.pdf
 example.pdf: listing1.pdf sheffield-logo.pdf ../demos/cubic2.pdf
 
 sheffield-logo.pdf: sheffield-logo.eps
-	epspdf $<
+	epspdf $< $@
+
+diagrams/%.pdf: diagrams/%.eps
+	epspdf $< $@
 

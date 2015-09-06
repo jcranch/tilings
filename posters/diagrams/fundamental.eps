@@ -1,0 +1,120 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 0 0 200 200
+
+50 80 translate
+
+/pt {
+    2 dict begin
+    /x exch def
+    /y exch def
+    x y 60 cos mul add 50 mul
+    y 60 sin mul 50 mul
+    end
+} def
+
+/trap {
+    2 dict begin
+    /a exch def
+    /b exch def
+    gsave
+    setrgbcolor
+    newpath
+      a b pt moveto
+      a 1 add b pt lineto
+      a 1 add b 1 add pt lineto
+      a b 1 add pt lineto
+      closepath fill
+    grestore
+    newpath
+      a b pt moveto
+      a 1 add b pt lineto
+      a b 1 add pt lineto
+      closepath stroke
+    newpath
+      a 1 add b 1 add pt moveto
+      a 1 add b pt lineto
+      a b 1 add pt lineto
+      closepath stroke
+    end
+} def
+
+/arrow {
+    gsave
+    pt translate
+    60 rotate
+    newpath
+      0 0  3  20 340 arc
+      38 -1 lineto
+      38 -3 lineto
+      44 0 lineto
+      38 3 lineto
+      38 1 lineto
+      fill
+    grestore
+} def
+
+1.0 0.0 0.0 0 0 trap
+
+0.8 0.8 1.0 -1 0 trap
+0.8 0.8 1.0 1 0 trap
+0.8 0.8 1.0 0 -1 trap
+0.8 0.8 1.0 0 1 trap
+0.8 0.8 1.0 -1 2 trap
+0.8 0.8 1.0 1 2 trap
+0.8 0.8 1.0 2 -1 trap
+0.8 0.8 1.0 2 1 trap
+0.8 0.8 1.0 -1 -2 trap
+0.8 0.8 1.0 1 -2 trap
+0.8 0.8 1.0 -2 -1 trap
+0.8 0.8 1.0 -2 1 trap
+0.8 0.8 1.0 -3 2 trap
+0.8 0.8 1.0 3 -2 trap
+
+1.0 0.8 0.6 1 1 trap
+1.0 0.8 0.6 1 -1 trap
+1.0 0.8 0.6 -1 1 trap
+1.0 0.8 0.6 -1 -1 trap
+1.0 0.8 0.6 -2 0 trap
+1.0 0.8 0.6 2 0 trap
+1.0 0.8 0.6 0 -2 trap
+1.0 0.8 0.6 0 2 trap
+1.0 0.8 0.6 2 -2 trap
+1.0 0.8 0.6 -2 2 trap
+1.0 0.8 0.6 3 -1 trap
+
+gsave
+25  25 3 sqrt div translate
+
+gsave
+0.4 0.6 0.4 setrgbcolor
+
+-5 1 5 {
+    1 dict begin
+    /a exch def
+    -5 1 5 {
+	a arrow
+    } for
+    end
+} for
+
+-60 rotate
+
+-5 1 5 {
+    1 dict begin
+    /a exch def
+    -5 1 5 {
+	a arrow
+    } for
+    end
+} for
+
+grestore
+
+gsave
+0 0.3 0 setrgbcolor
+0 0 arrow
+-60 rotate
+0 0 arrow
+grestore
+
+grestore
