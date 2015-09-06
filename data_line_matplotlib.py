@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 
 def line_plot_2d(x_s,  list_of_dictionary_of_y_s, position_key = '111', figure = False,
                  legend_on = True, marker_style = 'polygon',
-                 x_label = 'Iteration', y_label = 'Polygon Count',index_start = False , index_end = False):
+                 x_label = 'Iteration', y_label = 'Polygon Count',index_start = False , index_end = False, 
+                 save_on = True, save_name = 'data_lines_image',folder = 'demos/datalines'):
     
     '''
     This is a function for plotting multiple data lines on one 2d graph.
@@ -14,8 +15,10 @@ def line_plot_2d(x_s,  list_of_dictionary_of_y_s, position_key = '111', figure =
     It is recommended to use the polygon_count functions to help create this.
     
     If marker_style = 'polygon' an 'n-gon' will be used as the marker. 
-    
     '''
+    folder_name = os.path.join(folder, save_name+"_png")
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
     if figure == False:
         figure = plt.figure(figsize(20,5))
     if index_start:
@@ -50,5 +53,7 @@ def line_plot_2d(x_s,  list_of_dictionary_of_y_s, position_key = '111', figure =
                                markevery = (len(x_s)-1,len(x_s)-1), markeredgecolor = dictionary_of_y_s['colour'])[0])
     if legend_on == True:
         axis.legend(loc = 'upper right',framealpha = 0.0, fancybox = True)
+    if save_on == True:
+        figure.savefig(os.path.join(folder_name, str(save_name)))     
     return axis
         
