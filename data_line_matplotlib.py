@@ -1,7 +1,7 @@
 from tiling3_matplotlib import default_intersection_colours
 import matplotlib.pyplot as plt
 
-def line_plot_2d(x_s,  list_of_dictionary_of_y_s, position_key = '111', figure = False,
+def line_plot_2d(x_s,  list_of_dictionary_of_y_s, position_code = '111', figure = False,
                  legend_on = True, marker_style = 'polygon',
                  x_label = 'Iteration', y_label = 'Polygon Count',index_start = False , index_end = False, 
                  save_on = True, save_name = 'data_lines_image',folder = 'demos/datalines'):
