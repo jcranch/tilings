@@ -68,16 +68,16 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
         if tiling3_faces_on == True:
             for (j,face) in enumerate((tiling3).faces):
                 polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,v.z) for v in cycle(face)]],
-                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',tiling3_faces_alpha = 0.8)))
+                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',alpha = tiling3_faces_alpha)))
         if restrict32_intersection_on == True:
             for (j,face) in enumerate(restrict32(tiling3).faces):
                 polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],
-                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',alpha = 0.8)))
+                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',alpha = tiling3_edges_alpha)))
     if plane_z0_on == True:
         axis.add_collection3d(Poly3DCollection([[(axis_limit[0][0],axis_limit[1][0],0),(axis_limit[0][0],axis_limit[1][1],0),\
                                                  (axis_limit[0][1],axis_limit[0][1],0),(axis_limit[0][1],axis_limit[1][0],0)]],\
                                                facecolor = 'white',\
-                                               edgecolor = 'black',plane_z0_alpha = 0.2))
+                                               edgecolor = 'black',alpha = plane_z0_alpha))
     if save_on == True:
         figure.savefig(os.path.join(folder_name, str(save_name)))
     return axis
