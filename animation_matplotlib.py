@@ -6,11 +6,6 @@ from simultaneous_plot import simultaneous_plot
 import os
 import matplotlib.pyplot as plt
 
-
-
-
-
-
 def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' ,
              common_colours = default_intersection_colours,
              save_name = 'tiling_image', folder = 'demos/tiling', save_on = True, figure_size = (20,10),
@@ -70,4 +65,27 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' 
              legend_on , marker_style ,
              data_lines_x_label , data_lines_y_label ,
              index_start = 0 , index_end = i + 1)
+    return None
+
+
+def tiling3_s_animation(list_of_tiling3_s, figure = False, position_code = 111, colours = default_intersection_colours, 
+                      plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
+                      tiling3_faces_on = True,tiling3_edge_colours = ['black'],
+                      axis_limit = False, elevation = 30, azumith = 30, 
+                      save_name = 'tiling3_image', folder = 'demos/tiling3animation', save_on = True, 
+                      plane_z0_alpha = 0.2, restrict32_alpha = 0.8, tiling3_faces_alpha = 0.8, tiling3_edges_alpha = 0.8):
+    '''
+    This function takes a list of list of tiling3 objects, list_of_tiling3_s, and creates a tiling3_s_3d_subplot
+    for each tiling3_s. 
+    
+    This can be used to make quick animations of tiling3 objects.
+    
+    '''
+    for (j,tiling3_s) in enumerate(list_of_tiling3_s):
+        tiling3_s_3d_subplot(tiling3_s, figure, position_code, colours, 
+                      plane_z0_on, restrict32_intersection_on, tiling3_edges_on,
+                      tiling3_faces_on,tiling3_edge_colours,
+                      axis_limit, elevation, azumith, 
+                      save_name +str(j), folder, save_on, 
+                      plane_z0_alpha, restrict32_alpha, tiling3_faces_alpha , tiling3_edges_alpha)
     return None
