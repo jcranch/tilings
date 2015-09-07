@@ -1,18 +1,24 @@
+from tiling3_matplotlib import default_intersection_colours
+
 def default_line_plot_2d_dictionary_of_y_s_maker(y_s, n, colours = default_intersection_colours):
-    
     '''
-    n should be the value the n for which n-gon the data corresponds to.
-    This is an auxillary function for making quick dictionaries for line_plot_2d. 
+    An auxillary function for making data lines for plots.
+    Prepares dictionaries for polygon_count_info.
     '''
     return {'name':str(n)+'-gon', 'data':y_s, 'colour' : colours[(n-3)%len(colours)], 'alpha' : 0.9, 'n':n}
 
+
+
 def polygon_count_info(tiling2_s):
+    '''
+    An auxillary function for making data lines for plots.
+    prepares produce_polygon_count_lines
+    '''
     raw_n_gon_count_results = []
     tiling2_faces = []
     tiling3_edges = []
     for (j,tiling2) in enumerate(tiling2_s):
         raw_n_gon_count_results.append(tiling2.face_count_information())
-    # For polygon count.
     distinct_n_gons_found = []
     for dictionary_of_n_gons in raw_n_gon_count_results:
         for n_gon in dictionary_of_n_gons:
