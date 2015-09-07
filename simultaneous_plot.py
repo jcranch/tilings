@@ -6,51 +6,66 @@ from data_line_matplotlib import line_plot_2d
 import os
 import matplotlib.pyplot as plt
 
-def all_plot(tiling3_s, tiling2_s, list_of_dictionary_of_y_s, 
+def simultaneous_plot(tiling3_s, tiling2_s, list_of_dictionary_of_y_s, 
              common_colours = default_intersection_colours,
              save_name = 'tiling_image', folder = 'demos/tiling', save_on = True, figure_size = (20,10),
              
              tiling3_s_on = True, tiling3_position_code = 222,  
-             plane_z0_on_ = False, restrict32_intersection_on_ = False, tiling3_edges_on_ = True,
-             tiling3_faces_on_ = True,
-             tiling3_axis_limit_ = [[-2,2],[-2,2],[-2,2]], elevation_ = 30, azumith_ = 30,  
-             plane_z0_alpha_ = 0.2, restrict32_alpha_ = 0.8, tiling3_faces_alpha_ = 0.8, tiling3_edges_alpha_ = 0.8,
+             plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
+             tiling3_faces_on = True,tiling3_edge_colours = ['black'],
+             tiling3_axis_limit = False, elevation = 30, azumith = 30,  
+             plane_z0_alpha = 0.2, restrict32_alpha = 0.8, tiling3_faces_alpha = 0.8, tiling3_edges_alpha = 0.8,
              
-             tiling2_s_on = True, tiling2_position_code = 221, tiling2_xlimits = [-5,5], tiling2_ylimits = [-5,5],
+             tiling2_s_on = True, tiling2_position_code = 221,tiling2_edge_colours = ['black'], tiling2_limits = False,tiling2_alpha = 0.8,
              
-             data_lines_on  = True, x_s = False, data_position_code = 313, figure = False,
-             legend_on_ = True, marker_style_ = 'polygon',
+             data_lines_on  = True, x_s = False, data_position_code = 313, 
+             legend_on = True, marker_style = 'polygon',
              data_lines_x_label = 'Iteration', data_lines_y_label = '2D Cross-section Polygon Count',
-             index_start_ = False , index_end_ = False):
-
-
-    folder_name = os.path.join(folder, save_name+"_png")
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)    
+             index_start = False , index_end = False):
+    '''
+    This function can simultaneously plot tiling3_s_3d_subplot, tiling2_s_3d_subplot and line_plot_2d. 
     
+    Whether or not each subplot is plotted or not is determined by 
+    -tiling3_s_on = True or False,
+    -tiling2_s_on = True or False,
+    -data_lines_on = True or False,
+    
+    The position of each subplot is determined by a 3-digit decimal code where the 
+    - 1st digit determines the number of rows considered
+    - 2nd digit determines the number of columns considered 
+    - 3rd digit determines the position of subplot where the position on row_i, col_j is denoted by digit i + j. 
+    
+    (For example, for a subplot to placed in the top-left corner of a figure we use the code 222.)
+    
+    This an auxillary function for restriction animations with stats.
+    '''
+   
     common_figure = plt.figure(figsize = figure_size)
     
     
     if tiling2_s_on:
-        tiling2_s_flattened_subplot(tiling2_s, figure = common_figure, position_code = tiling2_position_code, 
-                                    colours = common_colours,
-                                    xlimits = tiling2_xlimits, ylimits = tiling2_ylimits, save_on = False)
+        tiling2_s_flattened_subplot(tiling2_s,common_figure,tiling2_position_code, common_colours,tiling2_edge_colours,
+                                    tiling2_limits, 'not_required', 'not_required', False, tiling2_alpha)
     if tiling3_s_on:
-        tiling3_s_3d_subplot(tiling3_s, figure = common_figure, position_code = tiling3_position_code, colours = common_colours, 
-                          plane_z0_on = plane_z0_on_, restrict32_intersection_on = restrict32_intersection_on_, 
-                          tiling3_edges_on = tiling3_edges_on_,
-                          tiling3_faces_on = tiling3_faces_on_,
-                          axis_limit = tiling3_axis_limit_, elevation = elevation_, azumith = azumith_, 
-                          save_on = False, 
-                          plane_z0_alpha = plane_z0_alpha_, restrict32_alpha =restrict32_alpha_, 
-                          tiling3_faces_alpha = tiling3_faces_alpha_,tiling3_edges_alpha =tiling3_edges_alpha_)
+        tiling3_s_3d_subplot(tiling3_s, common_figure, tiling3_position_code, common_colours, 
+                          plane_z0_on, restrict32_intersection_on, 
+                          tiling3_edges_on,tiling3_faces_on,tiling3_edge_colours,
+                          tiling3_axis_limit, elevation, azumith, 
+                          'not_required','not_required', False, 
+                          plane_z0_alpha, restrict32_alpha, 
+                          tiling3_faces_alpha,tiling3_edges_alpha)
     
     if data_lines_on:
-        line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = data_position_code, figure = common_figure,
-                     legend_on = legend_on_, marker_style = marker_style_,
-                     x_label = data_lines_x_label, y_label = data_lines_y_label, index_start = index_start_ , index_end = index_end_, 
+        line_plot_2d(list_of_dictionary_of_y_s, x_s,data_position_code,common_figure,
+                     legend_on, marker_style,
+                     data_lines_x_label, data_lines_y_label, index_start , index_end, 
                      save_on = False)
-    if save_on == True:
-        figure.savefig(os.path.join(folder_name, str(save_name)))         
+
+    if save_on:
+        folder_name = os.path.join(folder)
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name) 
+        common_figure.savefig(folder+'/'+str(save_name)+'.png')        
     return common_figure
+
     
