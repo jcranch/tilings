@@ -51,7 +51,7 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' 
             elif face_count_tiling == 'tiling3':
                 dictionary_of_dictionary_of_y_s[i] = list_of_dictionary_of_y_s_creater(list_of_tiling3_s)
         simultaneous_plot([list_of_tiling3_s[i]],[list_of_tiling2_s[i]],dictionary_of_dictionary_of_y_s[i], common_colours ,
-             save_name + '_' + str(i) , folder , save_on , figure_size ,
+             "img%06d.png"%(i+1,) , folder , save_on , figure_size ,
              
              tiling3_s_on, tiling3_position_code,  
              plane_z0_on, restrict32_intersection_on , tiling3_edges_on ,
@@ -86,6 +86,6 @@ def tiling3_s_animation(list_of_tiling3_s, figure = False, position_code = 111, 
                       plane_z0_on, restrict32_intersection_on, tiling3_edges_on,
                       tiling3_faces_on,tiling3_edge_colours,
                       axis_limit, elevation, azumith, 
-                      save_name +str(j), folder, save_on, 
+                      "img%06d.png"%(j+1,), folder, save_on, 
                       plane_z0_alpha, restrict32_alpha, tiling3_faces_alpha , tiling3_edges_alpha)
     return None
