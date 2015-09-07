@@ -1,4 +1,3 @@
-from tiling3_matplotlib import default_intersection_colours
 import matplotlib.pyplot as plt
 
 def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', figure = False,
@@ -16,13 +15,13 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', 
     
     If marker_style = 'polygon' an 'n-gon' will be used as the marker. 
     '''
-    folder_name = os.path.join(folder, save_name+"_png")
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
+
     if figure == False:
         figure = plt.figure(figsize(20,5))
     if x_s == False:
-        x_s = range(1,len(list_of_dictionary_of_y_s[0]['data'])+1)
+        maxx = len(list_of_dictionary_of_y_s[0]['data'])+1
+        x_s = range(1,maxx)
+        
     if index_start:
         x_s = x_s[index_start:]
         for dictionary_of_y_s in list_of_dictionary_of_y_s:
@@ -40,24 +39,29 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', 
             max_value = max_data 
              
     axis = plt.subplot(position_code, frameon = False,
-                                     xlim = (-1.01+index_start, max(x_s)*1.1), 
+                                     xlim = (-1.01+index_start, maxx*1.1), 
                                      ylim = (-0.01, max_value*1.1 ))
     axis.set_xlabel(x_label, fontsize = 18)
     axis.set_ylabel(y_label, fontsize = 18)
     axis.grid(True)
     lines = []
-    if marker_style == 'polygon':
-        marker_style = (dictionary_of_y_s['n'],0,0)
     marker_frequency = (len(x_s)-1,len(x_s)-1)
     if len(x_s) == 1:
         marker_frequency = 1
+    marker_style_ = marker_style
     for dictionary_of_y_s in list_of_dictionary_of_y_s:
+        if marker_style == 'polygon':
+            marker_style_ = (dictionary_of_y_s['n'],0,0)
         lines.append(axis.plot(x_s,dictionary_of_y_s['data'],linestyle = '-', label = dictionary_of_y_s['name'],
                                color = dictionary_of_y_s['colour'],alpha = dictionary_of_y_s['alpha'], 
-                               marker = marker_style, markersize = 10,
+                               marker = marker_style_, markersize = 10,
                                markevery = marker_frequency, markeredgecolor = dictionary_of_y_s['colour'])[0])
+        
     if legend_on == True:
         axis.legend(loc = 'upper right',framealpha = 0.0, fancybox = True)
-    if save_on == True:
-        figure.savefig(os.path.join(folder_name, str(save_name)))     
+    if save_on:
+        folder_name = os.path.join(folder)
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name) 
+        figure.savefig(folder+'/'+str(save_name)+'.png')  
     return axis
