@@ -8,13 +8,13 @@ from matplotlib import pyplot as plt
 import numpy as np
 import os
 
-
-default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple','blue','darkred','darkblue','lightgreen']
+default_intersection_colours = ['lime', 'red', 'blue','aqua', 'orange', 'magenta','green','yellow',
+                               'pink','purple','lightgreen','lightblue', 'gold', 'pink']
 
 def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours = default_intersection_colours, 
                       plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
-                      tiling3_faces_on = False,
-                      axis_limit = [[-2,2],[-2,2],[-2,2]], elevation = 30, azumith = 30, 
+                      tiling3_faces_on = True,tiling3_edge_colours = ['black'],
+                      axis_limit = False, elevation = 30, azumith = 30, 
                       save_name = 'tiling3_image', folder = 'demos/tiling3', save_on = True, 
                       plane_z0_alpha = 0.2, restrict32_alpha = 0.8, tiling3_faces_alpha = 0.8, tiling3_edges_alpha = 0.8):
     '''
@@ -32,12 +32,21 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
     tiling3_s should be a list of Tiling3 objects.
     
     '''
+    
+    
     if figure == False :
         figure = plt.figure()
-    folder_name = os.path.join(folder, save_name+"_png")
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
     axis = plt.subplot(position_code, projection = '3d', aspect = 'equal')
+    if axis_limit == False:
+        bound = 0
+        for tiling_3 in tiling3_s:
+            if tiling_3.vertices:
+                contender = max([abs(tiling_3.maxx()), abs(tiling_3.minx()),
+                abs(tiling_3.miny()), abs(tiling_3.maxy()),
+                abs(tiling_3.minz()), abs(tiling_3.maxz())])
+                if contender > bound:
+                    bound = contender
+        axis_limit = [[-bound-1,bound+1]]*3
     polygon_tiles = []
     axis.grid(False)
     axis.set_xticks([])
@@ -52,7 +61,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
     x_s = []
     y_s = []
     z_s = []
-    for tiling3 in tiling3_s:
+    for (k,tiling3) in enumerate(tiling3_s):
         if tiling3_edges_on == True:
             for (j,face) in enumerate(tiling3.faces):
                 for edge in list(face):
@@ -68,16 +77,22 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours
         if tiling3_faces_on == True:
             for (j,face) in enumerate((tiling3).faces):
                 polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,v.z) for v in cycle(face)]],
-                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',alpha = tiling3_faces_alpha)))
+                facecolor = colours[(len(face)-3)%len(colours)],
+                edgecolor  = tiling3_edge_colours[k%len(tiling3_edge_colours)],
+                alpha = tiling3_faces_alpha)))
         if restrict32_intersection_on == True:
             for (j,face) in enumerate(restrict32(tiling3).faces):
                 polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],
-                facecolor = colours[(len(face)-3)%len(colours)],edgecolor = 'black',alpha = tiling3_edges_alpha)))
+                facecolor = colours[(len(face)-3)%len(colours)],
+                edgecolor  = tiling3_edge_colours[k%len(tiling3_edge_colours)],alpha = tiling3_edges_alpha)))
     if plane_z0_on == True:
         axis.add_collection3d(Poly3DCollection([[(axis_limit[0][0],axis_limit[1][0],0),(axis_limit[0][0],axis_limit[1][1],0),\
                                                  (axis_limit[0][1],axis_limit[0][1],0),(axis_limit[0][1],axis_limit[1][0],0)]],\
                                                facecolor = 'white',\
                                                edgecolor = 'black',alpha = plane_z0_alpha))
-    if save_on == True:
-        figure.savefig(os.path.join(folder_name, str(save_name)))
+    if save_on:
+        folder_name = os.path.join(folder)
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name) 
+        figure.savefig(folder+'/'+str(save_name)+'.png')  
     return axis
