@@ -314,7 +314,20 @@ class Tiling3(object):
             volume_inv = (tuple(sorted(volume_inv.iteritems())), lg)
             inv[volume_inv] = 1 + inv.get(volume_inv, 0)
         return tuple(sorted(inv.iteritems()))
+        
+    def face_count_information(self):
+        polygon_count = {}
+        for face in self.faces.keys():
+            n = len(face)
+            if n not in polygon_count.keys() :
+                polygon_count[n] = 1
+            else:
+                polygon_count[n] += 1
+        return polygon_count
 
+    def face_count_information_print(self):
+        for (k,v) in polygon_count(self).iteritems():
+            print 'Number of %s_gons : %s.'%(k,v)
 
 def tiling3(dict_vertices, list_edges, list_faces, list_volumes):
     """

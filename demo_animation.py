@@ -1,39 +1,36 @@
 import sys
 
 from vector4 import Vector4
+from vector3 import Vector3
 from tiling4_polytope import *
 from tiling3_polyhedron import *
-from restrict43_animation import full_animation_43, translate_z, rotate_wx_transformation, uniform_rotate_transformation
-from restrict32_animation import full_animation_32, rotate_z_transformation
+from matrix4 import *
+from matrix3 import *
+from animation_matplotlib import tiling3_s_animation
 
+def make_translate_z_4d(name, polytope, fpu = 50.0, axis_limit = [[-2,2]]*3, elevation_ = 40,azumith_ = 30):
+    minz = polytope.minz()
+    maxz = polytope.maxz()
+    tiling3_s_animation([[restrict43(polytope.translate(Vector4(0,0,0.00001,0.00001 + minz + i/fpu)))]
+     for i in range(-1,int((maxz-minz)*fpu)+2)], folder = 'demo/'+name+'_translate_z',  
+     axis_limit = axis_limit_, elevation = elevation_, azumith = azumith_)
 
-def make_translate_z_4d(name, polytope):
-    epsilon = Vector4(0,0,1e-9,1e-9)
-    full_animation_43(tiling4 = polytope.translate(epsilon),
-                      frames = int((polytope.maxz()-polytope.minz())*50)+2,
-                      transformation_function = translate_z,
-                      save_name = name)
+def make_rotate_wx(name, polytope, fpu = 20.0, axis_limit = [[-2,2]]*3, elevation_ = 40,azumith_ = 30):
+    tiling3_s_animation([[restrict43(polytope.deform(rotate_wx(i/fpu)).translate(Vector4(0,0,0.000001,0.000001)))]
+     for i in range(int(2*pi*fpu)+1)], folder = 'demos/'+name+'_rotate_wx', 
+     axis_limit = axis_limit_, elevation = elevation_, azumith = azumith_)   
 
-def make_rotate_wx(name, polytope):
-    epsilon = Vector4(1e-10,1e-11,1e-12,1e-13)
-    full_animation_43(tiling4 = polytope.translate(epsilon),
-                      frames = 180,
-	              transformation_function = rotate_wx_transformation,
-                      save_name = name)
+def make_full_uniform_rotate(name, polytope, fpu = 20.0, axis_limit = [[-2,2]]*3, elevation_ = 40,azumith_ = 30):
+    tiling3_s_animation([[restrict43(polytope.deform(rotate_wx(i/fpu)*rotate_wy(i/fpu)*rotate_wz(i/fpu)*
+                                                     rotate_xy(i/fpu)*rotate_xz(i/fpu)*rotate_yz(i/fpu))
+                                                    .translate(Vector4(0,0,0.000001,0.000001)))]
+     for i in range(int(2*pi*fpu)+1)], folder = 'demos/'+name+'_full_uniform_rotate',  
+     axis_limit = axis_limit_, elevation = elevation_, azumith = azumith_)   
 
-def make_full_uniform_rotate_4d(name, polytope):
-    epsilon = Vector4(1e-6,1e-7,1e-8,1e-9)
-    full_animation_43(tiling4 = polytope.translate(epsilon),
-                      frames = 180,
-                      transformation_function = uniform_rotate_transformation,
-                      save_name = name)
-
-def make_rotate_z_3d(name, polytope):
-    epsilon = Vector3(1e-6,1e-7,1e-8)
-    full_animation_32(tiling3 = polytope.translate(epsilon),
-                      frames = 180,
-                      transformation_function = rotate_z_transformation,
-                      save_name = name)
+def make_rotate_z_3d(name, polytope, fpu = 20.0, axis_limit_ = [[-2,2]]*3, elevation_ = 40,azumith_ = 30):
+    tiling3_s_animation([[polytope.deform(rotate_z(i/fpu)).translate(Vector3(0,0,0.000001))]
+     for i in range(int(2*pi*fpu)+1)], folder = 'demos/'+name+'_rotate_z', 
+     axis_limit = axis_limit_, elevation = elevation_, azumith = azumith_) 
 
 if __name__=="__main__":
     for a in sys.argv[1:]:
@@ -62,17 +59,17 @@ if __name__=="__main__":
         elif a=="cell600_rotate_wx":
             make_rotate_wx(a, cell600())
         elif a=="pentatope_full_uniform_rotate":
-            make_rotate_wx(a, pentatope())
+            make_full_uniform_rotate(a, pentatope())
         elif a=="hypercube_full_uniform_rotate":
-            make_rotate_wx(a, hypercube())
+            make_full_uniform_rotate(a, hypercube())
         elif a=="cell16_full_uniform_rotate":
-            make_rotate_wx(a, cell16())
+            make_full_uniform_rotate(a, cell16())
         elif a=="cell24_full_uniform_rotate":
-            make_rotate_wx(a, cell24())
+            make_full_uniform_rotate(a, cell24())
         elif a=="cell120_full_uniform_rotate":
             make_rotate_wx(a, cell120())
         elif a=="cell600_full_uniform_rotate":
-            make_rotate_wx(a, cell600())
+            make_full_uniform_rotate(a, cell600())
         elif a=="tetrahedron_rotate_z":
             make_rotate_z_3d(a, tetrahedron())
         elif a=="cube_rotate_z":

@@ -1,4 +1,4 @@
-from tiling3_matplotlib import default_intersection_colours
+from tiling3_matplotlib import default_intersection_colours, tiling3_s_3d_subplot
 from vector3 import Vector3, random_norm1
 from matrix3 import Matrix3, rotation_matrix_producer
 
@@ -16,7 +16,7 @@ def polyhedron_fixed_plane_exact_distribution(polyhedron, plane_vector_1, plane_
     '''
     bound = max(v.norm() for v in polyhedron.vertices)
     if plot_on == True:
-        figure = matplotlib_display_tiling3(tiling3 = polyhedron, axis_3D_grid_on = True,user_defined_axis_3D_limit = False)  
+        figure = tiling3_s_3d_subplot([polyhedron])  
         
     normal_vector = normal_vector_creator(plane_vector_1, plane_vector_2)
     

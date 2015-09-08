@@ -1,5 +1,3 @@
-from periodic_tiling3 import cubic_tiling3
-from matrix3 import rotate_x, rotate_y,rotate_z
 from vector3 import Vector3
 from restrict32 import restrict32
 from common import cycle
@@ -8,119 +6,93 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib import pyplot as plt
 import numpy as np
+import os
 
+default_intersection_colours = ['lime', 'red', 'blue','aqua', 'orange', 'magenta','green','yellow',
+                               'pink','purple','lightgreen','lightblue', 'gold', 'pink']
 
-
-default_intersection_colours = ['orange','lime','red','aqua','magenta','darkgreen','lightblue','gold','black','purple','blue','darkred','darkblue','lightgreen']
-
-
-
-
-def matplotlib_display_tiling3(tiling3,tiling_3_on = True,axis_3D_intersection_tiling2_on = True,\
-                               intersection_colours = default_intersection_colours, intersection_alpha = 0.5,\
-                               plane_z0_on = False ,plane_z0_alpha = 0.3,tiling3_colours = ['black'],plane_z0_colour = 'blue',\
-                               tiling3_alpha = 0.5,initial_elevation = 20, initial_azimuth = 30, axis_3D_on = False,\
-                               axis_3D_grid_on = False, user_defined_axis_3D_limit = False,\
-                               save_on = True, save_name = 'demos/tiling3_figure'):
-    figure = plt.figure()
-    axis = Axes3D(figure)
-    tiling2 = restrict32(tiling3)
-    plt.axis('scaled')
-    if axis_3D_grid_on == True:
-        axis.grid(True)
-    if axis_3D_on == False:
-        axis.get_xaxis().set_visible(False)
-        axis.get_yaxis().set_visible(False)
-        axis.axis('off')
-    if user_defined_axis_3D_limit == False:
-        absolute_largest = max(abs(tiling3.minx()),abs(tiling3.maxx()),
-                               abs(tiling3.miny()),abs(tiling3.maxy()),
-                               abs(tiling3.minz()),abs(tiling3.maxz()))
-        axis.set_xlim(-absolute_largest-1,absolute_largest+1)
-        x_limits = [-absolute_largest-1,absolute_largest+1]
-        axis.set_ylim(-absolute_largest-1,absolute_largest+1)
-        y_limits = [-absolute_largest-1,absolute_largest+1]
-        axis.set_zlim(-absolute_largest-1,absolute_largest+1)
-    else :
-        axis.set_xlim(user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1])
-        x_limits = [user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1]]
-        axis.set_ylim(user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1])
-        y_limits = [user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1]]
-        axis.set_zlim(user_defined_axis_3D_limit[2][0],user_defined_axis_3D_limit[2][1])
+def tiling3_s_3d_subplot(tiling3_s, figure = False, position_code = 111, colours = default_intersection_colours, 
+                      plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
+                      tiling3_faces_on = True,tiling3_edge_colours = ['black'],
+                      axis_limit = False, elevation = 30, azumith = 30, 
+                      save_name = 'tiling3_image', folder = 'demos/tiling3', save_on = True, 
+                      plane_z0_alpha = 0.2, restrict32_alpha = 0.8, tiling3_faces_alpha = 0.8, tiling3_edges_alpha = 0.8):
+    '''
+    This function creates a 3D subplot that is able to produce images of :
+    - a Tiling3 instance's edges and/or faces,
+    - a Tiling2 instance's edges and faces on the plane z = 0,
+    - the plane z = 0.
+    
+    Position code is a 3 digit, base 10 number where 
+    
+    -the first digit corresponds to the number of rows in the subplot, 
+    -the second digit correspondes to the number of columns in the subplot, 
+    -and the thrid digit corresponds to desired_row_number + desired_column_number. 
+    
+    tiling3_s should be a list of Tiling3 objects.
+    
+    '''
+    
+    
+    if figure == False :
+        figure = plt.figure()
+    axis = plt.subplot(position_code, projection = '3d', aspect = 'equal')
+    if axis_limit == False:
+        bound = 0
+        for tiling_3 in tiling3_s:
+            if tiling_3.vertices:
+                contender = max([abs(tiling_3.maxx()), abs(tiling_3.minx()),
+                abs(tiling_3.miny()), abs(tiling_3.maxy()),
+                abs(tiling_3.minz()), abs(tiling_3.maxz())])
+                if contender > bound:
+                    bound = contender
+        axis_limit = [[-bound-1,bound+1]]*3
     polygon_tiles = []
-    if axis_3D_intersection_tiling2_on == True:
-        for (j,face) in enumerate(tiling2.faces.keys()):
-            polygon_tiles += [axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],\
-            facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)],
-            edgecolor = 'black',alpha = intersection_alpha))]
-    if plane_z0_on == True:
-        axis.add_collection3d(Poly3DCollection([[(x_limits[0],y_limits[0],0),(x_limits[0],y_limits[1],0),\
-                                                 (x_limits[1],y_limits[1],0),(x_limits[1],y_limits[0],0)]],\
-                                               facecolor = plane_z0_colour,\
-                                               edgecolor = 'black',alpha = plane_z0_alpha))
+    axis.grid(False)
+    axis.set_xticks([])
+    axis.set_yticks([])
+    axis.set_zticks([])
+    axis.set_axis_off()
+    axis.set_xlim(axis_limit[0])
+    axis.set_ylim(axis_limit[1])
+    axis.set_zlim(axis_limit[2])
+    axis.view_init(elevation, azumith)
     lines = []
-    for (j,edge) in enumerate(tiling3.edges.keys()):
-        point_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
-        point_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
-        co_ordinates = zip(point_1,point_2)
-        axis.plot(co_ordinates[0],co_ordinates[1],co_ordinates[2],'',color = tiling3_colours[j%len(tiling3_colours)],alpha = 0.5)
-    if save_on == True:
-        plt.savefig(save_name)
-
-    return figure
-
-def matplotlib_display_tiling3_multiple(tiling3_s,tiling_3_on = True,axis_3D_intersection_tiling2_on = True,\
-                               intersection_colours = default_intersection_colours, intersection_alpha = 0.8,\
-                               plane_z0_on = False ,plane_z0_alpha = 0.3,tiling3_colours = ['black'],plane_z0_colour = 'white',\
-                               tiling3_alpha = 0.5,initial_elevation = 20, initial_azimuth = 30, axis_3D_on = False,\
-                               axis_3D_grid_on = False, user_defined_axis_3D_limit = False,\
-                               save_on = True, save_name = 'demos/tiling3_figure'):
-    "tiling3_s should be a list of Tiling3 instances."
-    figure = plt.figure()
-    axis = Axes3D(figure)
-    plt.axis('scaled')
-    if axis_3D_grid_on == True:
-        axis.grid(True)
-    if axis_3D_on == False:
-        axis.get_xaxis().set_visible(False)
-        axis.get_yaxis().set_visible(False)
-        axis.axis('off')
-    for (count,tiling3) in enumerate(tiling3_s):
-        tiling2 = restrict32(tiling3)
-        if user_defined_axis_3D_limit == False:
-            absolute_largest = max(abs(tiling3.minx()),abs(tiling3.maxx()),
-                                   abs(tiling3.miny()),abs(tiling3.maxy()),
-                                   abs(tiling3.minz()),abs(tiling3.maxz()))
-            axis.set_xlim(-absolute_largest-1,absolute_largest+1)
-            x_limits = [-absolute_largest-1,absolute_largest+1]
-            axis.set_ylim(-absolute_largest-1,absolute_largest+1)
-            y_limits = [-absolute_largest-1,absolute_largest+1]
-            axis.set_zlim(-absolute_largest-1,absolute_largest+1)
-        else :
-            axis.set_xlim(user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1])
-            x_limits = [user_defined_axis_3D_limit[0][0],user_defined_axis_3D_limit[0][1]]
-            axis.set_ylim(user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1])
-            y_limits = [user_defined_axis_3D_limit[1][0],user_defined_axis_3D_limit[1][1]]
-            axis.set_zlim(user_defined_axis_3D_limit[2][0],user_defined_axis_3D_limit[2][1])
-        polygon_tiles = []
-        if axis_3D_intersection_tiling2_on == True:
-            for (j,face) in enumerate(tiling2.faces.keys()):
-                polygon_tiles += [axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],\
-                facecolor = intersection_colours[(len(face)-3)%len(intersection_colours)],
-                edgecolor = 'black',alpha = intersection_alpha))]
-        if plane_z0_on == True:
-            axis.add_collection3d(Poly3DCollection([[(x_limits[0],y_limits[0],0),(x_limits[0],y_limits[1],0),\
-                                                     (x_limits[1],y_limits[1],0),(x_limits[1],y_limits[0],0)]],\
-                                                   facecolor = plane_z0_colour,\
-                                                   edgecolor = 'black',alpha = plane_z0_alpha))
-        lines = []
-        for edge in tiling3.edges.keys():
-            point_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
-            point_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
-            co_ordinates = zip(point_1,point_2)
-            axis.plot(co_ordinates[0],co_ordinates[1],co_ordinates[2],'',color = tiling3_colours[count%len(tiling3_colours)],
-            alpha = 0.5)
-    if save_on == True:
-        plt.savefig(save_name)
-
-    return figure
+    x_s = []
+    y_s = []
+    z_s = []
+    for (k,tiling3) in enumerate(tiling3_s):
+        if tiling3_edges_on == True:
+            for (j,face) in enumerate(tiling3.faces):
+                for edge in list(face):
+                    lines.append(axis.plot([],[],[],'',color = 'black',alpha = tiling3_edges_alpha)[0])
+                    vertex_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
+                    vertex_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
+                    x_s += [[vertex_1[0],vertex_2[0]]]
+                    y_s += [[vertex_1[1],vertex_2[1]]]
+                    z_s += [[vertex_1[2],vertex_2[2]]]
+            for (j,line) in enumerate(lines):
+                line.set_data(x_s[j],y_s[j])
+                line.set_3d_properties(z_s[j])
+        if tiling3_faces_on == True:
+            for (j,face) in enumerate((tiling3).faces):
+                polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,v.z) for v in cycle(face)]],
+                facecolor = colours[(len(face)-3)%len(colours)],
+                edgecolor  = tiling3_edge_colours[k%len(tiling3_edge_colours)],
+                alpha = tiling3_faces_alpha)))
+        if restrict32_intersection_on == True:
+            for (j,face) in enumerate(restrict32(tiling3).faces):
+                polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],
+                facecolor = colours[(len(face)-3)%len(colours)],
+                edgecolor  = tiling3_edge_colours[k%len(tiling3_edge_colours)],alpha = tiling3_edges_alpha)))
+    if plane_z0_on == True:
+        axis.add_collection3d(Poly3DCollection([[(axis_limit[0][0],axis_limit[1][0],0),(axis_limit[0][0],axis_limit[1][1],0),\
+                                                 (axis_limit[0][1],axis_limit[0][1],0),(axis_limit[0][1],axis_limit[1][0],0)]],\
+                                               facecolor = 'white',\
+                                               edgecolor = 'black',alpha = plane_z0_alpha))
+    if save_on:
+        folder_name = os.path.join(folder)
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name) 
+        figure.savefig(folder+'/'+str(save_name)+'.png')  
+    return axis
