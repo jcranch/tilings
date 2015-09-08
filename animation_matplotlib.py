@@ -16,14 +16,14 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' 
              tiling3_s_on = True, tiling3_position_code = 222,  
              plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
              tiling3_faces_on = True,tiling3_edge_colours = ['black'],
-             tiling3_axis_limit = False, elevation = 30, azumith = 30,  
+             tiling3_axis_limit = [[-2,2]]*3, elevation = 40, azumith = 30,  
              plane_z0_alpha = 0.2, restrict32_alpha = 0.8, tiling3_faces_alpha = 0.8, tiling3_edges_alpha = 0.8,
              
              tiling2_s_on = True, tiling2_position_code = 221,tiling2_edge_colours = ['black'], tiling2_limits = False,tiling2_alpha = 0.8,
              
              data_lines_on  = True, x_s = False, data_position_code = 313, 
              legend_on = True, marker_style = 'polygon',
-             data_lines_x_label = 'Iteration', data_lines_y_label = '2D Cross-section Polygon Count',
+             data_lines_x_label = 'Iteration', 
              index_start = False , index_end = False):
     '''
     
@@ -51,8 +51,10 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' 
         if data_lines_on:
             if face_count_tiling == 'tiling2':
                 dictionary_of_dictionary_of_y_s[i] = list_of_dictionary_of_y_s_creater(list_of_tiling2_s)
+                data_lines_y_label = 'Polyhedron 2D Cross-Section Polygon Count'
             elif face_count_tiling == 'tiling3':
                 dictionary_of_dictionary_of_y_s[i] = list_of_dictionary_of_y_s_creater(list_of_tiling3_s)
+                data_lines_y_label = 'Polyhedron Face Count'
         simultaneous_plot([list_of_tiling3_s[i]],[list_of_tiling2_s[i]],dictionary_of_dictionary_of_y_s[i], common_colours ,
              "img%06d.png"%(i+1,) , folder , save_on , figure_size ,
              
