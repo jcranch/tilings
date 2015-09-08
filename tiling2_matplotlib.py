@@ -34,7 +34,7 @@ def tiling2_s_flattened_subplot(tiling2_s, figure = False, position_code = 111, 
     axis.get_yaxis().set_visible(False)
     patches = []
     grand_n = 0
-    for tiling2 in tiling2_s:
+    for (k,tiling2) in enumerate(tiling2_s):
         for (n,face) in enumerate(tiling2.faces):
             patches.append(axis.add_patch(plt.Polygon(0 * np.array([(v.x, v.y) for v in cycle(face)]),
             facecolor = colours[(len(face)-3)%len(colours)], edgecolor = tiling2_edge_colours[k%len(tiling3_edge_colours)] , ec='k', alpha = tiling2_alpha)))
