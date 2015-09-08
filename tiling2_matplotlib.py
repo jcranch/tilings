@@ -37,7 +37,7 @@ def tiling2_s_flattened_subplot(tiling2_s, figure = False, position_code = 111, 
     for (k,tiling2) in enumerate(tiling2_s):
         for (n,face) in enumerate(tiling2.faces):
             patches.append(axis.add_patch(plt.Polygon(0 * np.array([(v.x, v.y) for v in cycle(face)]),
-            facecolor = colours[(len(face)-3)%len(colours)], edgecolor = tiling2_edge_colours[k%len(tiling3_edge_colours)] , ec='k', alpha = tiling2_alpha)))
+            facecolor = colours[(len(face)-3)%len(colours)], edgecolor = tiling2_edge_colours[k%len(tiling2_edge_colours)] , ec='k', alpha = tiling2_alpha)))
             patches[grand_n+n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         grand_n += 1
     if save_on:
