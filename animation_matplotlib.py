@@ -3,8 +3,11 @@ from tiling3_matplotlib import tiling3_s_3d_subplot
 from tiling2_matplotlib import tiling2_s_flattened_subplot
 from data_line_matplotlib import line_plot_2d
 from simultaneous_plot import simultaneous_plot 
+from restrict32 import restrict32
+
 import os
 import matplotlib.pyplot as plt
+
 
 def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' ,
              common_colours = default_intersection_colours,
