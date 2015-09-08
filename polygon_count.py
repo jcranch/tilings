@@ -47,4 +47,4 @@ def list_of_dictionary_of_y_s_creater(tiling_s):
     """
     
     
-    return [default_line_plot_2d_dictionary_of_y_s_maker(j,i) for (i,j) in polygon_count_info(tiling2_s).iteritems()]
+    return [default_line_plot_2d_dictionary_of_y_s_maker(j,i) for (i,j) in polygon_count_info(tiling_s).iteritems()]
