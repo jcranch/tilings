@@ -7,12 +7,21 @@ import matplotlib.patches as patches
 import numpy as np
 import os
 
-def tiling2_s_flattened_subplot(tiling2_s, figure = False, position_code = 111, colours = default_intersection_colours,
+def tiling2_s_flattened_subplot(tiling2_s, figure = False, number_of_rows = 1,number_of_columns = 1,position_code = 1, colours = default_intersection_colours,
                                 tiling2_edge_colours = ['black'],
                                 tiling2_limits = False, save_name = 'tiling2_image', folder = 'demos/tiling2',
                                save_on = True, tiling2_alpha = 0.8):
     '''
     This function is used to create 2D subplots for tiling2 objects.
+    
+    Number of rows and number of columns determines how the figure is subdivided into equal areas
+    and the position code decides which area the subplot is plotted in. 
+    
+    To plot in the area in the i^{th} row and j^{th} the position code should be 
+    j + (i-1)*j . 
+    
+    For example to plot in the top right quarter of a pictre we use 
+    number_of_rows = 2, number_of_columns = 2, position_code = 1.
     '''
     
 
@@ -29,7 +38,7 @@ def tiling2_s_flattened_subplot(tiling2_s, figure = False, position_code = 111, 
                     bound = contender
                 
         tiling2_limits = [[-bound-1,bound+1]]*2
-    axis = plt.subplot(position_code, xlim = tiling2_limits[0], ylim = tiling2_limits[1], aspect='equal', frameon = False)
+    axis = plt.subplot(number_of_rows, number_of_columns,position_code, xlim = tiling2_limits[0], ylim = tiling2_limits[1], aspect='equal', frameon = False)
     axis.get_xaxis().set_visible(False)
     axis.get_yaxis().set_visible(False)
     patches = []
