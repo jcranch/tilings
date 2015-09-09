@@ -13,15 +13,18 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' 
              common_colours = default_intersection_colours,
              save_name = 'tiling_image', folder = 'demos/tiling', save_on = True, figure_size = (20,10),
              
-             tiling3_s_on = True, tiling3_position_code = 222,  
+             tiling3_s_on = True, tiling3_s_number_of_rows = 2,tiling3_s_number_of_columns = 2,tiling3_s_position_code = 1,
              plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
              tiling3_faces_on = True,tiling3_edge_colours = ['black'],
              tiling3_axis_limit = [[-2,2]]*3, elevation = 40, azumith = 30,  
              plane_z0_alpha = 0.2, restrict32_alpha = 0.8, tiling3_faces_alpha = 0.8, tiling3_edges_alpha = 0.8,
              
-             tiling2_s_on = True, tiling2_position_code = 221,tiling2_edge_colours = ['black'], tiling2_limits = False,tiling2_alpha = 0.8,
+             tiling2_s_on = True, tiling2_s_number_of_rows = 2,tiling2_s_number_of_columns = 2,tiling2_s_position_code = 2,
+             tiling2_edge_colours = ['black'], tiling2_limits = False,tiling2_alpha = 0.8,
              
-             data_lines_on  = True, x_s = False, data_position_code = 313, 
+             
+             data_lines_on  = True, x_s = False, 
+             data_number_of_rows = 2,data_number_of_columns = 1,data_position_code = 2,
              legend_on = True, marker_style = 'polygon',
              data_lines_x_label = 'Iteration', 
              index_start = False , index_end = False):
@@ -58,22 +61,28 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3' 
         simultaneous_plot([list_of_tiling3_s[i]],[list_of_tiling2_s[i]],dictionary_of_dictionary_of_y_s[i], common_colours ,
              "img%06d.png"%(i+1,) , folder , save_on , figure_size ,
              
-             tiling3_s_on, tiling3_position_code,  
+             tiling3_s_on, 
+             tiling3_s_number_of_rows,tiling3_s_number_of_columns,tiling3_s_position_code,
              plane_z0_on, restrict32_intersection_on , tiling3_edges_on ,
              tiling3_faces_on ,tiling3_edge_colours,
              tiling3_axis_limit , elevation , azumith ,  
              plane_z0_alpha , restrict32_alpha , tiling3_faces_alpha , tiling3_edges_alpha ,
              
-             tiling2_s_on , tiling2_position_code ,tiling2_edge_colours, tiling2_limits ,tiling2_alpha ,
+             tiling2_s_on , 
+             tiling2_s_number_of_rows, tiling2_s_number_of_columns, tiling2_s_position_code ,
+             tiling2_edge_colours, tiling2_limits ,tiling2_alpha ,
              
-             data_lines_on  , x_s , data_position_code , 
+             data_lines_on  , x_s , 
+             data_number_of_rows,data_number_of_columns,data_position_code,
              legend_on , marker_style ,
              data_lines_x_label , data_lines_y_label ,
              index_start = 0 , index_end = i + 1)
     return None
 
 
-def tiling3_s_animation(list_of_tiling3_s, figure = False, position_code = 111, colours = default_intersection_colours, 
+def tiling3_s_animation(list_of_tiling3_s, figure = False, 
+                      tiling3_s_number_of_rows = 2,tiling3_s_number_of_columns = 2,tiling3_s_position_code = 1,
+                      colours = default_intersection_colours, 
                       plane_z0_on = False, restrict32_intersection_on = False, tiling3_edges_on = True,
                       tiling3_faces_on = True,tiling3_edge_colours = ['black'],
                       axis_limit = False, elevation = 30, azumith = 30, 
@@ -87,10 +96,11 @@ def tiling3_s_animation(list_of_tiling3_s, figure = False, position_code = 111, 
     
     '''
     for (j,tiling3_s) in enumerate(list_of_tiling3_s):
-        tiling3_s_3d_subplot(tiling3_s, figure, position_code, colours, 
-                      plane_z0_on, restrict32_intersection_on, tiling3_edges_on,
-                      tiling3_faces_on,tiling3_edge_colours,
-                      axis_limit, elevation, azumith, 
-                      "img%06d.png"%(j+1,), folder, save_on, 
-                      plane_z0_alpha, restrict32_alpha, tiling3_faces_alpha , tiling3_edges_alpha)
+        tiling3_s_3d_subplot(tiling3_s, figure, 
+                            tiling3_s_number_of_rows = 2,tiling3_s_number_of_columns = 2,tiling3_s_position_code = 1,
+                            colours, plane_z0_on, restrict32_intersection_on, tiling3_edges_on,
+                            tiling3_faces_on,tiling3_edge_colours,
+                            axis_limit, elevation, azumith, 
+                            "img%06d.png"%(j+1,), folder, save_on, 
+                            plane_z0_alpha, restrict32_alpha, tiling3_faces_alpha , tiling3_edges_alpha)
     return None
