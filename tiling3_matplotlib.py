@@ -65,10 +65,12 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, number_of_rows = 1,number_of
     y_s = []
     z_s = []
     for (k,tiling3) in enumerate(tiling3_s):
+        print k, tiling3_edge_colours[k%len(tiling3_edge_colours)]
         if tiling3_edges_on == True:
             for (j,face) in enumerate(tiling3.faces):
                 for edge in list(face):
-                    lines.append(axis.plot([],[],[],'',color = 'black',alpha = tiling3_edges_alpha)[0])
+                    lines.append(axis.plot([],[],[],'',color = tiling3_edge_colours[k%len(tiling3_edge_colours)],
+                                           alpha = tiling3_edges_alpha)[0])
                     vertex_1 = [list(edge)[0][1],list(edge)[0][2],list(edge)[0][3]]
                     vertex_2 = [list(edge)[1][1],list(edge)[1][2],list(edge)[1][3]]
                     x_s += [[vertex_1[0],vertex_2[0]]]
