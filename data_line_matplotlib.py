@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 
-def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', figure = False,
-                 legend_on = True, marker_style = 'polygon',
-                 x_label = 'Iteration', y_label = 'Polygon Count',index_start = False , index_end = False, 
-                 save_on = True, save_name = 'data_lines_image',folder = 'demos/datalines'):
+def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, 
+                number_of_rows = 1,number_of_columns = 1,position_code = 1,
+                figure = False,
+                legend_on = True, marker_style = 'polygon',
+                x_label = 'Iteration', y_label = 'Polygon Count',index_start = False , index_end = False, 
+                save_on = True, save_name = 'data_lines_image',folder = 'demos/datalines'):
     
     '''
     This is a function for plotting multiple data lines on one 2d graph.
@@ -14,6 +16,15 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', 
     It is recommended to use the polygon_count functions to help create this.
     
     If marker_style = 'polygon' an 'n-gon' will be used as the marker. 
+    
+    Number of rows and number of columns determines how the figure is subdivided into equal areas
+    and the position code decides which area the subplot is plotted in. 
+    
+    To plot in the area in the i^{th} row and j^{th} the position code should be 
+    j + (i-1)*j . 
+    
+    For example to plot in the top right quarter of a pictre we use 
+    number_of_rows = 2, number_of_columns = 2, position_code = 1.
     '''
 
     if figure == False:
@@ -38,7 +49,7 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False, position_code = '111', 
         if  max_data > max_value:
             max_value = max_data 
              
-    axis = plt.subplot(position_code, frameon = False,
+    axis = plt.subplot(number_of_rows = 1,number_of_columns = 1,position_code = 1, frameon = False,
                                      xlim = (-1.01+index_start, maxx*1.1), 
                                      ylim = (-0.01, max_value*1.1 ))
     axis.set_xlabel(x_label, fontsize = 18)
