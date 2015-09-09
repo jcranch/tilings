@@ -89,7 +89,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure = False, number_of_rows = 1,number_of
             for (j,face) in enumerate(restrict32(tiling3).faces):
                 polygon_tiles .append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],
                 facecolor = colours[(len(face)-3)%len(colours)],
-                edgecolor  = tiling3_edge_colours[k%len(tiling3_edge_colours)],alpha = tiling3_edges_alpha)))
+                edgecolor  = tiling3_edge_colours[k%len(tiling3_edge_colours)],alpha = restrict32_alpha)))
     if plane_z0_on == True:
         axis.add_collection3d(Poly3DCollection([[(axis_limit[0][0],axis_limit[1][0],0),(axis_limit[0][0],axis_limit[1][1],0),\
                                                  (axis_limit[0][1],axis_limit[0][1],0),(axis_limit[0][1],axis_limit[1][0],0)]],\
