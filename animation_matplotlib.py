@@ -97,7 +97,7 @@ def tiling3_s_animation(list_of_tiling3_s, figure = False,
     '''
     for (j,tiling3_s) in enumerate(list_of_tiling3_s):
         tiling3_s_3d_subplot(tiling3_s, figure, 
-                            tiling3_s_number_of_rows = 2,tiling3_s_number_of_columns = 2,tiling3_s_position_code = 1,
+                            tiling3_s_number_of_rows = 1,tiling3_s_number_of_columns = 1,tiling3_s_position_code = 1,
                             colours, plane_z0_on, restrict32_intersection_on, tiling3_edges_on,
                             tiling3_faces_on,tiling3_edge_colours,
                             axis_limit, elevation, azumith, 
