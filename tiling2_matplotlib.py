@@ -38,7 +38,7 @@ def tiling2_s_flattened_subplot(tiling2_s, figure = False, number_of_rows = 1,nu
                     bound = contender
                 
         tiling2_limits = [[-bound-1,bound+1]]*2
-    axis = plt.subplot(position_code, xlim = tiling2_limits[0], ylim = tiling2_limits[1], aspect='equal', frameon = False)
+    axis = plt.subplot(number_of_rows, number_of_columns,position_code, xlim = tiling2_limits[0], ylim = tiling2_limits[1], aspect='equal', frameon = False)
     axis.get_xaxis().set_visible(False)
     axis.get_yaxis().set_visible(False)
     patches = []
