@@ -47,7 +47,7 @@ demos/%.mp4: demos/%_png/img000001.png
 	avconv -y -framerate 15 -i demos/$*_png/img%06d.png -c:v libx264 -r 30 -pix_fmt yuv420p $@
 
 demos/%_png/img000001.png: demo_animation.py
-	python demo_animation.py $*
+	python2 demo_animation.py $*
 
 
 POLYTOPES = autotilings/cell24.data \
@@ -57,4 +57,4 @@ POLYTOPES = autotilings/cell24.data \
 build-polytopes: $(POLYTOPES)
 
 autotilings/%.data:
-	python tiling4_make_polytopes.py $*
+	python2 tiling4_make_polytopes.py $*

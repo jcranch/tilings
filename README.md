@@ -5,6 +5,30 @@ Code associated to Rob Nicolaides's 2015 summer scholarship at the
 University of Sheffield, supervised by James Cranch.
 
 
+Prerequisites
+-------------
+
+In order to build the code, the following is needed
+
+ * python2
+
+   This has been tested with python version 2.7.
+
+ * make
+
+   GNU make has been used to build the project.
+
+ * avconv
+
+   In order to make the videos, the avconv package is required.
+
+ * LaTeX + epspdf + baposter
+
+   A latex distribution is required, with the utility epspdf (to
+   convert postscript files to PDFs), and the baposter class installed
+   (this is not part of CTAN, so needs downloading separately).
+
+
 Files and directories
 ---------------------
 

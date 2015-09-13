@@ -40,7 +40,7 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling = 'tiling3',
 
     This function should be used to make animations that contain tiling3 objects as well as data lines and restrict32 projections.
 
-    For animations that just require a tiling3 image it is reccomended that the user uses tiling3_s_animation function instead.
+    For animations that just require a tiling3 image it is recommended that the user uses tiling3_s_animation function instead.
     '''
     list_of_tiling2_s = [0]*len(list_of_tiling3_s)
 
