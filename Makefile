@@ -1,6 +1,7 @@
 all: build-posters build-animation
 
 clean:
+	rm -f *.pyc tests/*.pyc
 	rm -f demos/*.eps demos/*.pdf demos/*.png
 	rm -f demos/*.mp4
 	rm -rf demos/*_png

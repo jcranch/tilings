@@ -23,7 +23,7 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False,
     To plot in the area in the i^{th} row and j^{th} the position code should be 
     j + (i-1)*j . 
     
-    For example to plot in the top right quarter of a pictre we use 
+    For example to plot in the top right quarter of a picture we use 
     number_of_rows = 2, number_of_columns = 2, position_code = 1.
     '''
 
