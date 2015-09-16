@@ -71,8 +71,7 @@ def line_plot_2d(list_of_dictionary_of_y_s, x_s = False,
     if legend_on == True:
         axis.legend(loc = 'upper right',framealpha = 0.0, fancybox = True)
     if save_on:
-        folder_name = os.path.join(folder)
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name) 
-        figure.savefig(folder+'/'+str(save_name)+'.png')  
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        figure.savefig(os.path.join(folder, save_name))
     return axis

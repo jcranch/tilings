@@ -95,8 +95,7 @@ def tiling3_s_3d_subplot(tiling3_s, figure=False, number_of_rows=1, number_of_co
                                                facecolor='white',
                                                edgecolor='black', alpha=plane_z0_alpha))
     if save_on:
-        folder_name = os.path.join(folder)
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name)
-        figure.savefig(folder+'/'+str(save_name)+'.png')
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        figure.savefig(os.path.join(folder, save_name))
     return axis
