@@ -1,12 +1,13 @@
+import os
+import matplotlib.pyplot as plt
+
 from polygon_count import *
 from tiling3_matplotlib import tiling3_s_3d_subplot
 from tiling2_matplotlib import tiling2_s_flattened_subplot
 from data_line_matplotlib import line_plot_2d
 from simultaneous_plot import simultaneous_plot
 from restrict32 import restrict32
-
-import os
-import matplotlib.pyplot as plt
+from progress import progressenumerate
 
 
 def restriction_full_animation(list_of_tiling3_s, face_count_tiling='tiling3',
@@ -83,13 +84,14 @@ def restriction_full_animation(list_of_tiling3_s, face_count_tiling='tiling3',
 
 
 def tiling3_s_animation(list_of_tiling3_s, figure=False,
-                      tiling3_s_number_of_rows=2, tiling3_s_number_of_columns=2, tiling3_s_position_code=1,
-                      colours=default_intersection_colours,
-                      plane_z0_on=False, restrict32_intersection_on=False, tiling3_edges_on=True,
-                      tiling3_faces_on=True, tiling3_edge_colours=['black'],
-                      axis_limit=False, elevation=30, azimuth=30,
-                      save_name='tiling3_image', folder='demos/tiling3animation', save_on=True,
-                      plane_z0_alpha=0.2, restrict32_alpha=0.8, tiling3_faces_alpha=0.8, tiling3_edges_alpha=0.8):
+                        tiling3_s_number_of_rows=2, tiling3_s_number_of_columns=2, tiling3_s_position_code=1,
+                        colours=default_intersection_colours,
+                        plane_z0_on=False, restrict32_intersection_on=False, tiling3_edges_on=True,
+                        tiling3_faces_on=True, tiling3_edge_colours=['black'],
+                        axis_limit=False, elevation=30, azimuth=30,
+                        save_name='tiling3_image', folder='demos/tiling3animation', save_on=True,
+                        plane_z0_alpha=0.2, restrict32_alpha=0.8, tiling3_faces_alpha=0.8, tiling3_edges_alpha=0.8,
+                        print_progress=True):
     '''
     This function takes a list of lists of tiling3 objects,
     list_of_tiling3_s, and creates a tiling3_s_3d_subplot for each
@@ -97,7 +99,7 @@ def tiling3_s_animation(list_of_tiling3_s, figure=False,
 
     This can be used to make quick animations of tiling3 objects.
     '''
-    for (j, tiling3_s) in enumerate(list_of_tiling3_s):
+    for (j, tiling3_s) in progressenumerate(list_of_tiling3_s, name=save_name, visible=print_progress):
         tiling3_s_3d_subplot(tiling3_s, figure,
                             tiling3_s_number_of_rows, tiling3_s_number_of_columns, tiling3_s_position_code,
                             colours, plane_z0_on, restrict32_intersection_on, tiling3_edges_on,

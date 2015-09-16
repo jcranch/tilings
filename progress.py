@@ -65,3 +65,14 @@ def progressrange(n, name=None, use_progressbar=got_progressbar, visible=True):
         for i in xrange(n):
             yield i
             p.update(i+1)
+
+
+def progressenumerate(g, length=None, name=None, use_progressbar=got_progressbar, visible=True):
+
+    if length is None:
+        length = len(g)
+
+    with Progress(length, name=name, use_progressbar=use_progressbar, visible=visible) as p:
+        for (i,x) in enumerate(g):
+            yield (i,x)
+            p.update(i+1)
