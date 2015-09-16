@@ -24,6 +24,12 @@ class TetrahedronTest(unittest.TestCase, TilingTest):
         self.assertEqual(len(self.t.faces), 4)
         self.assertEqual(len(self.t.volumes), 1)
 
+    def test_dual(self):
+        n = lambda x: None
+        t1 = self.t.map(n,n,n,n)
+        t2 = tiling3_dual(t1).map(n,n,n,n)
+        self.assertTrue(t1.isomorphic(t2))
+
 
 class CubeTest(unittest.TestCase, TilingTest):
 
@@ -43,6 +49,12 @@ class CubeTest(unittest.TestCase, TilingTest):
         self.assertEqual(len(self.t.faces), 6)
         self.assertEqual(len(self.t.volumes), 1)
 
+    def test_dual(self):
+        n = lambda x: None
+        t1 = octahedron().map(n,n,n,n)
+        t2 = tiling3_dual(self.t).map(n,n,n,n)
+        self.assertTrue(t1.isomorphic(t2))
+
 
 class OctahedronTest(unittest.TestCase, TilingTest):
 
@@ -61,6 +73,12 @@ class OctahedronTest(unittest.TestCase, TilingTest):
         self.assertEqual(len(self.t.edges), 12)
         self.assertEqual(len(self.t.faces), 8)
         self.assertEqual(len(self.t.volumes), 1)
+
+    def test_dual(self):
+        n = lambda x: None
+        t1 = cube().map(n,n,n,n)
+        t2 = tiling3_dual(self.t).map(n,n,n,n)
+        self.assertTrue(t1.isomorphic(t2))
 
 
 class DodecahedronTest(unittest.TestCase, TilingTest):
