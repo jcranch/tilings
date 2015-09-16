@@ -1,4 +1,3 @@
-# %load demo_animation.py
 import sys
 
 from vector4 import Vector4
