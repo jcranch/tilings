@@ -72,5 +72,5 @@ def simultaneous_plot(tiling3_s, tiling2_s, list_of_dictionary_of_y_s,
     if save_on:
         if not os.path.exists(folder):
             os.makedirs(folder)
-        figure.savefig(os.path.join(folder, save_name))
+        common_figure.savefig(os.path.join(folder, save_name))
     return common_figure
