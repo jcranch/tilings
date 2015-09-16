@@ -65,7 +65,6 @@ def tiling3_s_3d_subplot(tiling3_s, figure=False, number_of_rows=1, number_of_co
     y_s = []
     z_s = []
     for (k, tiling3) in enumerate(tiling3_s):
-        print k, tiling3_edge_colours[k%len(tiling3_edge_colours)]
         if tiling3_edges_on == True:
             for (j, face) in enumerate(tiling3.faces):
                 for edge in list(face):
