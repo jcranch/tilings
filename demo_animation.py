@@ -15,7 +15,7 @@ def make_translate_z_4d(name, polytope, fpu=50.0, axis_limit=[[-2, 2]]*3, elevat
     maxz = polytope.maxz()
     tiling3_s_animation([[restrict43(polytope.translate(Vector4(0,0,0.00001,0.00001 + minz + i/fpu)))]
      for i in range(-1, int((maxz-minz)*fpu)+2)],
-     folder='demo/'+name+'_translate_z',
+     folder='demos/'+name+'_translate_z',
      axis_limit=axis_limit, elevation=elevation, azimuth=azimuth)
 
 def make_rotate_wx(name, polytope, fpu=20.0, axis_limit=[[-2, 2]]*3, elevation_ = 40, azimuth_ = 30):
