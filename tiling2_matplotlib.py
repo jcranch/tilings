@@ -50,8 +50,7 @@ def tiling2_s_flattened_subplot(tiling2_s, figure = False, number_of_rows = 1,nu
             patches[grand_n+n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
         grand_n += 1
     if save_on:
-        folder_name = os.path.join(folder)
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name) 
-        figure.savefig(folder+'/'+str(save_name)+'.png')         
+        if not os.path.exists(folder):
+            os.makedirs(folder) 
+        figure.savefig(os.path.join(folder, save_name))
     return axis

@@ -105,6 +105,6 @@ def tiling3_s_animation(list_of_tiling3_s, figure=False,
                             colours, plane_z0_on, restrict32_intersection_on, tiling3_edges_on,
                             tiling3_faces_on, tiling3_edge_colours,
                             axis_limit, elevation, azimuth,
-                            "img%06d.png"%(j+1,), folder, save_on,
+                            "img%06d.png"%(j+1,), folder+"_png", save_on,
                             plane_z0_alpha, restrict32_alpha, tiling3_faces_alpha, tiling3_edges_alpha)
     return None
