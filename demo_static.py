@@ -5,7 +5,7 @@ from periodic_tiling3 import cubic_tiling3, tetra_octa_tiling3
 from matrix3 import rotate_x, rotate_y
 from vector3 import Vector3
 from restrict32 import restrict32
-from tiling2_matplotlib import plot_matplotlib
+from tiling2_matplotlib import tiling2_s_flattened_subplot
 
 
 
@@ -46,7 +46,7 @@ def draw_cubic1_matplotlib(dirname, filename="cubic1.png"):
     v = Vector3(0,0,-0.1)
     l3 = cubic_tiling3(((-6,6),(-6,6),(-6,6))).deform(m).translate(v)
     l2 = restrict32(l3)
-    plot_matplotlib(l2).savefig(os.path.join(dirname, filename))
+    tiling2_s_flattened_subplot(l2).savefig(os.path.join(dirname, filename))
 
 
 def draw_tetra_octa_eps(dirname, filename="tetra_octa1.eps"):
