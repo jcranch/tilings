@@ -5,9 +5,6 @@ from periodic_tiling3 import cubic_tiling3, tetra_octa_tiling3
 from matrix3 import rotate_x, rotate_y
 from vector3 import Vector3
 from restrict32 import restrict32
-from tiling2_matplotlib import tiling2_s_flattened_subplot
-
-
 
 def draw_cubic1_eps(dirname, filename="cubic1.eps"):
 
@@ -20,7 +17,6 @@ def draw_cubic1_eps(dirname, filename="cubic1.eps"):
     l2 = restrict32(l3).clip(-5,5,-5,5)
     with open(os.path.join(dirname, filename), "w") as f:
         l2.write_eps(f, (20,220,520,720), (-5,5,-5,5), facecol=facecol)
-
 
 def draw_cubic2_eps(dirname, filename="cubic2.eps"):
 
@@ -38,16 +34,6 @@ def draw_cubic2_eps(dirname, filename="cubic2.eps"):
     with open(os.path.join(dirname, filename), "w") as f:
         l3.write_eps(f, (0,0,500,500), (-1.5,5.7,-2.7,4.5),
                      whiterange=6, subdivs=25, edgecol=edgecol)
-
-
-def draw_cubic1_matplotlib(dirname, filename="cubic1.png"):
-
-    m = rotate_x(0.75) * rotate_y(0.55)
-    v = Vector3(0,0,-0.1)
-    l3 = cubic_tiling3(((-6,6),(-6,6),(-6,6))).deform(m).translate(v)
-    l2 = restrict32(l3)
-    tiling2_s_flattened_subplot(l2).savefig(os.path.join(dirname, filename))
-
 
 def draw_tetra_octa_eps(dirname, filename="tetra_octa1.eps"):
 
@@ -72,7 +58,6 @@ def draw_tetra_octa_eps(dirname, filename="tetra_octa1.eps"):
         l3.write_eps(f, (0,0,500,500), (-1.5,5.7,-2.7,4.5),
                      whiterange=6, subdivs=25, edgecol=edgecol)
 
-
 def draw_triangular(dirname, filename="triangular.eps"):
 
     def facecol((a,v)):
@@ -83,7 +68,6 @@ def draw_triangular(dirname, filename="triangular.eps"):
     t = triangular_tiling(((-10,10),(-10,10))).clip(-8,8,-8,8)
     with open(os.path.join(dirname, filename), "w") as f:
         t.write_eps(f,(0,0,500,500),(-8,8,-8,8),facecol=facecol)
-
 
 def draw_hexagonal(dirname, filename="hexagonal.eps"):
 
@@ -98,8 +82,6 @@ def draw_hexagonal(dirname, filename="hexagonal.eps"):
     t = hexagonal_tiling(((-10,10),(-10,10))).clip(-8,8,-8,8)
     with open(os.path.join(dirname, filename), "w") as f:
         t.write_eps(f,(0,0,500,500),(-8,8,-8,8),facecol=facecol)
-
-
 
 if __name__=="__main__":
 
