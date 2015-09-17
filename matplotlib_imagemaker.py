@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import os
 
-class Imagemaker(object):
+class ImageMaker(object):
 
     def image(self, tiling):
         """
@@ -39,7 +39,7 @@ class Imagemaker(object):
             self.store_image(tiling_s, file_name, folder)
             
             
-class Tiling3ImageMaker(Imagemaker):
+class Tiling3ImageMaker(ImageMaker):
 
     def __init__(self,
                  colours=default_intersection_colours,
@@ -158,7 +158,7 @@ class Tiling3ImageMaker(Imagemaker):
     def image(self,tiling3_s):
         return self.tiling3_image(tiling3_s)
         
-class Tiling2ImageMaker(Imagemaker):
+class Tiling2ImageMaker(ImageMaker):
     def __init__(self,
                  colours=default_intersection_colours,
                  figure_size = [5,5],
