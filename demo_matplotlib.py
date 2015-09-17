@@ -12,4 +12,5 @@ tiling3_image_creator = Tiling3ImageMaker()
 if __name__=="__main__":
     platonic_solids = [tetrahedron(), cube(), octahedron(), dodecahedron(), icosahedron()]
     for (i,platonic_solid) in platonic_solids:
-        tiling3_image_creator.store_image([platonic_solid.translate(Vector3(0,0,0.0001))], folder = 'demos/platonic_solids')
+        tiling3_image_creator.store_image([platonic_solid.translate(Vector3(0,0,0.0001))], save_name = str(i),
+        folder = 'demos/platonic_solids')
