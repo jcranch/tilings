@@ -221,3 +221,75 @@ class Tiling2ImageMaker(ImageMaker):
         return axis
     def image(self, tiling2_s):
         return self.tiling2_image(tiling2_s)
+
+
+class SimultaneousImagemaker(Tiling2ImageMaker, Tiling3ImageMaker):
+    def __init__(self,
+                 colours=default_intersection_colours,
+                 figure_size = [5,5],
+                 number_of_rows = 1,
+                 number_of_columns = 1,
+                 position_code = 1,
+                 edge_colours = ['black'],
+                 tiling2_axis_limit = False,
+                 plane_z0_alpha = 0.2,
+                 tiling2_alpha = 0.8,
+                 tiling3_faces_alpha = 0.8,
+                 edges_alpha = 0.8, 
+                 plane_z0_on=False,
+                 restrict32_intersection_on=False,
+                 tiling3_edges_on=True,
+                 tiling3_faces_on=True,
+                 tiling3_axis_limit=False,
+                 elevation=30,
+                 azimuth=30,):
+        self.number_of_rows = number_of_rows
+        self.number_of_columns = number_of_columns
+        self.position_code = position_code
+        self.figure_size = figure_size
+        self.colours = colours        
+        self.edge_colours = edge_colours
+        self.tiling2_axis_limit = tiling2_axis_limit
+        self.tiling2_alpha = tiling2_alpha
+        self.edges_alpha = edges_alpha 
+        self.figure_size = figure_size
+        self.colours = colours
+        self.plane_z0_on = plane_z0_on
+        self.restrict32_intersection_on = restrict32_intersection_on
+        self.tiling3_edges_on = tiling3_edges_on
+        self.tiling3_faces_on = tiling3_faces_on
+        self.edge_colours = edge_colours
+        self.tiling3_axis_limit = tiling3_axis_limit
+        self.elevation = elevation
+        self.azimuth = azimuth
+        self.plane_z0_alpha = plane_z0_alpha
+        self.tiling2_alpha = tiling2_alpha
+        self.tiling3_faces_alpha = tiling3_faces_alpha
+
+    def image(self, tiling3_s, tiling2_s):
+        self.number_of_rows = 1
+        self.number_of_columns = 2
+        self.position_code = 1
+        self.tiling2_image(tiling2_s)
+        self.position_code = 2
+        self.tiling3_image(tiling3_s)
+
+    def store_image(self, tiling3_s,tiling2_s, save_name = 'tiling_image', folder = 'demos/tiling_static'):
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+            figure = plt.figure(figsize = self.figure_size)
+            self.image(tiling3_s, tiling2_s)
+            figure.savefig(os.path.join(folder, save_name))
+            plt.close()
+    def animation(self,list_of_tiling3_s, list_of_tiling2_s, folder):
+        """
+        Given a list of images, this stores them with convenient numbered
+        filenames in the given folder.
+        """
+        if len(list_of_tiling3_s) != len(list_of_tiling2_s):
+            raise ValueError('list_of_tiling3_s and list_of_tiling2_s must be of same length')
+        else:
+            folder = folder+"_png"
+            for (i) in range(len(list_of_tiling3_s)):
+                file_name = "img%06d.png"%(i+1,)
+                self.store_image(list_of_tiling3_s[i],list_of_tiling2_s[i], file_name, folder) 
