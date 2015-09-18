@@ -5,8 +5,6 @@ import numpy as np
 import os
 
 from styling import default_intersection_colours
-from data_line_matplotlib import line_plot_2d
-from simultaneous_plot import simultaneous_plot
 from restrict32 import restrict32
 from progress import progressenumerate
 from vector3 import Vector3
