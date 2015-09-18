@@ -58,15 +58,6 @@ class Progress(object):
             self.pbar.finish()
 
 
-
-def progressrange(n, name=None, use_progressbar=got_progressbar, visible=True):
-
-    with Progress(n, name=name, use_progressbar=use_progressbar, visible=visible) as p:
-        for i in xrange(n):
-            yield i
-            p.update(i+1)
-
-
 def progressenumerate(g, length=None, name=None, use_progressbar=got_progressbar, visible=True):
 
     if length is None:

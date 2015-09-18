@@ -28,13 +28,17 @@ class ImageMaker(object):
         figure.savefig(os.path.join(folder, save_name))
         plt.close()
 
-    def animation(self, list_of_tiling_s, folder):
+    def animation(self, list_of_tiling_s, folder, number=None, show_progress=True):
         """
         Given a list of images, this stores them with convenient numbered
         filenames in the given folder.
         """
+        if show_progress and (number is None):
+            list_of_tiling_s = list(list_of_tiling_s)
+            number = len(list_of_tiling_s)
+
         folder = folder+"_png"
-        for (i, tiling_s) in progressenumerate(list_of_tiling_s):
+        for (i, tiling_s) in progressenumerate(list_of_tiling_s, length=number, visible=show_progress):
             file_name = "img%06d.png"%(i+1,)
             self.store_image(tiling_s, file_name, folder)
             
