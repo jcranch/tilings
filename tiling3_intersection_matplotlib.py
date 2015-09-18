@@ -7,7 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matrix3 import rotate_x,rotate_z
 from vector3 import Vector3
 from restrict32 import restrict32
-from tiling3_matplotlib import default_intersection_colours
+from styling import default_intersection_colours
 
 
 def distribution_plot(polyhedron,iterations = 100000, colours = default_intersection_colours, plot_on = True):

@@ -96,9 +96,6 @@ if __name__=="__main__":
     print "draw_cubic2_eps"
     draw_cubic2_eps(demo_directory)
 
-    print "draw_cubic1_matplotlib"
-    draw_cubic1_matplotlib(demo_directory)
-
     print "draw_tetra_octa_eps"
     draw_tetra_octa_eps(demo_directory)
 

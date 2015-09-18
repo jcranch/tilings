@@ -1,4 +1,4 @@
-from tiling3_matplotlib import default_intersection_colours, tiling3_s_3d_subplot
+from styling import default_intersection_colours
 from vector3 import Vector3, random_norm1
 from matrix3 import Matrix3, rotation_matrix_producer
 

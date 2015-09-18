@@ -1,4 +1,5 @@
-from tiling3_matplotlib import default_intersection_colours
+from styling import default_intersection_colours
+
 
 def default_line_plot_2d_dictionary_of_y_s_maker(y_s, n, colours = default_intersection_colours):
     '''

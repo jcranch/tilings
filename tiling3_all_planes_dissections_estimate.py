@@ -1,7 +1,7 @@
 from matrix3 import random_special_orthogonal
 from restrict32 import restrict32
 from vector3 import Vector3
-from tiling3_matplotlib import default_intersection_colours
+from styling import default_intersection_colours
 
 from random import random
 import matplotlib.pyplot as plt

@@ -1,3 +1,10 @@
+from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from matplotlib import pyplot as plt
+import numpy as np
+import os
+
+from styling import default_intersection_colours
 from data_line_matplotlib import line_plot_2d
 from simultaneous_plot import simultaneous_plot
 from restrict32 import restrict32
@@ -6,11 +13,6 @@ from vector3 import Vector3
 from restrict32 import restrict32
 from common import cycle
 
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from matplotlib import pyplot as plt
-import numpy as np
-import os
 
 class ImageMaker(object):
 
@@ -43,7 +45,7 @@ class Tiling3ImageMaker(ImageMaker):
 
     def __init__(self,
                  colours=default_intersection_colours,
-                 figure_size = [5,5],
+                 figure_size=[5,5],
                  plane_z0_on=False,
                  restrict32_intersection_on=False,
                  tiling3_edges_on=True,
