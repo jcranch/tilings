@@ -1,6 +1,6 @@
 import unittest
 
-from periodic_tiling3 import LatticeSearcher
+from tiling3_periodic import LatticeSearcher
 
 
 class LatticeSearcherTest(unittest.TestCase):

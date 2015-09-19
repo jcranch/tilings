@@ -2,8 +2,10 @@ from common import LatticeSearcher
 from vector4 import Vector4
 from tiling4 import Tiling4
 
+
 def periodic_tiling4(fundamental_vertices, fundamental_edges,
-                     fundamental_faces, fundamental_volumes,fundamental_hypervolumes,
+                     fundamental_faces, fundamental_volumes,
+                     fundamental_hypervolumes,
                      bounding_box,
                      period_vectors = [Vector4(1,0,0,0), Vector4(0,1,0,0), Vector4(0,0,1,0),Vector4(0,0,0,1)]):
 

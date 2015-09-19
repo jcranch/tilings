@@ -1,7 +1,7 @@
 import unittest
 
 from restrict32 import restrict32
-from periodic_tiling3 import cubic_tiling3
+from tiling3_periodic import cubic_tiling3
 from vector2 import Vector2
 from vector3 import Vector3
 

@@ -1,10 +1,11 @@
 import os
 
-from periodic_tiling2 import triangular_tiling, hexagonal_tiling
-from periodic_tiling3 import cubic_tiling3, tetra_octa_tiling3
+from tiling2_periodic import triangular_tiling, hexagonal_tiling
+from tiling3_periodic import cubic_tiling3, tetra_octa_tiling3
 from matrix3 import rotate_x, rotate_y
 from vector3 import Vector3
 from restrict32 import restrict32
+
 
 def draw_cubic1_eps(dirname, filename="cubic1.eps"):
 
