@@ -1,8 +1,10 @@
-from tiling2_matplotlib import tiling2_s_flattened_subplot
+from matplotlib_imagemaker import Tiling2ImageMaker
 from math import  tan
 from vector2 import Vector2
 from restrict21 import restrict21
 from matrix2 import rotation
+
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -16,7 +18,8 @@ def polygon_fixed_line_exact_distribution(polygon,line_angle, plot_on = True):
     '''
     bound = max(v.norm() for v in polygon.vertices)
     if plot_on == True:
-        tiling2_s_flattened_subplot([polygon])
+        b = Tiling2ImageMaker()
+        b.image([polygon])
     x_s  = np.linspace(-bound-1,bound+1,1000)
     list_of_y_s = []
     list_of_normal_intersections = []
