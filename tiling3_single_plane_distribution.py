@@ -1,6 +1,8 @@
 from styling import default_intersection_colours
 from vector3 import Vector3, random_norm1
-from matrix3 import Matrix3, rotation_matrix_producer
+from matrix3 import Matrix3, rotation_matrix_producer 
+from matplotlib_imagemaker import Tiling3ImageMaker
+from restrict32 import restrict32 
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,9 +18,10 @@ def polyhedron_fixed_plane_exact_distribution(polyhedron, plane_vector_1, plane_
     '''
     bound = max(v.norm() for v in polyhedron.vertices)
     if plot_on == True:
-        figure = tiling3_s_3d_subplot([polyhedron])  
+        b = Tiling3ImageMaker()
+        figure = b.image([polyhedron])  
         
-    normal_vector = normal_vector_creator(plane_vector_1, plane_vector_2)
+    normal_vector = plane_vector_1.cross(plane_vector_2) 
     
     dictionary_of_vertices = {}
     list_of_intersections = {}
@@ -87,5 +90,6 @@ def polyhedron_fixed_plane_exact_distribution(polyhedron, plane_vector_1, plane_
             restrict = restrict32(polyhedron.transform(rotation_matrix).translate(translation))
             intersect_lines = frozenset(restrict.edges[e] for f in restrict.faces for e in f)
             intersection_keys[(intersect_lines)] = (dictionary_of_distributions[key])
-
+    if plot_on == True:
+        plt.show()
     return intersection_keys
