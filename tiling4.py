@@ -268,6 +268,58 @@ class Tiling4(object):
             inv[hypervolume_inv] = 1 + inv.get(hypervolume_inv, 0)
         return tuple(sorted(inv.iteritems()))
 
+    def vertextour(self):
+        """
+        Generate the vertices, moving to the nearest at each stage: a
+        greedy travelling postman. Useful for algorithms later.
+        """
+        s = set(self.vertices)
+        x = s.pop()
+        yield x
+        while s:
+            x = min(s, key=x.distance)
+            s.remove(x)
+            yield x
+
+    def proximate(self, other, epsilon=1e-7):
+        """
+        Are these two almost identical: do they have corresponding
+        vertices within epsilon and corresponding higher structure?
+        """
+        if len(self.vertices) != len(other.vertices):
+            return False
+        if len(self.edges) != len(other.edges):
+            return False
+        if len(self.faces) != len(other.faces):
+            return False
+        if len(self.volumes) != len(other.volumes):
+            return False
+        if len(self.hypervolumes) != len(other.hypervolumes):
+            return False
+        d = {}
+        for (u,x) in self.vertices.iteritems():
+            l = [v for (v,y) in other.vertices.iteritems() if x==y and u.distance(v)<epsilon]
+            if len(l) != 1:
+                return False
+            d[u] = l[0]
+        for (e,x) in self.edges.iteritems():
+            e = frozenset(d[v] for v in e)
+            if e not in other.edges or other.edges[e] != x:
+                return False
+        for (f,x) in self.faces.iteritems():
+            f = frozenset(frozenset(d[v] for v in e) for e in f)
+            if f not in other.faces or other.faces[f] != x:
+                return False
+        for (g,x) in self.volumes.iteritems():
+            g = frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)
+            if g not in other.volumes or other.volumes[g] != x:
+                return False
+        for (h,x) in self.hypervolumes.iteritems():
+            h = frozenset(frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g) for g in h)
+            if h not in other.hypervolumes or other.hypervolumes[h] != x:
+                return False
+        return True
+            
 
 def tiling4(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):
     """
