@@ -58,6 +58,11 @@ class Vector4(object):
         yield self.y
         yield self.z
 
+    def in_box(self, box):
+        ((minw, maxw), (minx, maxx), (miny, maxy), (minz, maxz)) = box
+        return (minw <= self.w <= maxw) and (minx <= self.x <= maxx) and (miny <= self.y <= maxy) and (minz <= self.z <= maxz)
+
+
 def random_norm1_4():
     """
     A random vector on the unit sphere.

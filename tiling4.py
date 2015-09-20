@@ -111,6 +111,13 @@ class Tiling4(object):
     def transform(self, matrix):
         return self.deform(matrix) # matrix action is overloaded function call
 
+    def in_box(self, box):
+        ((minw, maxw), (minx, maxx), (miny, maxy), (minz, maxz)) = box
+        return (minw <= self.minw() and self.maxw() <= maxw and
+                minx <= self.minx() and self.maxx() <= maxx and
+                miny <= self.miny() and self.maxy() <= maxy and
+                minz <= self.minz() and self.maxz() <= maxz)
+    
     def clip(self, minw, maxw, minx, maxx, miny, maxy, minz, maxz):
         """
         Take only the structure that intersects the box with given

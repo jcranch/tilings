@@ -7,26 +7,30 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
                      fundamental_faces, fundamental_volumes,
                      fundamental_hypervolumes,
                      bounding_box,
-                     period_vectors = [Vector4(1,0,0,0), Vector4(0,1,0,0), Vector4(0,0,1,0),Vector4(0,0,0,1)]):
+                     periods = [Vector4(1,0,0,0), Vector4(0,1,0,0),
+                                Vector4(0,0,1,0),Vector4(0,0,0,1)]):
 
     """
     Build a periodic tiling.
+
     The fundamental geometric features are given as dicts. For
     fundamental_vertices, the keys are labels, and the values are
     vectors. For the rest, the keys are labels, and the values are
     lists of pairs whose first element is the label of something of
     dimension one less, and whose second element is a tuple of
     coefficients of the period vectors.
+
     The extent of the structure is found by adding and subtracting the
-    elements of period_vectors from the given vertices, while still
+    elements of periods from the given vertices, while still
     remaining inside the box.
+
     In the resulting tiling, the labels are pairs: one is a label, and
     the other is a tuple of coefficients of the period vectors.
     """
 
     ((minw,maxw),(minx, maxx), (miny, maxy), (minz, maxz)) = bounding_box
 
-    n = len(period_vectors) # 4 for a space-filling tiling, but let's not assume
+    n = len(periods) # 4 for a space-filling tiling, but let's not assume
 
     vertices = {}
     for (label, v0) in fundamental_vertices.iteritems():
@@ -36,7 +40,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
 
         gen = LatticeSearcher(n)
         for coeffs in gen:
-            v = sum((u*c for (c,u) in zip(coeffs, period_vectors)), v0)
+            v = sum((u*c for (c,u) in zip(coeffs, periods)), v0)
             if minw <= v.w <= maxw and minx <= v.x <= maxx and miny <= v.y <= maxy and minz <= v.z <= maxz:
                 vertices[(label,coeffs)] = v
             else:
@@ -150,3 +154,63 @@ def cubic_tiling4(bounding_box):
         ((1,2,3,4,9,10,11,12),(0,0,0,0)),((1,2,3,4,9,10,11,12),(0,0,0,1))]}
 
     return periodic_tiling4(v,e,f,g,h,bounding_box)
+
+
+def simple_union(tiling4s, epsilon=1e-7):
+    """
+    Fits together a bunch of Tiling4 objects which approximately share
+    vertices, edges, faces, etc. Preserves labelling without
+    complaining about mismatches.
+    """
+
+    d = {}
+    dvals = set()
+    vertices = {}
+    edges = {}
+    faces = {}
+    volumes = {}
+    hypervolumes = {}
+    
+    for t in tiling4s:
+        for v in t.vertices:
+            for u in dvals:
+                if u.distance(v) < epsilon:
+                    d[v] = u
+                    break
+            else:
+                dvals.add(v)
+                d[v] = v
+
+        for (v,x) in t.vertices.iteritems():
+            vertices[d[v]] = x
+
+        for (e,x) in t.edges.iteritems():
+            edges[frozenset(d[v] for v in e)] = x
+
+        for (f,x) in t.faces.iteritems():
+            faces[frozenset(frozenset(d[v] for v in e) for e in f)] = x
+
+        for (g,x) in t.volumes.iteritems():
+            volumes[frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)] = x
+
+        for (h,x) in t.hypervolumes.iteritems():
+            hypervolumes[frozenset(frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g) for g in h)] = x
+
+    return Tiling4(vertices, edges, faces, volumes, hypervolumes)
+
+
+def simple_periodic_tiling4(fundamental_tiling4s, bounding_box,
+                            periods=[Vector4(1,0,0,0), Vector4(0,1,0,0),
+                                     Vector4(0,0,1,0), Vector4(0,0,0,1)]):
+
+    def tiling4s():
+        for t in fundamental_tiling4s:
+            gen = LatticeSearcher(len(periods))
+            for n in gen:
+                t1 = t.translate(sum((u*c for (u,c) in zip(periods, n)), Vector4(0,0,0,0)))
+                if t1.in_box(bounding_box):
+                    yield t1
+                else:
+                    gen.reject()
+                
+    return simple_union(tiling4s())

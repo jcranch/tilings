@@ -159,8 +159,9 @@ def pentatope():
         Vector4(0, 0, 0, root5 - 1/root5): 4 }
     return tiling4_convex_hull(dictionary_of_vertices)
 
-def hypercube():
-    vertices = [Vector4(w,x,y,z) for (w,x,y,z) in plus_minuses([1,1,1,1])]
+def hypercube(box=((-1,1),(-1,1),(-1,1),(-1,1))):
+    (ws,xs,ys,zs) = box
+    vertices = [Vector4(w,x,y,z) for w in ws for x in xs for y in ys for z in zs]
     return tiling4_convex_hull(dict(zip(vertices,xrange(16))))
 
 def cell16():

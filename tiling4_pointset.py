@@ -3,10 +3,15 @@ from tiling4 import Tiling4
 
 def tiling4_pointset(vertices, proto_hypervolumes, epsilon=1e-7):
     """
+    Creates a Tiling4 by recognising isomorphic copies of
+    proto_hypervolumes among the vertices.
+
     Vertices should be a dict with Vector4 objects as values.
 
-    proto_hypervolumes a list of tiling4 objects each with a single
-    hypervolume.
+    proto_hypervolumes should be a list of tiling4 objects each
+    with a single hypervolume.
+
+    In practice, this is rather slow.
     """
 
     def extend(l, d, n):
