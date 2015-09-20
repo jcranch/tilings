@@ -199,18 +199,27 @@ def simple_union(tiling4s, epsilon=1e-7):
     return Tiling4(vertices, edges, faces, volumes, hypervolumes)
 
 
-def simple_periodic_tiling4(fundamental_tiling4s, bounding_box,
+def simple_periodic_tiling4(tiling4, bounding_box,
                             periods=[Vector4(1,0,0,0), Vector4(0,1,0,0),
                                      Vector4(0,0,1,0), Vector4(0,0,0,1)]):
 
     def tiling4s():
-        for t in fundamental_tiling4s:
-            gen = LatticeSearcher(len(periods))
-            for n in gen:
-                t1 = t.translate(sum((u*c for (u,c) in zip(periods, n)), Vector4(0,0,0,0)))
-                if t1.in_box(bounding_box):
-                    yield t1
-                else:
-                    gen.reject()
+        gen = LatticeSearcher(len(periods))
+        for n in gen:
+            t1 = tiling4.translate(sum((u*c for (u,c) in zip(periods, n)), Vector4(0,0,0,0)))
+            if t1.in_box(bounding_box):
+                yield t1
+            else:
+                gen.reject()
                 
     return simple_union(tiling4s())
+
+
+def cell24_tiling(box):
+
+    periods = [Vector4(4, 0, 0, 0),
+               Vector4(2, -2, 0, 0),
+               Vector4(0, 2, -2, 0),
+               Vector4(0, 0, 2, -2)]
+
+    return simple_periodic_tiling4(cell24(), box, periods=periods)
