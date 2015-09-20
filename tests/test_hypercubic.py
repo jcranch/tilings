@@ -11,6 +11,6 @@ class Hypercubic(TestCase):
         b = ((-2.5, 1.5), (-1.5, 2.5), (-2.5, 1.5), (-1.5, 2.5))
         c = hypercube(((0,1), (0,1), (0,1), (0,1)))
         n = lambda x: None
-        t1 = simple_periodic_tiling4([c], b).map(n,n,n,n,n)
+        t1 = simple_periodic_tiling4(c, b).map(n,n,n,n,n)
         t2 = cubic_tiling4(b).map(n,n,n,n,n)
         self.assertTrue(t1.proximate(t2))
