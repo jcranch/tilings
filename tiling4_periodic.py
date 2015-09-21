@@ -1,7 +1,7 @@
 from common import LatticeSearcher
 from vector4 import Vector4
 from tiling4 import Tiling4
-
+from tiling4_polytope import cell24
 
 def periodic_tiling4(fundamental_vertices, fundamental_edges,
                      fundamental_faces, fundamental_volumes,
