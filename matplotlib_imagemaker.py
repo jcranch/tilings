@@ -151,11 +151,13 @@ class Tiling3ImageMaker(ImageMaker):
                 for (j, face) in enumerate(restrict32(tiling3).faces):
                     polygon_tiles.append(axis.add_collection3d(Poly3DCollection([[(v.x,v.y,0) for v in cycle(face)]],
                     facecolor=self.colours[(len(face)-3)%len(self.colours)],
-                    edgecolor=self.tiling3_edge_colours[k%len(self.tiling3_edge_colours)], alpha = self.tiling2_alpha)))
+                    edgecolor=self.edge_colours[k%len(self.edge_colours)], alpha = self.tiling2_alpha)))
 
         if self.plane_z0_on == True:
-            axis.add_collection3d(Poly3DCollection([[(axis_limit[0][0],axis_limit[1][0],0),(axis_limit[0][0],axis_limit[1][1],0),
-                                                     (axis_limit[0][1],axis_limit[0][1],0),(axis_limit[0][1],axis_limit[1][0],0)]],
+            axis.add_collection3d(Poly3DCollection([[(tiling3_axis_limit[0][0],tiling3_axis_limit[1][0],0),
+                                                     (tiling3_axis_limit[0][0],tiling3_axis_limit[1][1],0),
+                                                     (tiling3_axis_limit[0][1],tiling3_axis_limit[0][1],0),
+                                                     (tiling3_axis_limit[0][1],tiling3_axis_limit[1][0],0)]],
                                                    facecolor ='white',
                                                    edgecolor ='black', alpha = self.plane_z0_alpha))
         return axis
