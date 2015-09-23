@@ -1,11 +1,19 @@
 all: build-posters build-animation
 
-clean:
+
+clean-general:
 	rm -f *.pyc tests/*.pyc
+
+clean-posters: clean-general
+	rm -rf posters/*.aux posters/*.log posters/*.pdf posters/images
+
+clean-animation: clean-general
 	rm -f demos/*.eps demos/*.pdf demos/*.png
 	rm -f demos/*.mp4
 	rm -rf demos/*_png
-	rm -f posters/*.aux posters/*.log posters/*.pdf
+
+clean: clean-posters clean-animation
+
 
 tidy:
 	rm -f demos/*.eps
@@ -19,12 +27,20 @@ demos/%.eps: demo_static.py
 demos/%.pdf: demos/%.eps
 	epspdf $< $@
 
-build-demos: demos/cubic2.pdf demos/hexagonal.pdf
 
-build-posters: build-demos
+posters/%.pdf: posters/%.tex
+	cd posters && pdflatex -halt-on-error $*.tex
+	cd posters && pdflatex -halt-on-error $*.tex
+
+posters/example.pdf: demos/hexagonal.pdf posters/listing1.pdf
+
+posters/images/%.png: poster_images.py
 	mkdir -p posters/images
 	python2 poster_images.py
-	$(MAKE) --directory posters --no-print-directory
+
+posters/mathsposter.pdf: posters/images/hypercube.png
+
+build-posters: posters/example.pdf posters/mathsposter.pdf
 
 
 VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \
