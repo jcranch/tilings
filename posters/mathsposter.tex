@@ -1,0 +1,365 @@
+\documentclass[a1paper, landscape, fontscale=0.9]{baposter}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[scaled]{helvet}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{media9} 
+\usepackage[rightcaption]{sidecap}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\graphicspath{ {diagrams/} }
+\usepackage{amsmath}
+\usepackage{multicol}
+
+\title{Regular Polytopes}
+\author{Rob Nicolaides
+        (School of Mathematics and Statistics, University of Sheffield)\\[0.5ex]
+        Burkill summer studentship, under the supervision of Dr.\ James Cranch
+        (contact: \texttt{J.D.Cranch@sheffield.ac.uk})}
+
+% Sheffield logo blue
+\definecolor{dblue}{rgb}{0.25,0.317,0.6}
+\definecolor{lblue}{rgb}{0.11,0.753,0.929}
+
+\begin{document}
+\begin{poster}{
+    background=plain,
+    bgColorOne=black!5,
+    eyecatcher=false,
+    borderColor=lblue,
+    headerColorOne=dblue,
+    textborder=rounded,
+    headerborder=closed,
+    headershape=rounded,
+    headershade=plain,
+    boxshade=plain,
+    headerFontColor=white,
+    boxColorOne=white,
+    boxshade=plain}
+{}
+{\Huge\fontsize{50}{60}\selectfont\textsf{\thetitle}\vspace{0.2em}}
+{\textsf{\theauthor}}
+{\includegraphics[bb=0 -40 502 250,height=0.12\textheight]{sheffield-logo}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Regular Polygons}{name=regular_polygons,column=0,row=0}{
+
+How many 2D shapes have the properties of having all sides the same length and all angles the same measure and less than $\pi$ radians? 
+\par 
+There are infinitely many! 
+These are called the regular polygons. 
+Here are what the first few look like.
+\begin{center}
+\includegraphics[clip,trim={4cm 0cm 2.5cm 0cm},scale = 0.5]{regular_polygons}
+\end{center}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Regular Polyhedra}{name=regular_polyhedra,column=0,
+below = regular_polygons}{
+How many 3 dimensional objects exist that have faces that are all the same regular polygon? 
+For example we have the cube that is made by joining 6 square faces. The answer to this is less obvious. 
+There are exactly 5! 
+
+\begin{center}
+\includegraphics[clip,trim={1.5cm 0.5cm 1.5cm 0.5cm},scale = 0.75]{platonic_solids}
+\end{center}
+
+From left to right, above we have 
+\par \quad
+\begin{itemize}
+\item the tetrahedron formed of 4 equilateral triangles,
+\item the cube formed of 6 squares,
+\item the octahedron formed of 8 equilateral triangles,
+\item the dodecahedron formed of 12 regular pentagons,
+\item and the icosahedron formed of 20 equilateral triangles.
+\end{itemize}
+\par \quad
+These are called the regular polyhedra or sometimes `The Platonic Solids'.
+
+\par \quad 
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Regular 4D Polytopes}{name=regular_polytopes4D,column=1}{
+
+We can make a 4 dimensional object by connecting together some 3D volumes similar to how we make a 3D object by joining some 2D faces. 
+There are exactly 6 4D objects that can be formed by joining regular polyhedra together. 
+These are 
+\par \quad
+\begin{itemize}
+\item the 4D simplex formed of 5 tetrahedra,
+\item the 4D hyper-cube formed of 8 cubes,
+\item the 4D hyper-octahedron formed of 16 tetrahedra,
+\item the hyper-dodecahedra formed of 120 dodecahedra,
+\item the hyper-icosahedra formed of 600 tetrahedra,
+\item and the 24-cell formed of 24 octahedra.
+\end{itemize}
+\par \quad
+The first five regular 4D polytopes described above are very similar to the 5 regular polyhedra. The 24-cell however appears to be unique. 
+
+\par \quad
+
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Regular Polytopes in Higher Dimensions}{name=regular_polytopes5d,column=1,
+below = regular_polytopes4D, bottomaligned = regular_polyhedra}{
+
+We can generalise this idea by creating an $n$ dimensional regular polytope. 
+An $n$ dimensional regular polytope is an $n$ dimensional object formed by joining repeated, identical, regular $n-1$ polytopes all at the same angles.
+\par 
+Perhaps disapointingly, there only exist 3 amount of $n$ dimensional regular polytopes for all $n \ge 5$. 
+
+These are 
+\par \quad
+
+\par \quad
+\begin{itemize}
+\item the $n$ dimensional simplex formed of $n+1$ amount of $n-1$ simplices,
+\item the $n$ dimensional hyper-cube formed of $2n$ amount of $n-1$ cubes,
+\item the $n$ dimensional hyper-octahedron formed of $2^n$ amount of $n-1$ simplicies.
+\end{itemize}
+\quad \par 
+Regular polytopes are interesting to mathematicians because they contain maximal symmetry which can lead to interesting properties.
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\headerbox{2 Dimensional Cross-Sections}{name=cross2,column=2, bottomaligned = regular_polyhedra}{
+
+Imagine living in a flat, 2 dimensional world. Familiar to us in this world are points, lines and two dimensional shapes like the square and triangles.
+We can see in 2 perpendicular directions : left and right, forward and backwards but there wouldn't exist a $3^{rd}$ perpendicular direction that we can use to look up and down.
+
+\par
+\quad
+\par 
+Now let's suppose we want to know what a 3D object like a cube might look like. 
+Since we don't have a third dimension in which to use to go up or down we cannot see it directly. 
+The idea of having a cube might seem absurd : six squares joined together using an angle perpendicular to the only two in our world!
+We can learn about what a cube might be like by examining it's 2D cross-sections as it passes through our 2D world. 
+If the cube passes straight down through with one of it's face's parallel to our 2D world we see a square suddenly appear and disappear! 
+
+\par
+\begin{centering}
+\includegraphics[clip,trim={3cm 3.2cm 3cm 3cm},scale = 0.9]{cube_slice_1}
+\end{centering}
+From this information we might be able to get a good idea of what this 3D object might be like. 
+We could imagine that a cube is like a square being \emph{dragged} in the third dimension that we cannot see!
+\par
+\quad
+\par 
+We might think that a cube passing through our 2D world \emph{always} suddenly produces a square that disappears but this isn't true.
+What other polygons can it make this way?
+Given that a cube has 6 faces it must be impossible to make a polygon with 7 or more edges. 
+So is it possible to make a triangle, pentagon or pentagon? 
+Yes! 
+In fact here is a rotated cube passing through that produces all of its cross-section polygons. 
+
+\begin{centering}
+    \includegraphics[clip,trim={4cm 2cm 3.5cm 2cm},scale = 0.75]{cube_slice_2}
+
+
+\end{centering}
+
+\par
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{3 Dimensional Cross-Sections of 4D Hyper-cube}{name=cross3cube,column=0,
+below = regular_polyhedra, span = 3 }{
+
+\begin{wrapfigure}{l}{0.0\textwidth}
+\includegraphics[clip,trim={5cm 1cm 2cm 1cm},scale = 0.6]{hypercube}
+\end{wrapfigure}
+ 
+\par 
+What does it look like for a 4D shape to travel through our 3D world?
+Clearly in our 3D world we can move in 3 perpendicular directions: 
+left and right, forward and backward and up and down. 
+But in a 4D space we imagine there is another direction we can travel in which is perpendicular to these 3 too! 
+\par 
+Similar to how a 3D shape leaves a 2D cross-section when it passes through a 2D space, when a 4D shape passes a 3D space it leaves a 3D cross-section. 
+So what does it look like for a 4D hyper-cube to pass through our 3D world?
+To the right (upper) we see one passing through with one of it's volumes parallel to our 3D world. 
+We see a cube suddenly appear then disappear! 
+This suggests that a 4D hyper-cube is like a 3D cube being \emph{dragged} in the fourth dimension we cannot see. 
+\par
+However, this is not the only way a 4D hyper-cube can pass through. To the right (lower) we see what it looks like for a 4D hyper-cube to pass through at a different angle.
+
+\quad
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Regular 2D Tessellations}{name=tes2,column=3, bottomaligned = cross3cube}{
+\par
+We say that a finite set of 2D shapes tessellate in 2 dimensions if we can tile a plane with those shapes without any gaps or over laps. 
+\par
+\begin{wrapfigure}{r}{0\textwidth}
+    \includegraphics[clip,trim={1.0cm 2.0cm 1.0cm 2.0cm},scale = 1.0]{tessalations_2d}
+\end{wrapfigure}
+\par
+For example, to the right we have three examples of regular polygons tessellating a plane : 
+the square, the regular hexagon and the equilateral triangle. 
+\par \quad \par
+Do more regular polygons tessellate? 
+To answer this question we will first measure the interior angle of any regular n-gon. 
+\par
+\quad
+\par
+By drawing a line from a single vertex to to every other vertex in the regular polygon we can see that the least amount of triangles we can split an n-gon into is $n-2$ triangles. 
+Since the sum of angles in a triangle is $\pi$ radians, and each interior angle of the $n$-gon is partitioned by the triangles, the sum of interior angles of the $n$-gon is $(n-2)\pi$.
+All the angles in a regular n-gon are equal and there are n of the angles, as a result each interior angle has a measure of $\frac{(n-2)\pi}{n}.$ 
+\par
+\quad
+\par
+For a regular n-gon to tessellate, we must have that we can get some integer, $k$, amount of n-gons around a given vertex with no gaps and no over lapping. So the sum of the $k$ n-gon's interior angles must be $2\pi.$
+As an equation this tells us that $\frac{(n-2)k\pi}{n} = 2\pi $.
+\par \quad
+\par
+
+
+Since the interior angle formula shows us that an interior angle is always less than $\pi$ for a regular n-gon to tessellate there must 3 or more of the same sized n-gon around a vertex without any gaps. So $k \ge 3$. So
+\par
+\quad
+\par
+\begin{align*}
+ \frac{(n-2)k\pi}{n} = 2\pi 
+  \implies  \frac{2n}{n-2} = k \ge 3 
+  \iff n \le 6.
+\end{align*}
+\par
+\quad
+\par
+So it's impossible for any regular n-gon to tessellate for $n \ge 7$. Now we can solve for k in our equation $k = \frac{2n}{n-2}$ by putting $n = 3,4,5\text{ and } 6.$
+Doing this gives us 
+\quad \par
+\begin{itemize}
+\item $k = 6$ for $n = 3$, 
+\item $k = 4$ for $n = 4$, 
+\item $k = \frac{10}{3}$ for $n = 5$  
+\item and $k = 3$ for $n = 6$.
+\end{itemize} 
+\quad \par
+But for $n = 5$ we would need a non-integer amount of pentagons around a vertex which is absurd! So triangles, squares and hexagons are the only regular polygons that tessellate after all. 
+
+\par\quad\par 
+
+ 
+
+\par 
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{3 Dimensional Cross-Sections of Other 4D Objects}{name=cross3other,column=0,
+below = cross3cube, span = 4 }{
+
+ 
+
+\begin{wrapfigure}{r}{0\textwidth}
+\includegraphics[clip,trim={8.5cm 0.5cm 4.5cm 0.5cm},scale = 0.7]{cell600_cell120}
+\end{wrapfigure}
+Now let's take a look at a couple of other 4D objects travelling through the 3D world. Here we see the hyper-icosahedron (above) and hyper-dodecahedron (below). In these examples we see that a variety of interesting polyhedra are formed this way.
+For this case of the hyper-icosahedron we suddenly an icosahedron suddenly appear and then grow. 
+Then each vertex on the icosahedron suddenly becomes a pentagon split up into 5 elevated non-equilateral triangles and expands. After this it seems we see that a geodesic sphere of 60 triangles has been formed before a similar process occurs to form a geodesic sphere with 80 triangular faces. The process then seems to reverse again and the objects disappears. 
+
+\par \quad
+\par \quad
+
+For the hyper-dodecahedron we observe similar behaviour : suddenly a dodecahedron appears. 
+Then the vertices transform into expanding triangular faces and we observe a variety of different polyhedra including the truncated icosahedron in the middle of the process which is also known for the iconic football design.
+
+\par \quad
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Duality}{name = duality, column=0,  
+below = cross3other, }{
+Take a cube and imagine a point in the center of each square face.
+Now take a point and connect it with a line to the points that lie in the square faces that touch the square face of the original point. Do this for all the points on the cube and what do we get?
+\par
+It's an octahedron inside a cube! 
+We say that octahedron is \textbf{dual} to the cube. 
+In fact it's also true that 
+\quad \par
+\begin{itemize}
+\item the tetrahedron is dual to itself,
+\item the cube and octahedron are dual to each other,
+\item and the icosahedron and dodecahedron are dual to each other.
+\end{itemize}
+\quad \par
+\begin{center}
+\includegraphics[clip,trim={2cm 1.25cm 2cm 1cm},scale = 0.75]{dual_platonic_solids}
+\end{center}
+\par
+
+Similarly, in 4 dimensions we can start with a point in the center of a volume and join the dots of adjacent volumes to find that
+\quad \par
+\begin{itemize}
+\item the 4D simplex is dual to itself,
+\item the 4D hyper-cube and 4D hyper-octahedron are dual to each other,
+\item the hyper-icosahedron and hyper-dodecahedron are dual to each other,
+\item and the 24 cell is dual to itself.
+\end{itemize}
+For all dimensions greater than or equal to 5 we just have that the $n$ dimensional simplex is dual to itself while the $n$ dimensional hyper-cube and hyper-octahedron are dual to one another.
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{3D Tessellations of The 24-Cell}{name=tes24,column=1, below = cross3other, span = 2, 
+bottomaligned = duality}{
+
+\begin{wrapfigure}{l}{0\textwidth}
+\includegraphics[clip,trim={3cm 2.5cm 3cm 2.5cm},scale = 0.65]{cell24}
+\end{wrapfigure}
+
+
+
+
+A set of 3D objects tessellate if we can tile a 3D space with no gaps or overlap with those 3D objects.
+One familiar example of how to do this is to use cubes. What other objects have this property?
+\par \quad \par
+One way we can produce more tessellations is by taking 3D cross-sections of objects that tessellate in higher dimensions. For example, the regular 4D polytope, the 24 Cell. We can take this object and rotate it using 4 perpendicular directions and then look at the intersection this has with our 3D world. To the left are 3 examples of this :
+\quad \par
+\begin{itemize}
+\item the first example, at the top, shows a regular tessellation of the rhombic-dodecahedron, 
+
+\item the second example, in the middle, shows an octahedron and a cuboctahedron tessellating,
+
+\item the third example seems slightly more complex. It seems to consist of 3 different 3D objects that use non-regular hexagons, isosceles kites and rhombi as faces. 
+
+\end{itemize}
+\quad \par
+This method of using relatively simple 4D tessellations, rotating them and then taking an intersection could be generalised. Why not take an $N$ dimensional tessellating object, rotate it and then take an intersection of it in a lower dimension? By doing this we might be able to take relatively simple $N$ dimensional tessellating objects to produce more complex tesselating objects in a lower dimension.
+
+\quad \par 
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Video Link}{name=qr,column=3,below = cross3other, bottomaligned = duality}{
+
+%\begin{center}
+%\includegraphics[scale = 1]{testqr}
+%$\end{center}
+
+\quad
+\par
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{poster}
+\end{document}
