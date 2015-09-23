@@ -48,7 +48,7 @@ if __name__=="__main__":
     b.elevation = 31
     b.image([icosahedron()])
     
-    plt.savefig('posters/diagrams/platonic_solids')
+    plt.savefig('posters/images/platonic_solids')
     plt.close()
     
     poster_figure = plt.figure(figsize = [10,2])
@@ -85,7 +85,7 @@ if __name__=="__main__":
     b.azimuth = 45
     b.image([tiling3_dual(icosahedron()), icosahedron()])
     
-    plt.savefig('posters/diagrams/dual_platonic_solids')
+    plt.savefig('posters/images/dual_platonic_solids')
     plt.close()
     
     poster_figure = plt.figure(figsize = [10,2])
@@ -97,7 +97,7 @@ if __name__=="__main__":
         b.position_code = n-2
         b.image([regular_polygon(n)])
         
-    plt.savefig('posters/diagrams/regular_polygons')
+    plt.savefig('posters/images/regular_polygons')
     plt.close()
     
     poster_figure = plt.figure(figsize = [10,4])
@@ -122,7 +122,7 @@ if __name__=="__main__":
         b.position_code = j+1
         b.image([polytope.translate(Vector3(0,0,-0.00001 + minz + i/2.0))])
                          
-    plt.savefig('posters/diagrams/cube_slice_1')
+    plt.savefig('posters/images/cube_slice_1')
     plt.close()
     
     poster_figure = plt.figure(figsize = [12,4])
@@ -151,7 +151,7 @@ if __name__=="__main__":
             b.image([polytope.translate(Vector3(0,0.00001,-0.001 + minz + i*rate))])
             
     
-    plt.savefig('posters/diagrams/cube_slice_2')
+    plt.savefig('posters/images/cube_slice_2')
     plt.close()
     
     poster_figure = plt.figure(figsize = [40,4])
@@ -179,7 +179,7 @@ if __name__=="__main__":
             b.position_code = (i+1)+subplot_count*(len(a))
         subplot_count += 1
     
-    plt.savefig('posters/diagrams/cell600_cell120')
+    plt.savefig('posters/images/cell600_cell120')
     plt.close()
     
     poster_figure = plt.figure(figsize = [30,4])
@@ -208,7 +208,7 @@ if __name__=="__main__":
         b.elevation = 16
         b.azimuth = -117
     
-    plt.savefig('posters/diagrams/hypercube')
+    plt.savefig('posters/images/hypercube')
     plt.close()
     
     lattices = [cubic_tiling2([[-10,10]]*2).translate(Vector2(0.2,0.3)).deform(rotation(pi/8)), 
@@ -233,7 +233,7 @@ if __name__=="__main__":
         b.image([lattices[i]])
     
         
-    plt.savefig('posters/diagrams/tessalations_2d')
+    plt.savefig('posters/images/tessalations_2d')
     plt.close()
     m010_1 =\
     Matrix4([[0.056328, -0.675362, -0.290862,0.675362], 
@@ -320,7 +320,6 @@ if __name__=="__main__":
             a = cell24_tiling([[-5,5],[-5,5],[-5,5],[-5,5]]).translate(Vector4(0,0,0,0)).deform(m011_1)    
         b.image([restrict43(a.translate(Vector4(0,0,0.00001,0.00001)))])
     
-    plt.savefig('posters/diagrams/cell24')
+    plt.savefig('posters/images/cell24')
     plt.close()
-
 

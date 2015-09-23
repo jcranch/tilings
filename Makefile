@@ -22,6 +22,8 @@ demos/%.pdf: demos/%.eps
 build-demos: demos/cubic2.pdf demos/hexagonal.pdf
 
 build-posters: build-demos
+	mkdir -p posters/images
+	python2 poster_images.py
 	$(MAKE) --directory posters --no-print-directory
 
 
