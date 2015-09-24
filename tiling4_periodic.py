@@ -214,6 +214,21 @@ def simple_periodic_tiling4(tiling4, bounding_box,
                 
     return simple_union(tiling4s())
 
+def simple_periodic_tiling4_seperate(tiling4, bounding_box,
+                            periods=[Vector4(1,0,0,0), Vector4(0,1,0,0),
+                                     Vector4(0,0,1,0), Vector4(0,0,0,1)]):
+
+    def tiling4s():
+        gen = LatticeSearcher(len(periods))
+        for n in gen:
+            t1 = tiling4.translate(sum((u*c for (u,c) in zip(periods, n)), Vector4(0,0,0,0)))
+            if t1.in_box(bounding_box):
+                yield t1
+            else:
+                gen.reject()
+                
+    return [t4 for t4 in tiling4s()]
+
 
 def cell24_tiling(box):
 
@@ -223,3 +238,12 @@ def cell24_tiling(box):
                Vector4(0, 0, 2, -2)]
 
     return simple_periodic_tiling4(cell24(), box, periods=periods)
+
+def cell24_tiling_seperate(box):
+
+    periods = [Vector4(4, 0, 0, 0),
+               Vector4(2, -2, 0, 0),
+               Vector4(0, 2, -2, 0),
+               Vector4(0, 0, 2, -2)]
+
+    return simple_periodic_tiling4_seperate(cell24(), box, periods=periods)
