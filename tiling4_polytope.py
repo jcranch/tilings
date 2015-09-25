@@ -148,7 +148,18 @@ def tiling4_dual(tiling4):
         centroid = sum_vertex/len(distinct_verticies)
         dual_vertices.append(centroid)
     return tiling4_convex_hull(dict(zip(dual_vertices,xrange(len(dual_vertices)))))
-
+    
+def cartesian_product(vertices_1, vertices_2):
+    '''
+    Takes the cartesian product for two sets of vertices.
+    Can be used for 'multiplying' polygons.
+    '''
+    new_vertices = []
+    for vertex_1 in vertices_1:
+        for vertex_2 in vertices_2:
+            new_vertices.append(Vector4(vertex_1.x,vertex_1.y,vertex_2.x,vertex_2.y))
+            
+    return tiling4_convex_hull(dict(zip(new_vertices,xrange(len(new_vertices)))))
 def pentatope():
     root5 = 5**0.5
     dictionary_of_vertices = {
