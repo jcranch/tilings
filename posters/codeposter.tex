@@ -1,0 +1,104 @@
+\documentclass[a1paper, landscape, fontscale=0.9]{baposter}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[scaled]{helvet}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{media9} 
+\usepackage[rightcaption]{sidecap}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\graphicspath{{diagrams/}{images/}}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage[scaled]{helvet}
+\usepackage{listings}
+
+\title{Regular Polytopes : Code Dissection}
+\author{Rob Nicolaides
+        (School of Mathematics and Statistics, University of Sheffield)\\[0.5ex]
+        Burkill summer studentship, under the supervision of Dr.\ James Cranch
+        (contact: \texttt{J.D.Cranch@sheffield.ac.uk})}
+
+% Sheffield logo blue
+\definecolor{dblue}{rgb}{0.25,0.317,0.6}
+\definecolor{lblue}{rgb}{0.11,0.753,0.929}
+
+\begin{document}
+\begin{poster}{
+    background=plain,
+    bgColorOne=black!5,
+    eyecatcher=false,
+    borderColor=lblue,
+    headerColorOne=dblue,
+    textborder=rounded,
+    headerborder=closed,
+    headershape=rounded,
+    headershade=plain,
+    boxshade=plain,
+    headerFontColor=white,
+    boxColorOne=white,
+    boxshade=plain}
+{}
+{\Huge\fontsize{50}{60}\selectfont\textsf{\thetitle}\vspace{0.2em}}
+{\textsf{\theauthor}}
+{\includegraphics[bb=0 -40 502 250,height=0.12\textheight]{sheffield-logo}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Summary}{name=summary,column=0}{
+In this project, \texttt{Python 2}, code was created in order to explore taking three-dimensional cross-sections of four-dimensional shapes and applications of this. Here we will dissect some of the core parts of the code used.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Core Code}{name=core_code,column=0, below = summary}{
+As part of the core code, vectors, matrices and tiling classes have been created. 
+
+\par \quad \par 
+The vector and matrices classes work as you might expect. The tiling classes are more noteworthy. We have \texttt{Tiling2}, \texttt{Tiling3} and \texttt{Tiling4} for representing polygons, polyhedra and four-dimensional polytopes respectively. 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Convex Hull Producer}{name=convex_hull,column=0, below = core_code}{
+
+In order to make convex polytopes the following function takes user-defined vertices and determines which vertices lie in the same hyper-plane. 
+In the 3D case for example, the function considers a given set of three vertices and determines if they are co-planar. 
+It then seek out other vertices that are also co-planar. 
+To make sure these faces lie on the surface of the polyhedron we also make sure that there are only vertices on one side of the given plane (otherwise it would not be on the surface). 
+To test this we use the volume of a tetrahedron to determine if the vertex is on \texttt{side\_1}, \texttt{side\_2} or is co-planar. 
+This idea has been generalised to four dimensional polytopes. Here is a snippet of the code for producing convex polyhedra.
+\par \quad \par 
+The advantage of this is the ability to create a convex polytopes by knowing only it's vertices. For example, the following snippet is enough to define the \emph{hyper-icosahedron} although it does take a long while for this code to complete.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Restriction Code}{name=restriction,column=0, below = convex_hull}{
+Here we take a tiling object of $n$ dimensions and intersect in with hyper-plane $z = 0$ to create a tiling object of $(n-1)$ dimensions. This works by finding all the edges that have an intersection through the hyper-plane $z = 0$ and storing the point of intersection as a new vertex. Then it joins these verticies if the edges that they are of the intersection of are part of a common face. It joins these edges if the faces that they are of the intersection of are part of a common volume and so on.
+\par \quad \par 
+It complains if any vertices have $z = 0.$ 
+Of course, this should be a measure-zero event, and can be avoided by small translations. 
+This makes the algorithm much simpler: 
+edges in the input produce vertices in the output, and faces in the input produce edges in the output. 
+\par \quad \par 
+
+Here is a sample of the code for taking a 2D cross-section of a 3D polyhedron. 
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Periodic Tiling}{name=periodic,column=0, below = restriction}{
+
+}
+
+\headerbox{Intersection Dissection}{name=restriction,column=0, below = periodic}{
+
+}
+
+
+\end{poster}
+\end{document}
