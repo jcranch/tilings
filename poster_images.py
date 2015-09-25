@@ -125,34 +125,33 @@ if __name__=="__main__":
     plt.savefig('posters/images/cube_slice_1')
     plt.close()
     
-    poster_figure = plt.figure(figsize = [12,4])
-    
-    polytopes = [cube().deform(rotation_matrix_producer(Vector3(3,6,5)))]
-    subplot_count = 0
-    a = range(11)
-    b = Tiling3ImageMaker()
-    b.tiling3_faces_on = False
-    b.restrict32_intersection_on = True
-    b.azimuth = 119
-    b.elevation = -27
-    b.edges_alpha = 0.3
-    b.number_of_rows = 2
-    b.number_of_columns = 6
-    b.plane_z0_on = True
-    b.tiling2_alpha = 0.8
-    b.tiling3_axis_limit = [[-1.8,1.8]]*3
-    
-    for polytope in polytopes:
-        minz = polytope.minz()
-        maxz = polytope.maxz()
-        rate = float(abs(maxz-minz))/(len(a))
-        for i in a+[len(a)]:
-            b.position_code = (i+1)
-            b.image([polytope.translate(Vector3(0,0.00001,-0.001 + minz + i*rate))])
-            
-    
-    plt.savefig('posters/images/cube_slice_2')
-    plt.close()
+        poster_figure = plt.figure(figsize = [12,4])
+        
+        polytopes = [cube().deform(rotate_x(3.5)*rotate_y(-5.3)*rotate_z(3.8))]
+        subplot_count = 0
+        a = range(11)
+        b = Tiling3ImageMaker()
+        b.tiling3_faces_on = False
+        b.restrict32_intersection_on = True
+        b.azimuth = 119
+        b.elevation = -27
+        b.edges_alpha = 0.3
+        b.number_of_rows = 2
+        b.number_of_columns = 6
+        b.plane_z0_on = True
+        b.tiling2_alpha = 0.8
+        b.tiling3_axis_limit = [[-1.8,1.8]]*3
+        
+        for polytope in polytopes:
+            minz = polytope.minz()
+            maxz = polytope.maxz()
+            rate = float(abs(maxz-minz))/(len(a))
+            for i in a+[len(a)]:
+                b.position_code = (i+1)
+                b.image([polytope.translate(Vector3(0,0.00001,-0.001 + minz + i*rate))])
+                
+        plt.savefig('posters/diagrams/cube_slice_2')
+        plt.close()
     
     poster_figure = plt.figure(figsize = [40,4])
     
