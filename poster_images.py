@@ -127,7 +127,7 @@ if __name__=="__main__":
     
         poster_figure = plt.figure(figsize = [12,4])
         
-        polytopes = [cube().deform(rotate_x(3.5)*rotate_y(-5.3)*rotate_z(3.8))]
+        polytopes = [cube().deform(rotate_x(-0.9)*rotate_y(2.3)*rotate_z(1.9))]
         subplot_count = 0
         a = range(11)
         b = Tiling3ImageMaker()
