@@ -40,7 +40,7 @@ posters/images/%.png: poster_images.py
 
 posters/mathsposter.pdf: posters/images/hypercube.png
 
-build-posters: posters/example.pdf posters/mathsposter.pdf
+build-posters: posters/mathsposter.pdf posters/codeposter.pdf
 
 
 VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \
