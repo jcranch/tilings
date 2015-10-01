@@ -11,6 +11,7 @@
 \usepackage{wrapfig}
 \graphicspath{{diagrams/}{images/}}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{multicol}
 \usepackage[scaled]{helvet}
 \usepackage{listings}
@@ -24,6 +25,8 @@
 % Sheffield logo blue
 \definecolor{dblue}{rgb}{0.25,0.317,0.6}
 \definecolor{lblue}{rgb}{0.11,0.753,0.929}
+
+\newcommand{\bR}{\mathbb{R}}
 
 \begin{document}
 \begin{poster}{
@@ -48,16 +51,39 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \headerbox{Summary}{name=summary,column=0}{
-In this project, \texttt{Python 2}, code was created in order to explore taking three-dimensional cross-sections of four-dimensional shapes and applications of this. Here we will dissect some of the core parts of the code used.
+  This poster exhibits a library of \emph{Python 2} code created to
+  manipulate polytopal tilings in two, three and four dimensions.
+
+  %%% picture of 2D
+  %%% picture of 3D
+  %%% picture of 4D
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\headerbox{Core Code}{name=core_code,column=0, below = summary}{
-As part of the core code, vectors, matrices and tiling classes have been created. 
+\headerbox{Linear algebra}{name=linear_algebra, column=0, below=summary}{
 
-\par \quad \par 
-The vector and matrices classes work as you might expect. The tiling classes are more noteworthy. We have \texttt{Tiling2}, \texttt{Tiling3} and \texttt{Tiling4} for representing polygons, polyhedra and four-dimensional polytopes respectively. 
+  There are \texttt{Vector2}, \texttt{Vector3} and \texttt{Vector4}
+  classes, together with \texttt{Matrix2}, \texttt{Matrix3} and
+  \texttt{Matrix4} classes. These are equipped with a full set of
+  linear algebra methods.
+  \par\quad\par
+  Of special interest are functions for generating random orthogonal
+  matrices and random unit vectors.
+
+  %%% picture of randomly-generated unit vectors and code that
+  %%% generated it.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\headerbox{Tilings}{name=core_code, column=0, below=linear_algebra}{
+
+  The tiling classes are the core of the project. We have
+  \texttt{Tiling1}, \texttt{Tiling2}, \texttt{Tiling3} and
+  \texttt{Tiling4} classes for representing tilings of line segments
+  in $\bR^1$, polygons in $\bR^2$, polyhedra in $\bR^3$ and polytopes
+  in $\bR^4$ respectively.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,7 +97,7 @@ To make sure these faces lie on the surface of the polyhedron we also make sure 
 To test this we use the volume of a tetrahedron to determine if the vertex is on \texttt{side\_1}, \texttt{side\_2} or is co-planar. 
 This idea has been generalised to four dimensional polytopes. Here is a snippet of the code for producing convex polyhedra.
 \par \quad \par 
-The advantage of this is the ability to create a convex polytopes by knowing only it's vertices. For example, the following snippet is enough to define the \emph{hyper-icosahedron} although it does take a long while for this code to complete.
+The advantage of this is the ability to create a convex polytopes by knowing only its vertices. For example, the following snippet is enough to define the \emph{hyper-icosahedron} although it does take a long while for this code to complete.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,6 +122,10 @@ Here is a sample of the code for taking a 2D cross-section of a 3D polyhedron.
 }
 
 \headerbox{Intersection Dissection}{name=restriction,column=0, below = periodic}{
+
+}
+
+\headerbox{Cartesian products}{name=cartesian, column=0, below=restriction}{
 
 }
 
