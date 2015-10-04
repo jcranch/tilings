@@ -36,23 +36,33 @@ MATHSPOSTER_IMAGES = posters/mathsimages/platonic_solids.png \
                      posters/mathsimages/cell600_cell120.png \
                      posters/mathsimages/hypercube_crosssections.png \
                      posters/mathsimages/tessellations_2d.png \
-                     posters/mathsimages/cell24.png
+                     posters/mathsimages/cell24.png \
+                     posters/diagrams/sheffield-logo.pdf
 
-CODEPOSTER_IMAGES = posters/codeimages/unit_ball.eps
+CODEPOSTER_IMAGES = posters/codeimages/unit_ball.pdf \
+                    posters/diagrams/sheffield-logo.pdf
 
 posters/%.pdf: posters/%.tex
 	cd posters && pdflatex -halt-on-error $*.tex
 	cd posters && pdflatex -halt-on-error $*.tex
 
-posters/mathsimages/%.png: mathsposter_images.py
+posters/mathsimages/%: mathsposter_images.py
 	python2 mathsposter_images.py $*
 
-posters/codeimages/%.png: codeposter_images.py
+posters/codeimages/%: codeposter_images.py
 	python2 codeposter_images.py $*
+
+posters/codeimages/%.pdf: posters/codeimages/%.eps
+	epspdf $< $@
+
+posters/diagrams/%.pdf: posters/diagrams/%.eps
+	epspdf $< $@
 
 posters/mathsposter.pdf: $(MATHSPOSTER_IMAGES)
 
-build-posters: posters/mathsposter.pdf # posters/codeposter.pdf
+posters/codeposter.pdf: $(CODEPOSTER_IMAGES)
+
+build-posters: posters/mathsposter.pdf posters/codeposter.pdf
 
 
 VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \
