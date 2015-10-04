@@ -5,7 +5,7 @@ clean-general:
 	rm -f *.pyc tests/*.pyc
 
 clean-posters: clean-general
-	rm -rf posters/*.aux posters/*.log posters/*.pdf posters/images
+	rm -rf posters/*.aux posters/*.log posters/*.pdf posters/mathsimages posters/codeimages
 
 clean-animation: clean-general
 	rm -f demos/*.eps demos/*.pdf demos/*.png
@@ -28,20 +28,31 @@ demos/%.pdf: demos/%.eps
 	epspdf $< $@
 
 
+MATHSPOSTER_IMAGES = posters/mathsimages/platonic_solids.png \
+                     posters/mathsimages/dual_platonic_solids.png \
+                     posters/mathsimages/regular_polygons.png \
+                     posters/mathsimages/cube_slice_1.png \
+                     posters/mathsimages/cube_slice_2.png \
+                     posters/mathsimages/cell600_cell120.png \
+                     posters/mathsimages/hypercube_crosssections.png \
+                     posters/mathsimages/tessellations_2d.png \
+                     posters/mathsimages/cell24.png
+
+CODEPOSTER_IMAGES = posters/codeimages/unit_ball.eps
+
 posters/%.pdf: posters/%.tex
 	cd posters && pdflatex -halt-on-error $*.tex
 	cd posters && pdflatex -halt-on-error $*.tex
 
-posters/example.pdf: demos/hexagonal.pdf posters/listing1.pdf
+posters/mathsimages/%.png: mathsposter_images.py
+	python2 mathsposter_images.py $*
 
-posters/images/%.png: mathsposter_images.py codeposter_images.py
-	mkdir -p posters/images
-	python2 mathsposter_images.py
-	python2 codeposter_images.py
+posters/codeimages/%.png: codeposter_images.py
+	python2 codeposter_images.py $*
 
-posters/mathsposter.pdf: posters/images/hypercube.png
+posters/mathsposter.pdf: $(MATHSPOSTER_IMAGES)
 
-build-posters: posters/mathsposter.pdf posters/codeposter.pdf
+build-posters: posters/mathsposter.pdf # posters/codeposter.pdf
 
 
 VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \

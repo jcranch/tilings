@@ -1,3 +1,8 @@
+from math import pi
+import matplotlib.pyplot as plt
+import os
+import sys
+
 from matplotlib_imagemaker import Tiling2ImageMaker, Tiling3ImageMaker
 from tiling2_polygon import regular_polygon
 from tiling3_polyhedron import *
@@ -12,10 +17,11 @@ from restrict43 import restrict43
 from tiling2_periodic import *
 from tiling4_periodic import cell24_tiling
 
-from math import pi
-import matplotlib.pyplot as plt
+target_dir = "posters/mathsimages"
 
-if __name__=="__main__":
+
+def platonic_solids():
+
     poster_figure = plt.figure(figsize = [10,2])
     b = Tiling3ImageMaker()
     b.number_of_rows = 1
@@ -48,8 +54,11 @@ if __name__=="__main__":
     b.elevation = 31
     b.image([icosahedron()])
     
-    plt.savefig('posters/images/platonic_solids')
+    plt.savefig(os.path.join(target_dir, "platonic_solids"))
     plt.close()
+
+
+def dual_platonic_solids():
     
     poster_figure = plt.figure(figsize = [10,2])
     b = Tiling3ImageMaker()
@@ -85,9 +94,12 @@ if __name__=="__main__":
     b.azimuth = 45
     b.image([tiling3_dual(icosahedron()), icosahedron()])
     
-    plt.savefig('posters/images/dual_platonic_solids')
+    plt.savefig(os.path.join(target_dir, "dual_platonic_solids"))
     plt.close()
-    
+
+
+def regular_polygons():
+
     poster_figure = plt.figure(figsize = [10,2])
     b = Tiling2ImageMaker()
     b.number_of_rows = 1
@@ -97,15 +109,19 @@ if __name__=="__main__":
         b.position_code = n-2
         b.image([regular_polygon(n)])
         
-    plt.savefig('posters/images/regular_polygons')
+    plt.savefig(os.path.join(target_dir, "regular_polygons"))
     plt.close()
-    
+
+
+def cube_slice_1():
+
     poster_figure = plt.figure(figsize = [10,4])
     
     polytope = cube()
     
     minz = polytope.minz()
     maxz = polytope.maxz()
+
     a = [-1,1,2,3,5]
     b = Tiling3ImageMaker()
     b.tiling3_faces_on = False
@@ -122,8 +138,11 @@ if __name__=="__main__":
         b.position_code = j+1
         b.image([polytope.translate(Vector3(0,0,-0.00001 + minz + i/2.0))])
                          
-    plt.savefig('posters/images/cube_slice_1')
+    plt.savefig(os.path.join(target_dir, "cube_slice_1"))
     plt.close()
+
+
+def cube_slice_2():
     
     poster_figure = plt.figure(figsize = [12,4])
 
@@ -150,8 +169,11 @@ if __name__=="__main__":
             b.position_code = (i+1)
             b.image([polytope.translate(Vector3(0,0.00001,-0.001 + minz + i*rate))])
 
-    plt.savefig('posters/diagrams/cube_slice_2')
+    plt.savefig(os.path.join(target_dir, "cube_slice_2"))
     plt.close()
+
+
+def cell600_cell120():
     
     poster_figure = plt.figure(figsize = [40,4])
     
@@ -178,9 +200,13 @@ if __name__=="__main__":
             b.position_code = (i+1)+subplot_count*(len(a))
         subplot_count += 1
     
-    plt.savefig('posters/images/cell600_cell120')
+    plt.savefig(os.path.join(target_dir, "cell600_cell120"))
     plt.close()
-    
+
+
+def hypercube_crosssections():
+
+    n = 15
     poster_figure = plt.figure(figsize = [30,4])
     
     polytopes = [hypercube(), hypercube().deform(rotate_wx(pi/3)*rotate_wz(5*pi/4)*rotate_yz(3*pi/5))]
@@ -190,25 +216,25 @@ if __name__=="__main__":
     b.azimuth = 20
     b.edges_alpha = 0.15
     b.number_of_rows = 2
+    b.number_of_columns = n
     
     for (j,polytope) in enumerate(polytopes):
         minz = polytope.minz()
         maxz = polytope.maxz()
         b.tiling3_axis_limit = [[-1.2,1.2]]*3
-        if j == 1:
-            b.tiling3_axis_limit = [[-1.2,1.2]]*3
-        a = range(15)
-        b.number_of_columns = len(a)
-        rate = float(abs(maxz-minz))/(len(a))
-        for i in a:
+        rate = float(abs(maxz-minz))/n
+        for i in xrange(n):
             b.image([restrict43(polytope.translate(Vector4(0,0,0.00001,-0.001 + minz + i*rate)))])
-            b.position_code = (i+1)+subplot_count*(len(a))
+            b.position_code = (i+1)+subplot_count*n
         subplot_count += 1
         b.elevation = 16
         b.azimuth = -117
     
-    plt.savefig('posters/images/hypercube')
+    plt.savefig(os.path.join(target_dir, "hypercube_crosssections"))
     plt.close()
+    
+
+def tessellations_2d():
     
     lattices = [cubic_tiling2([[-10,10]]*2).translate(Vector2(0.2,0.3)).deform(rotation(pi/8)), 
                 triangular_tiling([[-10,10]]*2).deform(rotation(-pi/8)),
@@ -220,7 +246,6 @@ if __name__=="__main__":
     b.number_of_rows = 3
     b.number_of_columns = 1
     
-    
     for i in range(len(lattices)):
         if i == 0:
             b.tiling2_axis_limit = [[-2,2]]*2
@@ -230,10 +255,13 @@ if __name__=="__main__":
             b.tiling2_axis_limit = [[-3,3]]*2
         b.position_code = i+1
         b.image([lattices[i]])
-    
-        
-    plt.savefig('posters/images/tessalations_2d')
+            
+    plt.savefig(os.path.join(target_dir, "tessellations_2d"))
     plt.close()
+
+
+def cell24():
+
     m010_1 =\
     Matrix4([[0.056328, -0.675362, -0.290862,0.675362], 
              [-0.624211, -0.184595, 0.736349,0.184595], 
@@ -319,6 +347,36 @@ if __name__=="__main__":
             a = cell24_tiling([[-5,5],[-5,5],[-5,5],[-5,5]]).translate(Vector4(0,0,0,0)).deform(m011_1)    
         b.image([restrict43(a.translate(Vector4(0,0,0.00001,0.00001)))])
     
-    plt.savefig('posters/images/cell24')
+    plt.savefig(os.path.join(target_dir, "cell24"))
     plt.close()
-
+    
+    
+if __name__=="__main__":
+    a = sys.argv[1:]
+    if not a:
+        print "Run with the names of the files to generate"
+        exit()
+    if not os.path.exists(target_dir):
+        os.makedirs(target_dir)
+    for n in a:
+        n = n.split("/")[-1].split(".")[0]
+        if n=="platonic_solids":
+            platonic_solids()
+        elif n=="dual_platonic_solids":
+            dual_platonic_solids()
+        elif n=="regular_polygons":
+            regular_polygons()
+        elif n=="cube_slice_1":
+            cube_slice_1()
+        elif n=="cube_slice_2":
+            cube_slice_2()
+        elif n=="cell600_cell120":
+            cell600_cell120()
+        elif n=="hypercube_crosssections":
+            hypercube_crosssections()
+        elif n=="tessellations_2d":
+            tessellations_2d()
+        elif n=="cell24":
+            cell24()
+        else:
+            raise ValueError("I don't recognise that.")

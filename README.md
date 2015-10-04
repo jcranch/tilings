@@ -55,6 +55,11 @@ be useful for someone starting off.
 
    Static illustrations for posters.
 
+ * posters/mathsimages
+   posters/codeimages
+
+   Dynamically-generated illustrations for posters.
+
  * tests/
 
    The test suite (best run by running `nosetests` in the base
