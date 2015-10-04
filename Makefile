@@ -34,9 +34,10 @@ posters/%.pdf: posters/%.tex
 
 posters/example.pdf: demos/hexagonal.pdf posters/listing1.pdf
 
-posters/images/%.png: poster_images.py
+posters/images/%.png: mathsposter_images.py codeposter_images.py
 	mkdir -p posters/images
-	python2 poster_images.py
+	python2 mathsposter_images.py
+	python2 codeposter_images.py
 
 posters/mathsposter.pdf: posters/images/hypercube.png
 

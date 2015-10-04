@@ -52,8 +52,9 @@
 
 \headerbox{Summary}{name=summary,column=0}{
   This poster exhibits a library of \emph{Python 2} code created to
-  manipulate polytopal tilings in two, three and four dimensions.
+  manipulate polytopal tilings in one, two, three and four dimensions.
 
+  %%% picture of 1D
   %%% picture of 2D
   %%% picture of 3D
   %%% picture of 4D
@@ -71,8 +72,11 @@
   Of special interest are functions for generating random orthogonal
   matrices and random unit vectors.
 
-  %%% picture of randomly-generated unit vectors and code that
-  %%% generated it.
+  \begin{center}
+    \includegraphics[width=4cm]{unit_ball}
+  \end{center}
+  
+  %%% and include the code that generated it.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,6 +88,9 @@
   \texttt{Tiling4} classes for representing tilings of line segments
   in $\bR^1$, polygons in $\bR^2$, polyhedra in $\bR^3$ and polytopes
   in $\bR^4$ respectively.
+
+  There are functions \texttt{tiling1}, \texttt{tiling2},
+  \texttt{tiling3}, and \texttt{tiling4} for constructing them.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -326,6 +326,12 @@ class Tiling4(object):
             if h not in other.hypervolumes or other.hypervolumes[h] != x:
                 return False
         return True
+
+    def write_eps(self, f, psbox, geobox, edgecol=lambda x:(0.0,0.0,0.0)):
+        """
+        Draw a simple projection of the edges.        
+        """
+        
             
 
 def tiling4(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolumes):

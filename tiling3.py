@@ -148,6 +148,8 @@ class Tiling3(object):
                     (v1,v2) = (v2,v1)
                 if v1.z < 0:
                     continue
+
+                (r0,g0,b0) = edgecol(x)
                 for i in xrange(subdivs):
                     # start and end of edgelets
                     t1 = float(i)/subdivs
@@ -159,9 +161,8 @@ class Tiling3(object):
                         continue
 
                     # colour, whitening it into the distance
-                    (r,g,b) = edgecol(x)
                     w = max(min(u1.z/whiterange, 1.0), 0.0)
-                    (r,g,b) = (w + (1-w)*r, w + (1-w)*g, w + (1-w)*b)
+                    (r,g,b) = (w + (1-w)*r0, w + (1-w)*g0, w + (1-w)*b0)
 
                     # line thickness
                     t = width1/u1.z
