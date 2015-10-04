@@ -1,7 +1,8 @@
 import unittest
 
 from restrict32 import restrict32
-from tiling3_periodic import cubic_tiling3
+from tiling3_periodic import cubic_tiling3, simple_periodic_tiling3
+from tiling3_polyhedron import cube
 from vector2 import Vector2
 from vector3 import Vector3
 
@@ -12,7 +13,8 @@ from general import TilingTest
 class CubicTilingTest(TilingTest, unittest.TestCase):
 
     def setUp(self):
-        self.tiling = cubic_tiling3(((-3,4),(-2,4),(-1,4))).translate(Vector3(4,4,4))
+        self.bbox = ((-3.5,4.5),(-2.5,4.5),(-1.5,4.5))
+        self.tiling = cubic_tiling3(self.bbox).translate(Vector3(4,4,4))
 
     def test_type(self):
         self.type_tiling3(self.tiling)
@@ -56,3 +58,10 @@ class CubicTilingTest(TilingTest, unittest.TestCase):
         self.assertEqual(len(t.vertices), 8*7)
         self.assertEqual(len(t.edges), 8*6 + 7*7)
         self.assertEqual(len(t.faces), 7*6)
+
+    def test_simple_version(self):
+        n = lambda x: None
+        unitcube = cube().translate(Vector3(1,1,1)).scale(0.5)
+        t = self.tiling.map(n,n,n,n)
+        t1 = simple_periodic_tiling3(unitcube, self.bbox).translate(Vector3(4,4,4)).map(n,n,n,n)
+        self.assertTrue(t.proximate(t1))

@@ -41,3 +41,12 @@ class Vector2(object):
 
     def distance(self, other):
         return (self-other).norm()
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+    
+    def in_box(self, box):
+        ((minx, maxx), (miny, maxy)) = box
+        return (minx <= self.x <= maxx) and (miny <= self.y <= maxy)
+

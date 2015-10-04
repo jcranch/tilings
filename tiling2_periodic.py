@@ -117,3 +117,55 @@ def hexagonal_tiling(bounding_box):
                              (1,(1,0)), (2,(1,0)), (3,(0,0))]}
     return periodic_tiling2(fundamental_vertices,fundamental_edges,
                             fundamental_faces,bounding_box,periods)
+
+
+def simple_union(tiling2s, epsilon=1e-7):
+    """
+    Fits together a bunch of Tiling2 objects which approximately share
+    vertices, edges, faces, etc. Preserves labelling without
+    complaining about mismatches.
+    """
+
+    d = {}
+    dvals = set()
+    vertices = {}
+    edges = {}
+    faces = {}
+    
+    for t in tiling2s:
+        for v in t.vertices:
+            for u in dvals:
+                if u.distance(v) < epsilon:
+                    d[v] = u
+                    break
+            else:
+                dvals.add(v)
+                d[v] = v
+
+        for (v,x) in t.vertices.iteritems():
+            vertices[d[v]] = x
+
+        for (e,x) in t.edges.iteritems():
+            edges[frozenset(d[v] for v in e)] = x
+
+        for (f,x) in t.faces.iteritems():
+            faces[frozenset(frozenset(d[v] for v in e) for e in f)] = x
+
+    return Tiling2(vertices, edges, faces)
+
+
+def periodic_copies(tiling2, bounding_box,
+                    periods=[Vector2(1,0), Vector2(0,1)]):
+    gen = LatticeSearcher(len(periods))
+    for n in gen:
+        t1 = tiling2.translate(sum((u*c for (u,c) in zip(periods, n)), Vector2(0,0)))
+        if t1.in_box(bounding_box):
+            yield t1
+        else:
+            gen.reject()
+
+            
+def simple_periodic_tiling2(tiling2, bounding_box,
+                            periods=[Vector2(1,0), Vector2(0,1)]):
+                
+    return simple_union(periodic_copies(tiling2, bounding_box, periods))

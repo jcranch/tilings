@@ -92,6 +92,12 @@ class Tiling3(object):
     def transform(self, matrix):
         return self.deform(matrix) # matrix action is overloaded function call
 
+    def in_box(self, box):
+        ((minx, maxx), (miny, maxy), (minz, maxz)) = box
+        return (minx <= self.minx() and self.maxx() <= maxx and
+                miny <= self.miny() and self.maxy() <= maxy and
+                minz <= self.minz() and self.maxz() <= maxz)
+    
     def clip(self, minx, maxx, miny, maxy, minz, maxz):
         """
         Take only the structure that intersects the box with given
@@ -327,8 +333,56 @@ class Tiling3(object):
         return polygon_count
 
     def face_count_information_print(self):
-        for (k,v) in polygon_count(self).iteritems():
+        for (k,v) in self.face_count_information().iteritems():
             print 'Number of %s_gons : %s.'%(k,v)
+
+    def vertextour(self):
+        """
+        Generate the vertices, moving to the nearest at each stage: a
+        greedy travelling postman.
+        """
+        s = set(self.vertices)
+        x = s.pop()
+        yield x
+        while s:
+            x = min(s, key=x.distance)
+            s.remove(x)
+            yield x
+
+    def proximate(self, other, epsilon=1e-7):
+        """
+        Are these two almst identical: do they have they corresponding
+        vertices within epsilon and corresponding higher structure?
+        """
+        if len(self.vertices) != len(other.vertices):
+            return False
+        if len(self.edges) != len(other.edges):
+            return False
+        if len(self.faces) != len(other.faces):
+            return False
+        if len(self.volumes) != len(other.volumes):
+            return False
+        d = {}
+        for (u,x) in self.vertices.iteritems():
+            l = [v for (v,y) in other.vertices.iteritems() if x==y and u.distance(v)<epsilon]
+            if len(l) != 1:
+                print (u,l)
+                return False
+            d[u] = l[0]
+        for (e,x) in self.edges.iteritems():
+            e = frozenset(d[v] for v in e)
+            if e not in other.edges or other.edges[e] != x:
+                return False
+        for (f,x) in self.faces.iteritems():
+            f = frozenset(frozenset(d[v] for v in e) for e in f)
+            if f not in other.faces or other.faces[f] != x:
+                return False
+        for (g,x) in self.volumes.iteritems():
+            g = frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)
+            if g not in other.volumes or other.volumes[g] != x:
+                return False
+        return True
+    
 
 def tiling3(dict_vertices, list_edges, list_faces, list_volumes):
     """

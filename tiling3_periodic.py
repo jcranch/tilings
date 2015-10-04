@@ -168,3 +168,61 @@ def tetra_octa_tiling3(bounding_box):
                     recognise_f([(-1,-1,-1),(0,-1,0),(0,0,-1)])]}
 
     return periodic_tiling3(v,e,f,g,bounding_box,p)
+
+
+def simple_union(tiling3s, epsilon=1e-7):
+    """
+    Fits together a bunch of Tiling3 objects which approximately share
+    vertices, edges, faces, etc. Preserves labelling without
+    complaining about mismatches.
+    """
+
+    d = {}
+    dvals = set()
+    vertices = {}
+    edges = {}
+    faces = {}
+    volumes = {}
+    
+    for t in tiling3s:
+        for v in t.vertices:
+            for u in dvals:
+                if u.distance(v) < epsilon:
+                    d[v] = u
+                    break
+            else:
+                dvals.add(v)
+                d[v] = v
+
+        for (v,x) in t.vertices.iteritems():
+            vertices[d[v]] = x
+
+        for (e,x) in t.edges.iteritems():
+            edges[frozenset(d[v] for v in e)] = x
+
+        for (f,x) in t.faces.iteritems():
+            faces[frozenset(frozenset(d[v] for v in e) for e in f)] = x
+
+        for (g,x) in t.volumes.iteritems():
+            volumes[frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)] = x
+
+    return Tiling3(vertices, edges, faces, volumes)
+
+
+def periodic_copies(tiling3, bounding_box,
+                    periods=[Vector3(1,0,0), Vector3(0,1,0),
+                             Vector3(0,0,1)]):
+    gen = LatticeSearcher(len(periods))
+    for n in gen:
+        t1 = tiling3.translate(sum((u*c for (u,c) in zip(periods, n)), Vector3(0,0,0)))
+        if t1.in_box(bounding_box):
+            yield t1
+        else:
+            gen.reject()
+
+            
+def simple_periodic_tiling3(tiling3, bounding_box,
+                            periods=[Vector3(1,0,0), Vector3(0,1,0),
+                                     Vector3(0,0,1)]):
+                
+    return simple_union(periodic_copies(tiling3, bounding_box, periods))

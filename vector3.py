@@ -59,6 +59,10 @@ class Vector3(object):
         yield self.y
         yield self.z
 
+    def in_box(self, box):
+        ((minx, maxx), (miny, maxy), (minz, maxz)) = box
+        return (minx <= self.x <= maxx) and (miny <= self.y <= maxy) and (minz <= self.z <= maxz)
+
 
 def random_norm1():
     """
