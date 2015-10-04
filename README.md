@@ -60,6 +60,10 @@ be useful for someone starting off.
 
    Dynamically-generated illustrations for posters.
 
+ * posters/listings
+
+   Code for inclusion in the code poster
+
  * tests/
 
    The test suite (best run by running `nosetests` in the base

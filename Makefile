@@ -28,7 +28,7 @@ demos/%.pdf: demos/%.eps
 	epspdf $< $@
 
 
-MATHSPOSTER_IMAGES = posters/mathsimages/platonic_solids.png \
+MATHSPOSTER_EXTRAS = posters/mathsimages/platonic_solids.png \
                      posters/mathsimages/dual_platonic_solids.png \
                      posters/mathsimages/regular_polygons.png \
                      posters/mathsimages/cube_slice_1.png \
@@ -39,7 +39,10 @@ MATHSPOSTER_IMAGES = posters/mathsimages/platonic_solids.png \
                      posters/mathsimages/cell24.png \
                      posters/diagrams/sheffield-logo.pdf
 
-CODEPOSTER_IMAGES = posters/codeimages/unit_ball.pdf \
+CODEPOSTER_EXTRAS = posters/codeimages/unit_ball.pdf \
+                    posters/listings/norm1.pdf \
+                    posters/listings/triangles.pdf \
+                    posters/diagrams/fundamental.pdf \
                     posters/diagrams/sheffield-logo.pdf
 
 posters/%.pdf: posters/%.tex
@@ -58,9 +61,13 @@ posters/codeimages/%.pdf: posters/codeimages/%.eps
 posters/diagrams/%.pdf: posters/diagrams/%.eps
 	epspdf $< $@
 
-posters/mathsposter.pdf: $(MATHSPOSTER_IMAGES)
+posters/listings/%.pdf: posters/listings/%.tex posters/listings/%.py posters/listings/common.tex
+	cd posters/listings && pdflatex -halt-on-error $*.tex
+	cd posters/listings && pdflatex -halt-on-error $*.tex
 
-posters/codeposter.pdf: $(CODEPOSTER_IMAGES)
+posters/mathsposter.pdf: $(MATHSPOSTER_EXTRAS)
+
+posters/codeposter.pdf: $(CODEPOSTER_EXTRAS)
 
 build-posters: posters/mathsposter.pdf posters/codeposter.pdf
 

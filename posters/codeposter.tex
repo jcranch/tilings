@@ -9,7 +9,7 @@
 \usepackage[rightcaption]{sidecap}
 \usepackage{graphicx}
 \usepackage{wrapfig}
-\graphicspath{{diagrams/}{codeimages/}}
+\graphicspath{{diagrams/}{codeimages/}{listings/}}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{multicol}
@@ -64,19 +64,26 @@
 
 \headerbox{Linear algebra}{name=linear_algebra, column=0, below=summary}{
 
+  \begin{minipage}{0.66\textwidth}
   There are \texttt{Vector2}, \texttt{Vector3} and \texttt{Vector4}
   classes, together with \texttt{Matrix2}, \texttt{Matrix3} and
   \texttt{Matrix4} classes. These are equipped with a full set of
   linear algebra methods.
-  \par\quad\par
-  Of special interest are functions for generating random orthogonal
-  matrices and random unit vectors.
 
-  \begin{center}
-    \includegraphics[width=4cm]{unit_ball}
-  \end{center}
+  Of special interest are functions for generating random orthogonal
+  matrices and random unit vectors (such as \texttt{random\_norm1},
+  illustrated here).
   
-  %%% and include the code that generated it.
+  \begin{center}
+    \includegraphics[scale=0.8]{norm1}
+  \end{center}
+  \end{minipage}
+  \hfil
+  \begin{minipage}{0.3\textwidth}
+  \begin{center}
+    \includegraphics[width=0.95\textwidth]{unit_ball}
+  \end{center}
+  \end{minipage}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,11 +131,44 @@ Here is a sample of the code for taking a 2D cross-section of a 3D polyhedron.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\headerbox{Periodic Tiling}{name=periodic,column=0, below = restriction}{
+\headerbox{Periodic Tilings}{name=periodic, column=0, below=restriction}{
 
+  \begin{minipage}{0.39\textwidth}
+  \includegraphics[width=0.95\textwidth]{fundamental}
+  \end{minipage}
+  \hfil
+  \begin{minipage}{0.60\textwidth}
+    There are two sets of functions for creating periodic tilings, and
+    below we see some code which creates the periodic tiling depicted
+    on the left.
+
+    In both we need to specify the \emph{period vectors}: those
+    vectors where translation gives a symmetry of the tiling. The
+    tiling on the left has two period vectors shown in dark green.
+
+    In both we also need to specify a \emph{fundamental domain}: the
+    structure which must be copied along those period vectors in order
+    to obtain the whole tiling. The tiling on the left has a
+    fundamental domain in dark red, with its copies in light blue and
+    salmon pink.
+
+    In one approach (below), we specify precisely the fundamental
+    structure: the tiling on the left has a single fundamental vertex,
+    three fundamental edges (a horizontal and two diagonals), and two
+    fundamental faces (the upwards-pointing and downwards-pointing
+    triangles).
+
+    The other is clumsier, and we give the fundamental domain as a
+    tiling object, which means that some fundamental structure will be
+    repeated: this must be detected and removed.
+  \end{minipage}
+  
+  \begin{center}
+    \includegraphics[scale=0.8]{triangles}
+  \end{center}
 }
 
-\headerbox{Intersection Dissection}{name=restriction,column=0, below = periodic}{
+\headerbox{Intersection Dissection}{name=restriction, column=0, below=periodic}{
 
 }
 
