@@ -102,16 +102,29 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\headerbox{Convex Hull Producer}{name=convex_hull,column=0, below = core_code}{
+\headerbox{Convex hulls}{name=convex_hull,column=0, below = core_code}{
 
-In order to make convex polytopes the following function takes user-defined vertices and determines which vertices lie in the same hyper-plane. 
-In the 3D case for example, the function considers a given set of three vertices and determines if they are co-planar. 
-It then seek out other vertices that are also co-planar. 
-To make sure these faces lie on the surface of the polyhedron we also make sure that there are only vertices on one side of the given plane (otherwise it would not be on the surface). 
-To test this we use the volume of a tetrahedron to determine if the vertex is on \texttt{side\_1}, \texttt{side\_2} or is co-planar. 
-This idea has been generalised to four dimensional polytopes. Here is a snippet of the code for producing convex polyhedra.
-\par \quad \par 
-The advantage of this is the ability to create a convex polytopes by knowing only its vertices. For example, the following snippet is enough to define the \emph{hyper-icosahedron} although it does take a long while for this code to complete.
+  It is common to specify a convex polytope as the convex hull of its
+  vertices, and we give code to recover the higher structure from the
+  vertices.
+
+  We describe it in three dimensions for convenience, though we mostly
+  use the generalisation to four dimensions.
+
+  Firstly, we can tell whether three non-collinear vertices lie on a
+  face of the convex hull: they do if and only if all simplices
+  featuring those three vertices have the same sign to their signed
+  volume (this sign tells you which side of the plane determined by
+  those three vertices they are).
+
+  A face is then a maximal set of coplanar vertices with the property
+  that any three lie on a face.
+
+  %%% Define dodecahedron, or similar
+
+  This is used in our code to construct the regular four-dimensional
+  polytopes; for the larger ones, it takes some considerable time to
+  execute and so the results are stored.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
