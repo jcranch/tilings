@@ -106,40 +106,45 @@
 
   It is common to specify a convex polytope as the convex hull of its
   vertices, and we give code to recover the higher structure from the
-  vertices.
-
-  We describe it in three dimensions for convenience, though we mostly
-  use the generalisation to four dimensions.
+  vertices. We describe it in three dimensions for convenience, though
+  the code mostly uses the generalisation to four dimensions.
 
   Firstly, we can tell whether three non-collinear vertices lie on a
   face of the convex hull: they do if and only if all simplices
   featuring those three vertices have the same sign to their signed
   volume (this sign tells you which side of the plane determined by
-  those three vertices they are).
-
-  A face is then a maximal set of coplanar vertices with the property
-  that any three lie on a face.
-
-  %%% Define dodecahedron, or similar
+  those three vertices they are). A face is then a maximal set of
+  coplanar vertices with the property that any three lie on a face.
 
   This is used in our code to construct the regular four-dimensional
   polytopes; for the larger ones, it takes some considerable time to
   execute and so the results are stored.
+
+  %%% Random convex hull?
+  %%% Random *norm 1* convex hull?
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\headerbox{Restriction Code}{name=restriction,column=0, below = convex_hull}{
-Here we take a tiling object of $n$ dimensions and intersect in with hyper-plane $z = 0$ to create a tiling object of $(n-1)$ dimensions. This works by finding all the edges that have an intersection through the hyper-plane $z = 0$ and storing the point of intersection as a new vertex. Then it joins these verticies if the edges that they are of the intersection of are part of a common face. It joins these edges if the faces that they are of the intersection of are part of a common volume and so on.
-\par \quad \par 
-It complains if any vertices have $z = 0.$ 
-Of course, this should be a measure-zero event, and can be avoided by small translations. 
-This makes the algorithm much simpler: 
-edges in the input produce vertices in the output, and faces in the input produce edges in the output. 
-\par \quad \par 
+\headerbox{Intersections}{name=restriction,column=0, below = convex_hull}{
+  
+  Given an $n$-dimensional tiling object, we can intersect it with a
+  hyperplane to create a tiling object of $(n-1)$ dimensions. This
+  works by finding all the edges that have an intersection through the
+  hyper-plane and storing the point of intersection as a new
+  vertex. Then it joins these vertices if the edges that they are of
+  the intersection of are part of a common face. It joins these edges
+  if the faces that they are of the intersection of are part of a
+  common volume and so on.
 
-Here is a sample of the code for taking a 2D cross-section of a 3D polyhedron. 
+  The code raises an exception if any vertices lie on the
+  hyperplane. Of course, this should be a measure-zero event, and can
+  be avoided by small perturbations. This convention makes the
+  algorithm much simpler: edges in the input produce vertices in the
+  output, and faces in the input produce edges in the output.
 
+
+  Here is a sample of the code for taking a 2D cross-section of a 3D polyhedron.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
