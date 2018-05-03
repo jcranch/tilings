@@ -13,14 +13,14 @@ def random_dissection_distribution(polyhedron, iterations = 1000,plot_on = True,
     min_translation = 0
     max_translation = 0
     translations = []
-    for i in xrange(iterations):
+    for i in range(iterations):
         translation = (2*random()-1)*bound
         translations.append(translation)
         if translation > max_translation:
             max_translation = translation
         if translation < min_translation:
             min_translation = translation
-    for i in xrange(iterations):
+    for i in range(iterations):
         rotation_matrix = random_special_orthogonal()
         transformed_polyhedron = polyhedron.transform(rotation_matrix).translate(Vector3(0,0,translations[i]))
         restriction = restrict32(transformed_polyhedron)

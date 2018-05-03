@@ -30,7 +30,7 @@ class Vector2(object):
     def __mul__(self, s):
         return Vector2(self.x*s, self.y*s)
 
-    def __div__(self, s):
+    def __truediv__(self, s):
         return Vector2(self.x/s, self.y/s)
 
     def __neg__(self):

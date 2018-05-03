@@ -4,7 +4,7 @@ def permutations_with_sign(original):
     else:
         x = original[0]
         for (s,p) in permutations_with_sign(original[1:]):
-            for i in xrange(len(original)):
+            for i in range(len(original)):
                 yield (s, p[:i] + (x,) + p[i:])
                 s = -s
 

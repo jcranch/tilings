@@ -21,12 +21,12 @@ def restrict32(t):
     output.
     """
 
-    for (v,x) in t.vertices.iteritems():
+    for (v,x) in t.vertices.items():
         if v.z == 0:
             raise ValueError("Vertex %s lies in plane z=0"%(v,))
 
     newv = {}
-    for (e,x) in t.edges.iteritems():
+    for (e,x) in t.edges.items():
         (v1,v2) = e
         if v2.z < 0 < v1.z:
             (v1,v2) = (v2,v1)
@@ -39,15 +39,15 @@ def restrict32(t):
             newv[e] = ((u1*(v2.z) - u2*(v1.z))/(v2.z - v1.z), x)
 
     newe = {}
-    for (f,x) in t.faces.iteritems():
+    for (f,x) in t.faces.items():
         e = frozenset(newv[e1][0] for e1 in f if e1 in newv)
         if e:
             newe[f] = (e,x)
 
     newf = {}
-    for (g,x) in t.volumes.iteritems():
+    for (g,x) in t.volumes.items():
         f = frozenset(newe[f1][0] for f1 in g if f1 in newe)
         if f:
             newf[f] = x
 
-    return Tiling2(newv.itervalues(), newe.itervalues(), newf)
+    return Tiling2(newv.values(), newe.values(), newf)

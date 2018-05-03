@@ -14,15 +14,15 @@ class EquivDict(dict):
         self.underlying = {}
         
         if isinstance(contents, dict):
-            contents = contents.iteritems()
+            contents = contents.items()
             for (k,v) in contents:
                 self[k] = v
 
     def __nonzero__(self):
-        return any(a for a in self.underlying.itervalues())
+        return any(a for a in self.underlying.values())
                 
     def __len__(self):
-        return sum(len(a) for a in self.underlying.itervalues())
+        return sum(len(a) for a in self.underlying.values())
 
     def __getitem__(self, k):
         for (k1,v1) in self.underlying[self.invariant(k)]:
@@ -44,16 +44,16 @@ class EquivDict(dict):
         a.append((k, v))
 
     def iterkeys(self):
-        for a in self.underlying.itervalues():
+        for a in self.underlying.values():
             for (k,v) in a:
                 yield k
 
     def itervalues(self):
-        for a in self.underlying.itervalues():
+        for a in self.underlying.values():
             for (k,v) in a:
                 yield k
 
     def iteritems(self):
-        for a in self.underlying.itervalues():
+        for a in self.underlying.values():
             for t in a:
                 yield t

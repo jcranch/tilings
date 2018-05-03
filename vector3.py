@@ -34,7 +34,7 @@ class Vector3(object):
     def __mul__(self, s):
         return Vector3(s*self.x, s*self.y, s*self.z)
 
-    def __div__(self, s):
+    def __truediv__(self, s):
         return Vector3(self.x/s, self.y/s, self.z/s)
 
     def __neg__(self):

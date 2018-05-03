@@ -50,10 +50,10 @@ posters/%.pdf: posters/%.tex
 	cd posters && pdflatex -halt-on-error $*.tex
 
 posters/mathsimages/%: mathsposter_images.py
-	python2 mathsposter_images.py $*
+	python3 mathsposter_images.py $*
 
 posters/codeimages/%: codeposter_images.py
-	python2 codeposter_images.py $*
+	python3 codeposter_images.py $*
 
 posters/codeimages/%.pdf: posters/codeimages/%.eps
 	epspdf $< $@
@@ -94,7 +94,7 @@ demos/%.mp4: demos/%_png/img000001.png
 	avconv -y -framerate 15 -i demos/$*_png/img%06d.png -c:v libx264 -r 30 -pix_fmt yuv420p $@
 
 demos/%_png/img000001.png: demo_animation.py
-	python2 demo_animation.py $*
+	python3 demo_animation.py $*
 
 
 POLYTOPES = autotilings/cell24.data \
@@ -104,4 +104,4 @@ POLYTOPES = autotilings/cell24.data \
 build-polytopes: $(POLYTOPES)
 
 autotilings/%.data:
-	python2 tiling4_make_polytopes.py $*
+	python3 tiling4_make_polytopes.py $*

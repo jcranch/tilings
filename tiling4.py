@@ -32,7 +32,7 @@ class Tiling4(object):
         '''
         Produces outputs of the form that should be valid inputs for the tiling4 function.
         '''
-        dict_vertices = dict([(v,k) for(k,v) in self.vertices.iteritems()])
+        dict_vertices = dict([(v,k) for(k,v) in self.vertices.items()])
 
         list_of_edges = list()
         for i in self.edges.values():
@@ -91,16 +91,16 @@ class Tiling4(object):
         Applies an arbitrary function q to the vertices.
         """
         v = dict((a,(q(a),x))
-                 for (a,x) in self.vertices.iteritems())
+                 for (a,x) in self.vertices.items())
         e = dict((a,(frozenset(v[i][0] for i in a), x))
-                 for (a,x) in self.edges.iteritems())
+                 for (a,x) in self.edges.items())
         f = dict((a,(frozenset(e[i][0] for i in a), x))
-                 for (a,x) in self.faces.iteritems())
+                 for (a,x) in self.faces.items())
         g = dict((a,(frozenset(f[i][0] for i in a), x))
-                 for (a,x) in self.volumes.iteritems())
+                 for (a,x) in self.volumes.items())
         h = dict((a,(frozenset(g[i][0] for i in a), x))
-                 for (a,x) in self.hypervolumes.iteritems())
-        return Tiling4(v.itervalues(), e.itervalues(), f.itervalues(), g.itervalues(), h.itervalues())
+                 for (a,x) in self.hypervolumes.items())
+        return Tiling4(v.values(), e.values(), f.values(), g.values(), h.values())
 
     def translate(self, offset):
         return self.deform(lambda x: x+offset)
@@ -123,11 +123,11 @@ class Tiling4(object):
         Take only the structure that intersects the box with given
         coordinates.
         """
-        newv = dict((v,x) for (v,x) in self.vertices.iteritems() if minw <= v.w <= maxw and minx <= v.x <= maxx and miny <= v.y <= maxy and minz <= v.z <= maxz)
-        newe = dict((e,x) for (e,x) in self.edges.iteritems() if any(v in newv for v in e))
-        newf = dict((f,x) for (f,x) in self.faces.iteritems() if any(e in newe for e in f))
-        newg = dict((g,x) for (g,x) in self.volumes.iteritems() if any(f in newf for f in g))
-        newh = dict((h,x) for (h,x) in self.hypervolumes.iteritems() if any(g in newg for g in h))
+        newv = dict((v,x) for (v,x) in self.vertices.items() if minw <= v.w <= maxw and minx <= v.x <= maxx and miny <= v.y <= maxy and minz <= v.z <= maxz)
+        newe = dict((e,x) for (e,x) in self.edges.items() if any(v in newv for v in e))
+        newf = dict((f,x) for (f,x) in self.faces.items() if any(e in newe for e in f))
+        newg = dict((g,x) for (g,x) in self.volumes.items() if any(f in newf for f in g))
+        newh = dict((h,x) for (h,x) in self.hypervolumes.items() if any(g in newg for g in h))
         return Tiling4(newv, newe, newf, newg, newh)
 
     def map(self, v, e, f, g, h):
@@ -135,11 +135,11 @@ class Tiling4(object):
         Adjust the labelling by v, e, f, g and h (on vertices, edges,
         faces and volumes respectively).
         """
-        vertices = dict((x,v(l)) for (x,l) in self.vertices.iteritems())
-        edges = dict((x,e(l)) for (x,l) in self.edges.iteritems())
-        faces = dict((x,f(l)) for (x,l) in self.faces.iteritems())
-        volumes = dict((x,g(l)) for (x,l) in self.volumes.iteritems())
-        hypervolumes = dict((x,h(l)) for (x,l) in self.hypervolumes.iteritems())
+        vertices = dict((x,v(l)) for (x,l) in self.vertices.items())
+        edges = dict((x,e(l)) for (x,l) in self.edges.items())
+        faces = dict((x,f(l)) for (x,l) in self.faces.items())
+        volumes = dict((x,g(l)) for (x,l) in self.volumes.items())
+        hypervolumes = dict((x,h(l)) for (x,l) in self.hypervolumes.items())
         return Tiling4(vertices, edges, faces, volumes, hypervolumes)
 
     def isometries(self, other, epsilon=1e-7):
@@ -148,16 +148,16 @@ class Tiling4(object):
         other which are isometries (ie. preserve distances within
         epsilon) and preserve labelling.
         """
-        vertices = list(self.vertices.iteritems())
+        vertices = list(self.vertices.items())
 
         def extensions(i, d):
             if i==len(vertices):
                 yield d
             else:
                 (v1,l1) = vertices[i]
-                s = set(d.itervalues())
-                for (v2,l2) in other.vertices.iteritems():
-                    if v2 not in s and l1==l2 and all(abs(u1.distance(v1) - u2.distance(v2)) < epsilon for (u1,u2) in d.iteritems()):
+                s = set(d.values())
+                for (v2,l2) in other.vertices.items():
+                    if v2 not in s and l1==l2 and all(abs(u1.distance(v1) - u2.distance(v2)) < epsilon for (u1,u2) in d.items()):
                         newd = d.copy()
                         newd[v1] = v2
                         for a in extensions(i+1, newd):
@@ -187,38 +187,38 @@ class Tiling4(object):
         other which are isomorphisms (ie. preserve combinatorial
         structure, including labellings)
         """
-        vertices = list(self.vertices.iteritems())
+        vertices = list(self.vertices.items())
 
         def extensions(i, d):
             if i==len(vertices):
                 yield d
             else:
                 (v1,l1) = vertices[i]
-                s = set(d.itervalues())
-                for (v2,l2) in other.vertices.iteritems():
+                s = set(d.values())
+                for (v2,l2) in other.vertices.items():
                     if v2 not in s and l1==l2:
                         newd = d.copy()
                         newd[v1] = v2
-                        news = set(newd.itervalues())
+                        news = set(newd.values())
                         def characteristic(x):
                             if x in news:
                                 return x
                             else:
                                 return None
-                        edges1 = set((frozenset([newd.get(x), newd.get(y)]), l) for ((x,y),l) in self.edges.iteritems())
-                        edges2 = set((frozenset([characteristic(x), characteristic(y)]), l) for ((x,y),l) in other.edges.iteritems())
+                        edges1 = set((frozenset([newd.get(x), newd.get(y)]), l) for ((x,y),l) in self.edges.items())
+                        edges2 = set((frozenset([characteristic(x), characteristic(y)]), l) for ((x,y),l) in other.edges.items())
                         if edges1 != edges2:
                             continue
-                        faces1 = set((frozenset(frozenset(newd.get(v) for v in e) for e in f), l) for (f,l) in self.faces.iteritems())
-                        faces2 = set((frozenset(frozenset(characteristic(v) for v in e) for e in f), l) for (f,l) in other.faces.iteritems())
+                        faces1 = set((frozenset(frozenset(newd.get(v) for v in e) for e in f), l) for (f,l) in self.faces.items())
+                        faces2 = set((frozenset(frozenset(characteristic(v) for v in e) for e in f), l) for (f,l) in other.faces.items())
                         if faces1 != faces2:
                             continue
-                        volumes1 = set((frozenset(frozenset(frozenset(newd.get(v) for v in e) for e in f) for f in g), l) for (g,l) in self.volumes.iteritems())
-                        volumes2 = set((frozenset(frozenset(frozenset(characteristic(v) for v in e) for e in f) for f in g), l) for (g,l) in other.volumes.iteritems())
+                        volumes1 = set((frozenset(frozenset(frozenset(newd.get(v) for v in e) for e in f) for f in g), l) for (g,l) in self.volumes.items())
+                        volumes2 = set((frozenset(frozenset(frozenset(characteristic(v) for v in e) for e in f) for f in g), l) for (g,l) in other.volumes.items())
                         if volumes1 != volumes2:
                             continue
-                        hypervolumes1 = set((frozenset(frozenset(frozenset(frozenset(newd.get(v) for v in e) for e in f) for f in g) for g in h), l) for (h,l) in self.hypervolumes.iteritems())
-                        hypervolumes2 = set((frozenset(frozenset(frozenset(frozenset(characteristic(v) for v in e) for e in f) for f in g) for g in h), l) for (h,l) in other.hypervolumes.iteritems())
+                        hypervolumes1 = set((frozenset(frozenset(frozenset(frozenset(newd.get(v) for v in e) for e in f) for f in g) for g in h), l) for (h,l) in self.hypervolumes.items())
+                        hypervolumes2 = set((frozenset(frozenset(frozenset(frozenset(characteristic(v) for v in e) for e in f) for f in g) for g in h), l) for (h,l) in other.hypervolumes.items())
                         if hypervolumes1 != hypervolumes2:
                             continue
                         for a in extensions(i+1, newd):
@@ -242,38 +242,38 @@ class Tiling4(object):
         isomorphism.
         """
         edges = {}
-        for (e,le) in self.edges.iteritems():
+        for (e,le) in self.edges.items():
             edge_inv = {}
             for v in e:
                 vertex_inv = self.vertices[v]
                 edge_inv[vertex_inv] = 1 + edge_inv.get(vertex_inv, 0)
-            edges[e] = (tuple(sorted(edge_inv.iteritems())), le)
+            edges[e] = (tuple(sorted(edge_inv.items())), le)
 
         faces = {}
-        for (f,lf) in self.faces.iteritems():
+        for (f,lf) in self.faces.items():
             face_inv = {}
             for e in f:
                 edge_inv = edges[e]
                 face_inv[edge_inv] = 1 + face_inv.get(edge_inv, 0)
-            faces[f] = (tuple(sorted(face_inv.iteritems())), lf)
+            faces[f] = (tuple(sorted(face_inv.items())), lf)
 
         volumes = {}
-        for (g,lg) in self.volumes.iteritems():
+        for (g,lg) in self.volumes.items():
             volume_inv = {}
             for f in g:
                 face_inv = faces[f]
                 volume_inv[face_inv] = 1 + volume_inv.get(face_inv, 0)
-            volumes[g] = (tuple(sorted(volume_inv.iteritems())), lg)
+            volumes[g] = (tuple(sorted(volume_inv.items())), lg)
 
         inv = {}
-        for (h,lh) in self.hypervolumes.iteritems():
+        for (h,lh) in self.hypervolumes.items():
             hypervolume_inv = {}
             for g in h:
                 volume_inv = volumes[g]
                 hypervolume_inv[volume_inv] = 1 + hypervolume_inv.get(volume_inv, 0)
-            hypervolume_inv = (tuple(sorted(hypervolume_inv.iteritems())), lh)
+            hypervolume_inv = (tuple(sorted(hypervolume_inv.items())), lh)
             inv[hypervolume_inv] = 1 + inv.get(hypervolume_inv, 0)
-        return tuple(sorted(inv.iteritems()))
+        return tuple(sorted(inv.items()))
 
     def vertextour(self):
         """
@@ -304,24 +304,24 @@ class Tiling4(object):
         if len(self.hypervolumes) != len(other.hypervolumes):
             return False
         d = {}
-        for (u,x) in self.vertices.iteritems():
-            l = [v for (v,y) in other.vertices.iteritems() if x==y and u.distance(v)<epsilon]
+        for (u,x) in self.vertices.items():
+            l = [v for (v,y) in other.vertices.items() if x==y and u.distance(v)<epsilon]
             if len(l) != 1:
                 return False
             d[u] = l[0]
-        for (e,x) in self.edges.iteritems():
+        for (e,x) in self.edges.items():
             e = frozenset(d[v] for v in e)
             if e not in other.edges or other.edges[e] != x:
                 return False
-        for (f,x) in self.faces.iteritems():
+        for (f,x) in self.faces.items():
             f = frozenset(frozenset(d[v] for v in e) for e in f)
             if f not in other.faces or other.faces[f] != x:
                 return False
-        for (g,x) in self.volumes.iteritems():
+        for (g,x) in self.volumes.items():
             g = frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)
             if g not in other.volumes or other.volumes[g] != x:
                 return False
-        for (h,x) in self.hypervolumes.iteritems():
+        for (h,x) in self.hypervolumes.items():
             h = frozenset(frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g) for g in h)
             if h not in other.hypervolumes or other.hypervolumes[h] != x:
                 return False
@@ -368,9 +368,9 @@ def tiling4(dict_vertices, list_edges, list_faces, list_volumes, list_hypervolum
         hypervolumes[frozenset(dict_volumes[frozenset(k)] for k in hypervolume)] = s
 
     # Now we reverse the keys and values to correct position for a tiling4.
-    vertices = ((k,v) for (v,k) in dict_vertices.iteritems())
-    edges = ((k,v) for (v,k) in dict_edges.iteritems())
-    faces = ((k,v) for (v,k) in dict_faces.iteritems())
-    volumes = ((k,v) for (v,k) in dict_volumes.iteritems())
+    vertices = ((k,v) for (v,k) in dict_vertices.items())
+    edges = ((k,v) for (v,k) in dict_edges.items())
+    faces = ((k,v) for (v,k) in dict_faces.items())
+    volumes = ((k,v) for (v,k) in dict_volumes.items())
 
     return Tiling4(vertices, edges, faces, volumes, hypervolumes)

@@ -10,7 +10,7 @@ class LatticeSearcher(object):
     def __init__(self, n):
         self.dim = n
         self.old = set()
-        self.new = set([tuple(0 for i in xrange(n))])
+        self.new = set([tuple(0 for i in range(n))])
         self.last = None
 
     def __iter__(self):
@@ -19,11 +19,11 @@ class LatticeSearcher(object):
     def reject(self):
         self.last = None
 
-    def next(self):
+    def __next__(self):
         if self.last is not None:
             a = self.last
             self.old.add(a)
-            for i in xrange(self.dim):
+            for i in range(self.dim):
                 for x in [a[i]+1, a[i]-1]:
                     b = a[:i] + (x,) + a[(i+1):]
                     if b not in self.old:

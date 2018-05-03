@@ -19,7 +19,7 @@ def cell24():
             yield p
 
     vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
-    return tiling4_convex_hull(dict(zip(vs,xrange(24))),
+    return tiling4_convex_hull(dict(zip(vs,range(24))),
                                statusreport=True,
                                max_volumes_per_vertex=6)
 
@@ -49,7 +49,7 @@ def cell120():
 
     vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
 
-    return tiling4_convex_hull(dict(zip(vs,xrange(600))),
+    return tiling4_convex_hull(dict(zip(vs,range(600))),
                                statusreport=True,
                                max_volumes_per_vertex=4)
 
@@ -67,7 +67,7 @@ def cell600():
 
     vs = (Vector4(w,x,y,z) for (w,x,y,z) in remove_duplicates(vertices()))
 
-    return tiling4_convex_hull(dict(zip(vs,xrange(120))), statusreport=True)
+    return tiling4_convex_hull(dict(zip(vs,range(120))), statusreport=True)
 
 
 if __name__=="__main__":
@@ -81,19 +81,19 @@ if __name__=="__main__":
     for v in sys.argv[1:]:
 
         if v == "cell24":
-            print "cell24:"
+            print("cell24:")
             c = cell24()
             with open(os.path.join("autotilings", "cell24.data"), 'w') as f:
                 f.write(repr(c))
 
         elif v == "cell120":
-            print "cell120:"
+            print("cell120:")
             c = cell120()
             with open(os.path.join("autotilings", "cell120.data"), 'w') as f:
                 f.write(repr(c))
 
         elif v == "cell600":
-            print "cell600:"
+            print("cell600:")
             c = cell600()
             with open(os.path.join("autotilings", "cell600.data"), 'w') as f:
                 f.write(repr(c))

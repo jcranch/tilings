@@ -39,7 +39,7 @@ def make_translate_z_4d(name, polytope, frames = 500, axis_limit=[[-1.2, 1.2]]*3
     b.elevation = elevation
     b.azimuth = azimuth
     rate = abs(maxz-minz)/frames
-    polytopes = ([restrict43(polytope.translate(Vector4(0,0,0.00001,-0.001 + minz + i*rate)))] for i in xrange(frames))
+    polytopes = ([restrict43(polytope.translate(Vector4(0,0,0.00001,-0.001 + minz + i*rate)))] for i in range(frames))
     b.animation(polytopes, 'demos/'+name, number=frames)
 
 def make_rotate_wx(name, polytope, frames = 500, axis_limit=[[-1.2, 1.2]]*3, elevation = 40, azimuth = 30):
@@ -48,7 +48,7 @@ def make_rotate_wx(name, polytope, frames = 500, axis_limit=[[-1.2, 1.2]]*3, ele
     b.elevation = elevation
     b.azimuth = azimuth
     rate = (2*pi)/(frames-1)
-    polytopes = ([restrict43(polytope.deform(rotate_wx(i*rate)).translate(Vector4(0,0,0.000001,0.000001)))] for i in xrange(frames))
+    polytopes = ([restrict43(polytope.deform(rotate_wx(i*rate)).translate(Vector4(0,0,0.000001,0.000001)))] for i in range(frames))
     b.animation(polytopes, 'demos/'+name, number=frames)
 
 def make_full_uniform_rotate(name, polytope, frames = 500, axis_limit=[[-2, 2]]*3, elevation=40, azimuth=30):
@@ -57,7 +57,7 @@ def make_full_uniform_rotate(name, polytope, frames = 500, axis_limit=[[-2, 2]]*
     b.elevation = elevation
     b.azimuth = azimuth
     rate = (2*pi)/(frames-1)
-    polytopes = ([restrict43(polytope.deform(rotate_wx(i*rate)*rotate_wy(i*rate)*rotate_wz(i*rate)*rotate_xy(i*rate)*rotate_xz(i*rate)*rotate_yz(i*rate)).translate(Vector4(0,0,0.000001,0.000001)))] for i in xrange(frames))
+    polytopes = ([restrict43(polytope.deform(rotate_wx(i*rate)*rotate_wy(i*rate)*rotate_wz(i*rate)*rotate_xy(i*rate)*rotate_xz(i*rate)*rotate_yz(i*rate)).translate(Vector4(0,0,0.000001,0.000001)))] for i in range(frames))
     b.animation(polytopes, 'demos/'+name, number=frames)
     
 def make_rotate_z(name, polytope, frames = 50, axis_limit=[[-1.2, 1.2]]*3, elevation = 40, azimuth = 30):
@@ -66,7 +66,7 @@ def make_rotate_z(name, polytope, frames = 50, axis_limit=[[-1.2, 1.2]]*3, eleva
     b.elevation = elevation
     b.azimuth = azimuth
     rate = (2*pi)/(frames-1)
-    polytopes = ([polytope.deform(rotate_z(i*rate)).translate(Vector3(0,0,0.000001,))] for i in xrange(frames))
+    polytopes = ([polytope.deform(rotate_z(i*rate)).translate(Vector3(0,0,0.000001,))] for i in range(frames))
     b.animation(polytopes, 'demos/'+name, number=frames)
 
 

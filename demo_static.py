@@ -9,7 +9,8 @@ from restrict32 import restrict32
 
 def draw_cubic1_eps(dirname, filename="cubic1.eps"):
 
-    def facecol((a, (r,g,b))):
+    def facecol(args):
+        (a, (r,g,b)) = args
         return (0.6 + (r%2)*0.2, 0.6 + (g%2)*0.2, 0.6 + (b%2)*0.2)
 
     m = rotate_x(0.75) * rotate_y(0.55)
@@ -21,7 +22,8 @@ def draw_cubic1_eps(dirname, filename="cubic1.eps"):
 
 def draw_cubic2_eps(dirname, filename="cubic2.eps"):
 
-    def edgecol(((i,), t)):
+    def edgecol(args):
+        ((i,), t) = args
         if i==1:
             return (0.3, 0.0, 0.0)
         elif i==2:
@@ -38,7 +40,8 @@ def draw_cubic2_eps(dirname, filename="cubic2.eps"):
 
 def draw_tetra_octa_eps(dirname, filename="tetra_octa1.eps"):
 
-    def edgecol((s,t)):
+    def edgecol(args):
+        (s,t) = args
         if s == "T1":
             return (1.0, 0.0, 0.0)
         elif s == "T2":
@@ -61,7 +64,8 @@ def draw_tetra_octa_eps(dirname, filename="tetra_octa1.eps"):
 
 def draw_triangular(dirname, filename="triangular.eps"):
 
-    def facecol((a,v)):
+    def facecol(args):
+        (a,v) = args
         if a:
             return (1.0,0.4,0.4)
         else:
@@ -72,7 +76,8 @@ def draw_triangular(dirname, filename="triangular.eps"):
 
 def draw_hexagonal(dirname, filename="hexagonal.eps"):
 
-    def facecol((a,(i,j))):
+    def facecol(args):
+        (a,(i,j)) = args
         n = (i-j)%3
         if n==0:
             return (1.0,0.4,0.4)
@@ -91,17 +96,17 @@ if __name__=="__main__":
     if not os.path.exists(demo_directory):
         os.makedirs(demo_directory)
 
-    print "draw_cubic1_eps"
+    print("draw_cubic1_eps")
     draw_cubic1_eps(demo_directory)
 
-    print "draw_cubic2_eps"
+    print("draw_cubic2_eps")
     draw_cubic2_eps(demo_directory)
 
-    print "draw_tetra_octa_eps"
+    print("draw_tetra_octa_eps")
     draw_tetra_octa_eps(demo_directory)
 
-    print "draw_triangular"
+    print("draw_triangular")
     draw_triangular(demo_directory)
 
-    print "draw_hexagonal"
+    print("draw_hexagonal")
     draw_hexagonal(demo_directory)

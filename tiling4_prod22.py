@@ -40,40 +40,40 @@ def cartesian_product(t1, t2):
                          [g12(e,f2) for e in f1])
 
     vertices = {}
-    for (v1,a1) in t1.vertices.iteritems():
-        for (v2,a2) in t2.vertices.iteritems():
+    for (v1,a1) in t1.vertices.items():
+        for (v2,a2) in t2.vertices.items():
             vertices[v00(v1,v2)] = (0,a1,0,a2)
 
     edges = {}
-    for (e,a1) in t1.edges.iteritems():
-        for (v,a2) in t2.vertices.iteritems():
+    for (e,a1) in t1.edges.items():
+        for (v,a2) in t2.vertices.items():
             edges[e10(e,v)] = (1,a1,0,a2)
-    for (v,a1) in t1.vertices.iteritems():
-        for (e,a2) in t2.edges.iteritems():
+    for (v,a1) in t1.vertices.items():
+        for (e,a2) in t2.edges.items():
             edges[e01(v,e)] = (0,a1,1,a2)
 
     faces = {}
-    for (f,a1) in t1.faces.iteritems():
-        for (v,a2) in t2.vertices.iteritems():
+    for (f,a1) in t1.faces.items():
+        for (v,a2) in t2.vertices.items():
             faces[f20(f,v)] = (2,a1,0,a2)
-    for (e1,a1) in t1.edges.iteritems():
-        for (e2,a2) in t2.edges.iteritems():
+    for (e1,a1) in t1.edges.items():
+        for (e2,a2) in t2.edges.items():
             faces[f11(e1,e2)] = (1,a1,1,a2)
-    for (v,a1) in t1.vertices.iteritems():
-        for (f,a2) in t2.faces.iteritems():
+    for (v,a1) in t1.vertices.items():
+        for (f,a2) in t2.faces.items():
             faces[f02(v,f)] = (0,a1,2,a2)
 
     volumes = {}
-    for (f,a1) in t1.faces.iteritems():
-        for (e,a2) in t2.edges.iteritems():
+    for (f,a1) in t1.faces.items():
+        for (e,a2) in t2.edges.items():
             volumes[g21(f,e)] = (2,a1,1,a2)
-    for (e,a1) in t1.edges.iteritems():
-        for (f,a2) in t2.faces.iteritems():
+    for (e,a1) in t1.edges.items():
+        for (f,a2) in t2.faces.items():
             volumes[g12(e,f)] = (1,a1,2,a2)
 
     hypervolumes = {}
-    for (f1,a1) in t1.faces.iteritems():
-        for (f2,a2) in t2.faces.iteritems():
+    for (f1,a1) in t1.faces.items():
+        for (f2,a2) in t2.faces.items():
             hypervolumes[h22(f1,f2)] = (2,a1,2,a2)
 
     return Tiling4(vertices, edges, faces, volumes, hypervolumes)

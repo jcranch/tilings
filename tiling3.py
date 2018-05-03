@@ -28,7 +28,7 @@ class Tiling3(object):
         '''
         Produces outputs of the form that should be valid inputs for the tiling3 function.
         '''
-        dict_vertices = dict([(v,k) for(k,v) in self.vertices.iteritems()])
+        dict_vertices = dict([(v,k) for(k,v) in self.vertices.items()])
 
         list_of_edges = list()
         for i in self.edges.values():
@@ -74,14 +74,14 @@ class Tiling3(object):
         Applies an arbitrary function h to the vertices.
         """
         v = dict((a,(h(a),x))
-                 for (a,x) in self.vertices.iteritems())
+                 for (a,x) in self.vertices.items())
         e = dict((a,(frozenset(v[i][0] for i in a), x))
-                 for (a,x) in self.edges.iteritems())
+                 for (a,x) in self.edges.items())
         f = dict((a,(frozenset(e[i][0] for i in a), x))
-                 for (a,x) in self.faces.iteritems())
+                 for (a,x) in self.faces.items())
         g = dict((a,(frozenset(f[i][0] for i in a), x))
-                 for (a,x) in self.volumes.iteritems())
-        return Tiling3(v.itervalues(), e.itervalues(), f.itervalues(), g.itervalues())
+                 for (a,x) in self.volumes.items())
+        return Tiling3(v.values(), e.values(), f.values(), g.values())
 
     def translate(self, offset):
         return self.deform(lambda x: x+offset)
@@ -103,10 +103,10 @@ class Tiling3(object):
         Take only the structure that intersects the box with given
         coordinates.
         """
-        newv = dict((v,x) for (v,x) in self.vertices.iteritems() if minx <= v.x <= maxx and miny <= v.y <= maxy and minz <= v.z <= maxz)
-        newe = dict((e,x) for (e,x) in self.edges.iteritems() if any(v in newv for v in e))
-        newf = dict((f,x) for (f,x) in self.faces.iteritems() if any(e in newe for e in f))
-        newg = dict((g,x) for (g,x) in self.volumes.iteritems() if any(f in newf for f in g))
+        newv = dict((v,x) for (v,x) in self.vertices.items() if minx <= v.x <= maxx and miny <= v.y <= maxy and minz <= v.z <= maxz)
+        newe = dict((e,x) for (e,x) in self.edges.items() if any(v in newv for v in e))
+        newf = dict((f,x) for (f,x) in self.faces.items() if any(e in newe for e in f))
+        newg = dict((g,x) for (g,x) in self.volumes.items() if any(f in newf for f in g))
         return Tiling3(newv, newe, newf, newg)
 
     def write_eps(self, f, psbox, geobox,
@@ -149,14 +149,14 @@ class Tiling3(object):
             return (x,y)
 
         def edgelets():
-            for ((v1,v2),x) in self.edges.iteritems():
+            for ((v1,v2),x) in self.edges.items():
                 if v1.z < v2.z:
                     (v1,v2) = (v2,v1)
                 if v1.z < 0:
                     continue
 
                 (r0,g0,b0) = edgecol(x)
-                for i in xrange(subdivs):
+                for i in range(subdivs):
                     # start and end of edgelets
                     t1 = float(i)/subdivs
                     u1 = v1*t1 + v2*(1-t1)
@@ -195,10 +195,10 @@ class Tiling3(object):
         Adjust the labelling by v, e, f and g (on vertices, edges,
         faces and volumes respectively).
         """
-        vertices = dict((x,v(l)) for (x,l) in self.vertices.iteritems())
-        edges = dict((x,e(l)) for (x,l) in self.edges.iteritems())
-        faces = dict((x,f(l)) for (x,l) in self.faces.iteritems())
-        volumes = dict((x,g(l)) for (x,l) in self.volumes.iteritems())
+        vertices = dict((x,v(l)) for (x,l) in self.vertices.items())
+        edges = dict((x,e(l)) for (x,l) in self.edges.items())
+        faces = dict((x,f(l)) for (x,l) in self.faces.items())
+        volumes = dict((x,g(l)) for (x,l) in self.volumes.items())
         return Tiling3(vertices, edges, faces, volumes)
 
     def isometries(self, other, epsilon=1e-7):
@@ -207,16 +207,16 @@ class Tiling3(object):
         other which are isometries (ie. preserve distances within
         epsilon) and preserve labelling.
         """
-        vertices = list(self.vertices.iteritems())
+        vertices = list(self.vertices.items())
 
         def extensions(i, d):
             if i==len(vertices):
                 yield d
             else:
                 (v1,l1) = vertices[i]
-                s = set(d.itervalues())
-                for (v2,l2) in other.vertices.iteritems():
-                    if v2 not in s and l1==l2 and all(abs(u1.distance(v1) - u2.distance(v2)) < epsilon for (u1,u2) in d.iteritems()):
+                s = set(d.values())
+                for (v2,l2) in other.vertices.items():
+                    if v2 not in s and l1==l2 and all(abs(u1.distance(v1) - u2.distance(v2)) < epsilon for (u1,u2) in d.items()):
                         newd = d.copy()
                         newd[v1] = v2
                         for a in extensions(i+1, newd):
@@ -246,34 +246,34 @@ class Tiling3(object):
         other which are isomorphisms (ie. preserve combinatorial
         structure, including labellings)
         """
-        vertices = list(self.vertices.iteritems())
+        vertices = list(self.vertices.items())
 
         def extensions(i, d):
             if i==len(vertices):
                 yield d
             else:
                 (v1,l1) = vertices[i]
-                s = set(d.itervalues())
-                for (v2,l2) in other.vertices.iteritems():
+                s = set(d.values())
+                for (v2,l2) in other.vertices.items():
                     if v2 not in s and l1==l2:
                         newd = d.copy()
                         newd[v1] = v2
-                        news = set(newd.itervalues())
+                        news = set(newd.values())
                         def characteristic(x):
                             if x in news:
                                 return x
                             else:
                                 return None
-                        edges1 = set((frozenset([newd.get(x), newd.get(y)]), l) for ((x,y),l) in self.edges.iteritems())
-                        edges2 = set((frozenset([characteristic(x), characteristic(y)]), l) for ((x,y),l) in other.edges.iteritems())
+                        edges1 = set((frozenset([newd.get(x), newd.get(y)]), l) for ((x,y),l) in self.edges.items())
+                        edges2 = set((frozenset([characteristic(x), characteristic(y)]), l) for ((x,y),l) in other.edges.items())
                         if edges1 != edges2:
                             continue
-                        faces1 = set((frozenset(frozenset(newd.get(v) for v in e) for e in f), l) for (f,l) in self.faces.iteritems())
-                        faces2 = set((frozenset(frozenset(characteristic(v) for v in e) for e in f), l) for (f,l) in other.faces.iteritems())
+                        faces1 = set((frozenset(frozenset(newd.get(v) for v in e) for e in f), l) for (f,l) in self.faces.items())
+                        faces2 = set((frozenset(frozenset(characteristic(v) for v in e) for e in f), l) for (f,l) in other.faces.items())
                         if faces1 != faces2:
                             continue
-                        volumes1 = set((frozenset(frozenset(frozenset(newd.get(v) for v in e) for e in f) for f in g), l) for (g,l) in self.volumes.iteritems())
-                        volumes2 = set((frozenset(frozenset(frozenset(characteristic(v) for v in e) for e in f) for f in g), l) for (g,l) in other.volumes.iteritems())
+                        volumes1 = set((frozenset(frozenset(frozenset(newd.get(v) for v in e) for e in f) for f in g), l) for (g,l) in self.volumes.items())
+                        volumes2 = set((frozenset(frozenset(frozenset(characteristic(v) for v in e) for e in f) for f in g), l) for (g,l) in other.volumes.items())
                         if volumes1 != volumes2:
                             continue
                         for a in extensions(i+1, newd):
@@ -297,30 +297,30 @@ class Tiling3(object):
         isomorphism.
         """
         edges = {}
-        for (e,le) in self.edges.iteritems():
+        for (e,le) in self.edges.items():
             edge_inv = {}
             for v in e:
                 vertex_inv = self.vertices[v]
                 edge_inv[vertex_inv] = 1 + edge_inv.get(vertex_inv, 0)
-            edges[e] = (tuple(sorted(edge_inv.iteritems())), le)
+            edges[e] = (tuple(sorted(edge_inv.items())), le)
 
         faces = {}
-        for (f,lf) in self.faces.iteritems():
+        for (f,lf) in self.faces.items():
             face_inv = {}
             for e in f:
                 edge_inv = edges[e]
                 face_inv[edge_inv] = 1 + face_inv.get(edge_inv, 0)
-            faces[f] = (tuple(sorted(face_inv.iteritems())), lf)
+            faces[f] = (tuple(sorted(face_inv.items())), lf)
 
         inv = {}
-        for (g,lg) in self.volumes.iteritems():
+        for (g,lg) in self.volumes.items():
             volume_inv = {}
             for f in g:
                 face_inv = faces[f]
                 volume_inv[face_inv] = 1 + volume_inv.get(face_inv, 0)
-            volume_inv = (tuple(sorted(volume_inv.iteritems())), lg)
+            volume_inv = (tuple(sorted(volume_inv.items())), lg)
             inv[volume_inv] = 1 + inv.get(volume_inv, 0)
-        return tuple(sorted(inv.iteritems()))
+        return tuple(sorted(inv.items()))
         
     def face_count_information(self):
         polygon_count = {}
@@ -333,8 +333,8 @@ class Tiling3(object):
         return polygon_count
 
     def face_count_information_print(self):
-        for (k,v) in self.face_count_information().iteritems():
-            print 'Number of %s_gons : %s.'%(k,v)
+        for (k,v) in self.face_count_information().items():
+            print('Number of %s_gons : %s.'%(k,v))
 
     def vertextour(self):
         """
@@ -351,7 +351,7 @@ class Tiling3(object):
 
     def proximate(self, other, epsilon=1e-7):
         """
-        Are these two almst identical: do they have they corresponding
+        Are these two almost identical: do they have they corresponding
         vertices within epsilon and corresponding higher structure?
         """
         if len(self.vertices) != len(other.vertices):
@@ -363,21 +363,21 @@ class Tiling3(object):
         if len(self.volumes) != len(other.volumes):
             return False
         d = {}
-        for (u,x) in self.vertices.iteritems():
-            l = [v for (v,y) in other.vertices.iteritems() if x==y and u.distance(v)<epsilon]
+        for (u,x) in self.vertices.items():
+            l = [v for (v,y) in other.vertices.items() if x==y and u.distance(v)<epsilon]
             if len(l) != 1:
-                print (u,l)
+                print((u,l))
                 return False
             d[u] = l[0]
-        for (e,x) in self.edges.iteritems():
+        for (e,x) in self.edges.items():
             e = frozenset(d[v] for v in e)
             if e not in other.edges or other.edges[e] != x:
                 return False
-        for (f,x) in self.faces.iteritems():
+        for (f,x) in self.faces.items():
             f = frozenset(frozenset(d[v] for v in e) for e in f)
             if f not in other.faces or other.faces[f] != x:
                 return False
-        for (g,x) in self.volumes.iteritems():
+        for (g,x) in self.volumes.items():
             g = frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)
             if g not in other.volumes or other.volumes[g] != x:
                 return False
@@ -415,8 +415,8 @@ def tiling3(dict_vertices, list_edges, list_faces, list_volumes):
         volumes[frozenset(dict_faces[frozenset(k)] for k in volume)] = s
 
     # Now we reverse the keys and values to correct position for a tiling3 input.
-    vertices = ((k,v) for (v,k) in dict_vertices.iteritems())
-    edges = ((k,v) for (v,k) in dict_edges.iteritems())
-    faces = ((k,v) for (v,k) in dict_faces.iteritems())
+    vertices = ((k,v) for (v,k) in dict_vertices.items())
+    edges = ((k,v) for (v,k) in dict_edges.items())
+    faces = ((k,v) for (v,k) in dict_faces.items())
 
     return Tiling3(vertices, edges, faces, volumes)

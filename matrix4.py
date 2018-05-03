@@ -9,7 +9,8 @@ class Matrix4(object):
         ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p)) = ll
         self.array = ((a,b,c,d),(e,f,g,h),(i,j,k,l),(m,n,o,p))
         
-    def __getitem__(self, (r, s)):
+    def __getitem__(self, t):
+        (r, s) = t
         return self.array[r-1][s-1]
 
     def __repr__(self):

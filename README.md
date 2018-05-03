@@ -10,23 +10,24 @@ Prerequisites
 
 In order to build the code, the following is needed
 
- * python2
+ * python3
 
-   This has been tested with python version 2.7.
+   This has been tested with python version 3.5.3.
 
  * make
 
    GNU make has been used to build the project.
 
- * avconv
+ * avconv / libav-tools
 
-   In order to make the videos, the avconv package is required.
+   In order to make the videos, the avconv utility (from Debian's
+   libav-tools) is required.
 
- * LaTeX + epspdf + baposter
+ * LaTeX + epspdf
 
    A latex distribution is required, with the utility epspdf (to
-   convert postscript files to PDFs), and the baposter class installed
-   (this is not part of CTAN, so needs downloading separately).
+   convert postscript files to PDFs). Several LaTeX packages are
+   needed, including xebaposter.
 
 
 Files and directories

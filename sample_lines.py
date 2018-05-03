@@ -33,7 +33,7 @@ def plot(polygon, width, height, N=1000000):
     for (a, s, l) in sample_lines(polygon):
         n += 1
         if n%10000 == 0:
-            print str(n) + " "
+            print(str(n) + " ", end="")
         if n > N:
             break
 
@@ -49,7 +49,7 @@ def plot(polygon, width, height, N=1000000):
 
             im.putpixel(coords(a,s),col)
 
-    for n in xrange(3141):
+    for n in range(3141):
         x = float(n)/1000.0
         im.putpixel(coords(x,-cos(x + pi/2) * bound), (0,0,0))
         im.putpixel(coords(x,-cos(x + 7*pi/6) * bound), (0,0,0))

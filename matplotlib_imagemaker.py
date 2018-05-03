@@ -41,8 +41,8 @@ class ImageMaker(object):
         for (i, tiling_s) in progressenumerate(list_of_tiling_s, length=number, visible=show_progress):
             file_name = "img%06d.png"%(i+1,)
             self.store_image(tiling_s, file_name, folder)
-            
-            
+
+
 class Tiling3ImageMaker(ImageMaker):
 
     def __init__(self,
@@ -96,9 +96,9 @@ class Tiling3ImageMaker(ImageMaker):
         For example to plot in the top right quarter of a picture we use
         number_of_rows = 2, number_of_columns = 2, position_code = 1.
         '''
-        axis = plt.subplot(self.number_of_rows, self.number_of_columns, self.position_code, 
+        axis = plt.subplot(self.number_of_rows, self.number_of_columns, self.position_code,
                            projection='3d', aspect='equal')
-        
+
         tiling3_axis_limit = self.tiling3_axis_limit
         if tiling3_axis_limit == False:
             bound = 0
@@ -163,7 +163,7 @@ class Tiling3ImageMaker(ImageMaker):
         return axis
     def image(self,tiling3_s):
         return self.tiling3_image(tiling3_s)
-        
+
 class Tiling2ImageMaker(ImageMaker):
     def __init__(self,
                  colours=default_intersection_colours,
@@ -180,24 +180,24 @@ class Tiling2ImageMaker(ImageMaker):
         self.number_of_columns = number_of_columns
         self.position_code = position_code
         self.figure_size = figure_size
-        self.colours = colours        
+        self.colours = colours
         self.edge_colours = edge_colours
         self.tiling2_axis_limit = tiling2_axis_limit
         self.tiling2_alpha = tiling2_alpha
         self.edges_alpha = edges_alpha
 
-    
+
     def tiling2_image(self,tiling2_s):
         '''
         This function is used to create 2D subplots for tiling2 objects.
 
         Number of rows and number of columns determines how the figure is subdivided into equal areas
-        and the position code decides which area the subplot is plotted in. 
+        and the position code decides which area the subplot is plotted in.
 
-        To plot in the area in the i^{th} row and j^{th} the position code should be 
-        j + (i-1)*j . 
+        To plot in the area in the i^{th} row and j^{th} the position code should be
+        j + (i-1)*j .
 
-        For example to plot in the top right quarter of a picture we use 
+        For example to plot in the top right quarter of a picture we use
         number_of_rows = 2, number_of_columns = 2, position_code = 1.
         '''
         tiling2_limits = self.tiling2_axis_limit
@@ -211,7 +211,7 @@ class Tiling2ImageMaker(ImageMaker):
                         bound = contender
             tiling2_limits = [[-bound-1,bound+1]]*2
 
-        axis = plt.subplot(self.number_of_rows, self.number_of_columns,self.position_code, 
+        axis = plt.subplot(self.number_of_rows, self.number_of_columns,self.position_code,
                            xlim = tiling2_limits[0], ylim = tiling2_limits[1], aspect='equal', frameon = False)
         axis.get_xaxis().set_visible(False)
         axis.get_yaxis().set_visible(False)
@@ -220,10 +220,10 @@ class Tiling2ImageMaker(ImageMaker):
         for (k,tiling2) in enumerate(tiling2_s):
             for (n,face) in enumerate(tiling2.faces):
                 patches.append(axis.add_patch(plt.Polygon(0 * np.array([(v.x, v.y) for v in cycle(face)]),
-                facecolor = self.colours[(len(face)-3)%len(self.colours)], edgecolor = self.edge_colours[k%len(self.edge_colours)] , ec='k', 
+                facecolor = self.colours[(len(face)-3)%len(self.colours)], edgecolor = self.edge_colours[k%len(self.edge_colours)] , ec='k',
                                                           alpha = self.tiling2_alpha)))
                 patches[grand_n+n].set_xy(np.array([(v.x, v.y) for v in cycle(face)]))
-            grand_n += 1      
+            grand_n += 1
         return axis
     def image(self, tiling2_s):
         return self.tiling2_image(tiling2_s)
@@ -241,7 +241,7 @@ class SimultaneousImagemaker(Tiling2ImageMaker, Tiling3ImageMaker):
                  plane_z0_alpha = 0.2,
                  tiling2_alpha = 0.8,
                  tiling3_faces_alpha = 0.8,
-                 edges_alpha = 0.8, 
+                 edges_alpha = 0.8,
                  plane_z0_on=False,
                  restrict32_intersection_on=False,
                  tiling3_edges_on=True,
@@ -253,11 +253,11 @@ class SimultaneousImagemaker(Tiling2ImageMaker, Tiling3ImageMaker):
         self.number_of_columns = number_of_columns
         self.position_code = position_code
         self.figure_size = figure_size
-        self.colours = colours        
+        self.colours = colours
         self.edge_colours = edge_colours
         self.tiling2_axis_limit = tiling2_axis_limit
         self.tiling2_alpha = tiling2_alpha
-        self.edges_alpha = edges_alpha 
+        self.edges_alpha = edges_alpha
         self.figure_size = figure_size
         self.colours = colours
         self.plane_z0_on = plane_z0_on
@@ -287,6 +287,7 @@ class SimultaneousImagemaker(Tiling2ImageMaker, Tiling3ImageMaker):
             self.image(tiling3_s, tiling2_s)
             figure.savefig(os.path.join(folder, save_name))
             plt.close()
+
     def animation(self,list_of_tiling3_s, list_of_tiling2_s, folder):
         """
         Given a list of images, this stores them with convenient numbered
@@ -298,4 +299,4 @@ class SimultaneousImagemaker(Tiling2ImageMaker, Tiling3ImageMaker):
             folder = folder+"_png"
             for (i) in range(len(list_of_tiling3_s)):
                 file_name = "img%06d.png"%(i+1,)
-                self.store_image(list_of_tiling3_s[i],list_of_tiling2_s[i], file_name, folder) 
+                self.store_image(list_of_tiling3_s[i],list_of_tiling2_s[i], file_name, folder)

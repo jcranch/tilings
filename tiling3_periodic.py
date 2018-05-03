@@ -32,7 +32,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
     n = len(period_vectors) # 3 for a space-filling tiling, but let's not assume
 
     vertices = {}
-    for (label, v0) in fundamental_vertices.iteritems():
+    for (label, v0) in fundamental_vertices.items():
 
         if minx > v0.x or maxx < v0.x or miny > v0.y or maxy < v0.y or minz > v0.z or maxz < v0.z:
             raise ValueError("The bounding box should contain the fundamental domain")
@@ -49,7 +49,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
         return tuple(x+y for (x,y) in zip(t1,t2))
 
     edges = {}
-    for (label, vs) in fundamental_edges.iteritems():
+    for (label, vs) in fundamental_edges.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in vs]
@@ -59,7 +59,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
                 gen.reject()
 
     faces = {}
-    for (label, es) in fundamental_faces.iteritems():
+    for (label, es) in fundamental_faces.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in es]
@@ -69,7 +69,7 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
                 gen.reject()
 
     volumes = {}
-    for (label, fs) in fundamental_volumes.iteritems():
+    for (label, fs) in fundamental_volumes.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in fs]
@@ -78,10 +78,10 @@ def periodic_tiling3(fundamental_vertices, fundamental_edges,
             else:
                 gen.reject()
 
-    v = dict((x,l) for (l,x) in vertices.iteritems())
-    e = dict((x,l) for (l,x) in edges.iteritems())
-    f = dict((x,l) for (l,x) in faces.iteritems())
-    g = dict((x,l) for (l,x) in volumes.iteritems())
+    v = dict((x,l) for (l,x) in vertices.items())
+    e = dict((x,l) for (l,x) in edges.items())
+    f = dict((x,l) for (l,x) in faces.items())
+    g = dict((x,l) for (l,x) in volumes.items())
 
     return Tiling3(v,e,f,g)
 
@@ -115,7 +115,9 @@ def tetra_octa_tiling3(bounding_box):
          Vector3(-1,1,0),
          Vector3(1,0,1)]
 
-    def difference((x1,y1,z1),(x2,y2,z2)):
+    def difference(t1,t2):
+        (x1,y1,z1) = t1
+        (x2,y2,z2) = t2
         x = x2-x1
         y = y2-y1
         z = z2-z1
@@ -129,13 +131,13 @@ def tetra_octa_tiling3(bounding_box):
           "F2": ((1,0,0), (0,0,-1)),
           "F3": ((0,1,0), (-1,0,0))}
     e1 = dict((tuple(sorted(vs)), k)
-              for (k,vs) in e0.iteritems())
+              for (k,vs) in e0.items())
     e = dict((k,frozenset(("",difference((1,0,0),v)) for v in vs))
-             for (k,vs) in e0.iteritems())
+             for (k,vs) in e0.items())
 
     def recognise_e(vs):
         (v1,v2) = sorted(vs)
-        for ((v1m,v2m), k) in e1.iteritems():
+        for ((v1m,v2m), k) in e1.items():
             if difference(v1m,v1)==difference(v2m,v2):
                 return (k,difference(v1m,v1))
 
@@ -147,13 +149,13 @@ def tetra_octa_tiling3(bounding_box):
           "-+-": ((-1,0,0),(0,1,0),(0,0,-1)),
           "--+": ((-1,0,0),(0,-1,0),(0,0,1)),
           "---": ((-1,0,0),(0,-1,0),(0,0,-1))}
-    f1 = dict((tuple(sorted(vs)), k) for (k,vs) in f0.iteritems())
+    f1 = dict((tuple(sorted(vs)), k) for (k,vs) in f0.items())
     f = dict((k, frozenset(recognise_e(t) for t in zip(vs,vs[1:]+(vs[0],))))
-             for (k,vs) in f0.iteritems())
+             for (k,vs) in f0.items())
 
     def recognise_f(vs):
         l = sorted(vs)
-        for (lm,k) in f1.iteritems():
+        for (lm,k) in f1.items():
             if len(lm)==len(l) and len(set(difference(vm,v) for (vm,v) in zip(lm,l)))==1:
                 return (k,difference(lm[0],l[0]))
 
@@ -194,16 +196,16 @@ def simple_union(tiling3s, epsilon=1e-7):
                 dvals.add(v)
                 d[v] = v
 
-        for (v,x) in t.vertices.iteritems():
+        for (v,x) in t.vertices.items():
             vertices[d[v]] = x
 
-        for (e,x) in t.edges.iteritems():
+        for (e,x) in t.edges.items():
             edges[frozenset(d[v] for v in e)] = x
 
-        for (f,x) in t.faces.iteritems():
+        for (f,x) in t.faces.items():
             faces[frozenset(frozenset(d[v] for v in e) for e in f)] = x
 
-        for (g,x) in t.volumes.iteritems():
+        for (g,x) in t.volumes.items():
             volumes[frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)] = x
 
     return Tiling3(vertices, edges, faces, volumes)

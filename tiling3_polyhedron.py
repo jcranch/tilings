@@ -1,3 +1,5 @@
+from itertools import chain
+
 from tiling3 import tiling3
 from tau import tau
 from vector3 import Vector3, triangle3_area, tetra3_volume
@@ -41,7 +43,7 @@ def tiling3_convex_hull(vertices, epsilon=1e-7):
 
         side1 = False
         side2 = False
-        for r in range(0,i)+range(i+1,j)+range(j+1,k)+range(k+1,n):
+        for r in chain(range(0,i), range(i+1,j), range(j+1,k), range(k+1,n)):
             x = l_vertices[r]
             a = tetra3_volume(u,v,w,x)
             if abs(a) < epsilon:
@@ -59,9 +61,9 @@ def tiling3_convex_hull(vertices, epsilon=1e-7):
     # Produce the faces: they're the maximal subsets of coplanar
     # vertices, with the property that every other vertex is on the
     # same side.
-    for i in xrange(n-2):
-        for j in xrange(i+1,n-1):
-            for k in xrange(j+1,n):
+    for i in range(n-2):
+        for j in range(i+1,n-1):
+            for k in range(j+1,n):
                 level = coplanar(i,j,k)
                 if level is not None:
                     faces.append(level)
@@ -70,8 +72,8 @@ def tiling3_convex_hull(vertices, epsilon=1e-7):
     # The edges are the intersections of the faces that have size 2
     edges = set()
     n = len(faces)
-    for i in xrange(0,n-1):
-        for j in xrange(i+1,n):
+    for i in range(0,n-1):
+        for j in range(i+1,n):
             a = faces[i].intersection(faces[j])
             if len(a) == 2:
                 edges.add(a)
@@ -79,7 +81,7 @@ def tiling3_convex_hull(vertices, epsilon=1e-7):
     # Now we need the rest of the data in the preferred form
     volumes = [faces]
     faces = [set(e for e in edges if e.issubset(f)) for f in faces]
-    vertices = dict((v,k) for (k,v) in vertices.iteritems())
+    vertices = dict((v,k) for (k,v) in vertices.items())
     return tiling3(vertices, edges, faces, volumes)
     
 def tiling3_dual(tiling3):
@@ -97,7 +99,7 @@ def tiling3_dual(tiling3):
             sum_vertex += vertex
         centroid = sum_vertex/len(distinct_verticies)
         dual_vertices.append(centroid)
-    return tiling3_convex_hull(dict(zip(dual_vertices,xrange(len(dual_vertices)))))
+    return tiling3_convex_hull(dict(zip(dual_vertices,range(len(dual_vertices)))))
 
 def tetrahedron():
     d = {Vector3(-1,-1,-1): 1,
@@ -111,7 +113,7 @@ def cube():
                 for x in [-1,1]
                 for y in [-1,1]
                 for z in [-1,1]]
-    return tiling3_convex_hull(dict(zip(vertices,xrange(8))))
+    return tiling3_convex_hull(dict(zip(vertices,range(8))))
 
 def octahedron():
     d = {Vector3(1,0,0): 1,
@@ -129,14 +131,27 @@ def dodecahedron():
                  for p in [tau, -tau]
                  for q in [tau.conj(), -tau.conj()]
                  for v in [Vector3(p,q,0), Vector3(q,0,p), Vector3(0,p,q)]]
-    return tiling3_convex_hull(dict(zip(vertices1+vertices2,xrange(20))))
+    return tiling3_convex_hull(dict(zip(vertices1+vertices2,range(20))))
 
 def icosahedron():
     vertices = [v
                 for p in [1,-1]
                 for q in [tau, -tau]
                 for v in [Vector3(p,q,0), Vector3(q,0,p), Vector3(0,p,q)]]
-    return tiling3_convex_hull(dict(zip(vertices,xrange(12))))
+    return tiling3_convex_hull(dict(zip(vertices,range(12))))
 
-regular_polytopes_3d = {'tetrahedron': tetrahedron(), 'cube':cube(), 'octahedron' : octahedron(), 
-                         'dodecahedron': dodecahedron(), 'icosahedron' : icosahedron()}
+def regular_polytopes_3d():
+    yield ('tetrahedron', tetrahedron())
+    yield ('cube', cube())
+    yield ('octahedron', octahedron())
+    yield ('dodecahedron', dodecahedron())
+    yield ('icosahedron' : icosahedron())
+
+
+def rhombic_dodecahedron():
+    vertices1 = [Vector3(x, y, z)
+                 for x in [-1,1] for y in [-1,1] for z in [-1,1]]
+    vertices2 = [v
+                 for p in [-2,2]
+                 for v in [Vector3(p,0,0), Vector3(0,p,0), Vector3(0,0,p)]
+    return tiling3_convex_hull(dict(zip(vertices1+vertices2,range(14))))

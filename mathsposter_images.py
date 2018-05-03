@@ -1,3 +1,4 @@
+from itertools import chain
 from math import pi
 import matplotlib.pyplot as plt
 import os
@@ -165,7 +166,7 @@ def cube_slice_2():
         minz = polytope.minz()
         maxz = polytope.maxz()
         rate = float(abs(maxz-minz))/(len(a))
-        for i in a+[len(a)]:
+        for i in chain(a, [len(a)]):
             b.position_code = (i+1)
             b.image([polytope.translate(Vector3(0,0.00001,-0.001 + minz + i*rate))])
 
@@ -223,7 +224,7 @@ def hypercube_crosssections():
         maxz = polytope.maxz()
         b.tiling3_axis_limit = [[-1.2,1.2]]*3
         rate = float(abs(maxz-minz))/n
-        for i in xrange(n):
+        for i in range(n):
             b.image([restrict43(polytope.translate(Vector4(0,0,0.00001,-0.001 + minz + i*rate)))])
             b.position_code = (i+1)+subplot_count*n
         subplot_count += 1
@@ -354,7 +355,7 @@ def cell24():
 if __name__=="__main__":
     a = sys.argv[1:]
     if not a:
-        print "Run with the names of the files to generate"
+        print("Run with the names of the files to generate")
         exit()
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)

@@ -33,7 +33,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
     n = len(periods) # 4 for a space-filling tiling, but let's not assume
 
     vertices = {}
-    for (label, v0) in fundamental_vertices.iteritems():
+    for (label, v0) in fundamental_vertices.items():
 
         if minw > v0.w or maxw < v0.w or minx > v0.x or maxx < v0.x or miny > v0.y or maxy < v0.y or minz > v0.z or maxz < v0.z:
             raise ValueError("The bounding box should contain the fundamental domain")
@@ -50,7 +50,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
         return tuple(x+y for (x,y) in zip(t1,t2))
 
     edges = {}
-    for (label, vs) in fundamental_edges.iteritems():
+    for (label, vs) in fundamental_edges.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in vs]
@@ -60,7 +60,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
                 gen.reject()
 
     faces = {}
-    for (label, es) in fundamental_faces.iteritems():
+    for (label, es) in fundamental_faces.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in es]
@@ -70,7 +70,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
                 gen.reject()
 
     volumes = {}
-    for (label, fs) in fundamental_volumes.iteritems():
+    for (label, fs) in fundamental_volumes.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in fs]
@@ -81,7 +81,7 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
 
 
     hypervolumes = {}
-    for (label, gs) in fundamental_hypervolumes.iteritems():
+    for (label, gs) in fundamental_hypervolumes.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in gs]
@@ -91,11 +91,11 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
                 gen.reject()
 
 
-    v = dict((x,l) for (l,x) in vertices.iteritems())
-    e = dict((x,l) for (l,x) in edges.iteritems())
-    f = dict((x,l) for (l,x) in faces.iteritems())
-    g = dict((x,l) for (l,x) in volumes.iteritems())
-    h = dict((x,l) for (l,x) in hypervolumes.iteritems())
+    v = dict((x,l) for (l,x) in vertices.items())
+    e = dict((x,l) for (l,x) in edges.items())
+    f = dict((x,l) for (l,x) in faces.items())
+    g = dict((x,l) for (l,x) in volumes.items())
+    h = dict((x,l) for (l,x) in hypervolumes.items())
 
     return Tiling4(v,e,f,g,h)
 
@@ -181,19 +181,19 @@ def simple_union(tiling4s, epsilon=1e-7):
                 dvals.add(v)
                 d[v] = v
 
-        for (v,x) in t.vertices.iteritems():
+        for (v,x) in t.vertices.items():
             vertices[d[v]] = x
 
-        for (e,x) in t.edges.iteritems():
+        for (e,x) in t.edges.items():
             edges[frozenset(d[v] for v in e)] = x
 
-        for (f,x) in t.faces.iteritems():
+        for (f,x) in t.faces.items():
             faces[frozenset(frozenset(d[v] for v in e) for e in f)] = x
 
-        for (g,x) in t.volumes.iteritems():
+        for (g,x) in t.volumes.items():
             volumes[frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g)] = x
 
-        for (h,x) in t.hypervolumes.iteritems():
+        for (h,x) in t.hypervolumes.items():
             hypervolumes[frozenset(frozenset(frozenset(frozenset(d[v] for v in e) for e in f) for f in g) for g in h)] = x
 
     return Tiling4(vertices, edges, faces, volumes, hypervolumes)

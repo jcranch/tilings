@@ -40,7 +40,7 @@ class Progress(object):
             self.pbar.start()
         else:
             if self.name is not None:
-                print self.name
+                print(self.name)
         return self
 
     def update(self, i):
@@ -49,7 +49,7 @@ class Progress(object):
         elif self.use_progressbar:
             self.pbar.update(i)
         else:
-            print "  %d/%d (%.2f%%)"%(i, self.maxval, 100.0*i/self.maxval)
+            print("  %d/%d (%.2f%%)"%(i, self.maxval, 100.0*i/self.maxval))
 
     def __exit__(self, t, v, b):
         if not self.visible:

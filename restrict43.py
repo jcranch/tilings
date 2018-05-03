@@ -20,12 +20,12 @@ def restrict43(t):
     output.
     """
 
-    for (v,x) in t.vertices.iteritems():
+    for (v,x) in t.vertices.items():
         if v.z == 0:
             raise ValueError("Vertex %s lies in cell z=0"%(v,)) # Check Cell is the right word.
 
     newv = {}
-    for (e,l) in t.edges.iteritems():
+    for (e,l) in t.edges.items():
         (v1,v2) = e
         if v2.z < 0 < v1.z:
             (v1,v2) = (v2,v1)
@@ -38,21 +38,21 @@ def restrict43(t):
             newv[e] = ((u1*(v2.z) - u2*(v1.z))/(v2.z - v1.z), l)
 
     newe = {}
-    for (f,x) in t.faces.iteritems():
+    for (f,x) in t.faces.items():
         e = frozenset(newv[e1][0] for e1 in f if e1 in newv)
         if e:
             newe[f] = (e,x)
 
     newf = {}
-    for (g,x) in t.volumes.iteritems():
+    for (g,x) in t.volumes.items():
         f = frozenset(newe[f1][0] for f1 in g if f1 in newe)
         if f:
             newf[g] = (f,x)
 
     newg = {}
-    for (h,x) in t.hypervolumes.iteritems():
+    for (h,x) in t.hypervolumes.items():
         g = frozenset(newf[g1][0] for g1 in h if g1 in newf)
         if g:
             newg[h] = (g,x)
 
-    return Tiling3(newv.itervalues(), newe.itervalues(), newf.itervalues(), newg.itervalues())
+    return Tiling3(newv.values(), newe.values(), newf.values(), newg.values())

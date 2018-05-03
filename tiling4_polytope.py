@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import chain
 import os
 import time
 
@@ -52,7 +53,7 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_
 
         side1 = False
         side2 = False
-        for r in range(0,h)+range(h+1,i)+range(i+1,j)+range(j+1,k)+range(k+1,n):
+        for r in chain(range(0,h), range(h+1,i), range(i+1,j), range(j+1,k), range(k+1,n)):
             x = l_vertices[r]
             a = pentatope4_hypervolume(t,u,v,w,x)
             if abs(a) < epsilon:
@@ -73,16 +74,16 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_
     # Produce the volumes: they're the maximal subsets of cohyperplanar
     # vertices, with the property that every other vertex is on the
     # same side.
-    for h in xrange(n-3):
+    for h in range(n-3):
         if gotenough(h):
             continue
-        for i in xrange(h+1,n-2):
+        for i in range(h+1,n-2):
             if gotenough(i):
                 continue
-            for j in xrange(i+1,n-1):
+            for j in range(i+1,n-1):
                 if gotenough(j):
                     continue
-                for k in xrange(j+1,n):
+                for k in range(j+1,n):
                     if gotenough(k):
                         continue
                     level = cohyperplanar(h,i,j,k)
@@ -93,7 +94,7 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_
                             hours, elapsed = divmod(elapsed, 3600)
                             minutes, elapsed = divmod(elapsed, 60)
                             seconds, elapsed = divmod(elapsed, 1)
-                            print "  found %d volumes (after %02d:%02d:%02d.%02d)"%(len(volumes), int(hours), int(minutes), int(seconds), int(elapsed*100))
+                            print("  found %d volumes (after %02d:%02d:%02d.%02d)"%(len(volumes), int(hours), int(minutes), int(seconds), int(elapsed*100)))
                         for x in level:
                             vcount[x] += 1
                         if gotenough(j) or gotenough(i) or gotenough(h):
@@ -109,8 +110,8 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_
     # two vertices in common.
     faces = set()
     n = len(volumes)
-    for i in xrange(0,n-1):
-        for j in xrange(i+1,n):
+    for i in range(0,n-1):
+        for j in range(i+1,n):
             a = volumes[i].intersection(volumes[j])
             if len(a) > 2:
                 faces.add(a)
@@ -118,8 +119,8 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_
     edges = set()
     lfaces = list(faces)
     n = len(lfaces)
-    for i in xrange(0,n-1):
-        for j in xrange(i+1,n):
+    for i in range(0,n-1):
+        for j in range(i+1,n):
             a = lfaces[i].intersection(lfaces[j])
             if len(a) == 2:
                 edges.add(a)
@@ -128,7 +129,7 @@ def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_
     hypervolumes = [volumes]
     volumes = [set(f for f in faces if f.issubset(g)) for g in volumes]
     faces = [set(e for e in edges if e.issubset(f)) for f in faces]
-    vertices = dict((v,k) for (k,v) in vertices.iteritems())
+    vertices = dict((v,k) for (k,v) in vertices.items())
     return tiling4(vertices, edges, faces, volumes, hypervolumes)
 
 def tiling4_dual(tiling4):
@@ -147,7 +148,7 @@ def tiling4_dual(tiling4):
             sum_vertex += vertex
         centroid = sum_vertex/len(distinct_verticies)
         dual_vertices.append(centroid)
-    return tiling4_convex_hull(dict(zip(dual_vertices,xrange(len(dual_vertices)))))
+    return tiling4_convex_hull(dict(zip(dual_vertices,range(len(dual_vertices)))))
     
 def pentatope():
     root5 = 5**0.5
@@ -162,7 +163,7 @@ def pentatope():
 def hypercube(box=((-1,1),(-1,1),(-1,1),(-1,1))):
     (ws,xs,ys,zs) = box
     vertices = [Vector4(w,x,y,z) for w in ws for x in xs for y in ys for z in zs]
-    return tiling4_convex_hull(dict(zip(vertices,xrange(16))))
+    return tiling4_convex_hull(dict(zip(vertices,range(16))))
 
 def cell16():
     dictionary_of_vertices = {

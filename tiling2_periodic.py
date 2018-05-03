@@ -25,7 +25,6 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
 
     -In the resulting tiling, the labels are pairs: one is a label, and
     the other is a tuple of coefficients of the period vectors.
-
     """
 
     ((minx, maxx), (miny, maxy)) = bounding_box
@@ -33,24 +32,24 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
     n = len(period_vectors) # 2 for a space-filling tiling, but let's not assume
 
     vertices = {}
-    for (label, v0) in fundamental_vertices.iteritems():
+    for (label, v0) in fundamental_vertices.items():
 
         if minx > v0.x or maxx < v0.x or miny > v0.y or maxy < v0.y :
             raise ValueError("The bounding box should contain the fundamental domain")
 
         gen = LatticeSearcher(n)
-        for coeffs in gen: #using the lattices generated as co-efficients of periodic vectors!
+        for coeffs in gen: # using the lattices generated as coefficients of periodic vectors!
             v = sum((u*c for (c,u) in zip(coeffs, period_vectors)), v0)
             if minx <= v.x <= maxx and miny <= v.y <= maxy:
-                vertices[(label,coeffs)] = v #If this new vector lies within the bounday box, keep it and add it to verticies
+                vertices[(label,coeffs)] = v #If this new vector lies within the boundary box, keep it and add it to verticies
             else:
-                gen.reject() #if not reject it! This makes sure we don't go n forever (with constant vectors).
+                gen.reject() # if not, reject it! This makes sure we don't go on forever (with constant vectors).
 
     def tsum(t1,t2):
         return tuple(x+y for (x,y) in zip(t1,t2))
 
     edges = {}
-    for (label, vs) in fundamental_edges.iteritems():
+    for (label, vs) in fundamental_edges.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in vs]
@@ -62,7 +61,7 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
                 gen.reject()
 
     faces = {}
-    for (label, es) in fundamental_faces.iteritems():
+    for (label, es) in fundamental_faces.items():
         gen = LatticeSearcher(n)
         for coeffs in gen:
             s = [(a,tsum(coeffs,offset)) for (a,offset) in es]
@@ -72,9 +71,9 @@ def periodic_tiling2(fundamental_vertices, fundamental_edges,
                 gen.reject()
 
 
-    v = dict((x,l) for (l,x) in vertices.iteritems())
-    e = dict((x,l) for (l,x) in edges.iteritems())
-    f = dict((x,l) for (l,x) in faces.iteritems())
+    v = dict((x,l) for (l,x) in vertices.items())
+    e = dict((x,l) for (l,x) in edges.items())
+    f = dict((x,l) for (l,x) in faces.items())
 
     return Tiling2(v,e,f)
 
@@ -142,13 +141,13 @@ def simple_union(tiling2s, epsilon=1e-7):
                 dvals.add(v)
                 d[v] = v
 
-        for (v,x) in t.vertices.iteritems():
+        for (v,x) in t.vertices.items():
             vertices[d[v]] = x
 
-        for (e,x) in t.edges.iteritems():
+        for (e,x) in t.edges.items():
             edges[frozenset(d[v] for v in e)] = x
 
-        for (f,x) in t.faces.iteritems():
+        for (f,x) in t.faces.items():
             faces[frozenset(frozenset(d[v] for v in e) for e in f)] = x
 
     return Tiling2(vertices, edges, faces)

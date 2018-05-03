@@ -34,11 +34,10 @@ def montecarlo_tiling3_cross_section_density(tiling3_s ,polygon_side_length_only
         intersect_lines = frozenset(restrict.edges[e] for f in restrict.faces for e in f)
         if polygon_side_length_only_on == True and intersect_lines:
             intersect_lines = str(len(intersect_lines))+'-gons'
-        #print intersect_lines
-        try :
+        try:
             raw_n_gon_count_results[(intersect_lines)] += 1
             hits += 1
-        except :
+        except:
             if intersect_lines:
                 raw_n_gon_count_results[(intersect_lines)] = 0.0
                 hits += 1

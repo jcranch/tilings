@@ -27,10 +27,10 @@ class Tiling1(object):
         Applies an arbitrary function h to the vertices.
         """
         v = dict((a,(h(a),x))
-                 for a in self.vertices.iteritems())
+                 for a in self.vertices.items())
         e = dict((a,(frozenset(v[i][0] for i in a),x))
-                 for a in self.edges.iteritems())
-        return Tiling1(v.itervalues(),e.itervalues())
+                 for a in self.edges.items())
+        return Tiling1(v.values(),e.values())
 
     def translate(self, offset):
         return self.deform(lambda x: x+offset)
@@ -43,6 +43,6 @@ class Tiling1(object):
         Take only the structure that intersects the box with given
         coordinates.
         """
-        newv = dict((v,x) for (v,x) in self.vertices.iteritems() if minx <= v.x <= maxx)
-        newe = dict((e,x) for (e,x) in self.edges.iteritems() if any(v in newv for v in e))
+        newv = dict((v,x) for (v,x) in self.vertices.items() if minx <= v.x <= maxx)
+        newe = dict((e,x) for (e,x) in self.edges.items() if any(v in newv for v in e))
         return Tiling1(newv, newe)
