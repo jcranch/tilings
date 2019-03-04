@@ -28,6 +28,10 @@ demos/%.pdf: demos/%.eps
 	epspdf $< $@
 
 
+test:
+	cd src; nosetests3
+
+
 MATHSPOSTER_EXTRAS = posters/mathsimages/platonic_solids.png \
                      posters/mathsimages/dual_platonic_solids.png \
                      posters/mathsimages/regular_polygons.png \

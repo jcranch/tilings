@@ -8,7 +8,7 @@ University of Sheffield, supervised by James Cranch.
 Prerequisites
 -------------
 
-In order to build the code, the following is needed
+In order to build the code, the following tools are needed needed:
 
  * python3
 
@@ -16,7 +16,7 @@ In order to build the code, the following is needed
 
  * make
 
-   GNU make has been used to build the project.
+   GNU make is the build tool.
 
  * avconv / libav-tools
 
@@ -67,5 +67,5 @@ be useful for someone starting off.
 
  * tests/
 
-   The test suite (best run by running `nosetests` in the base
-   directory).
+   The test suite (best run by running `nosetests3` in src/, or using
+   `make test`).

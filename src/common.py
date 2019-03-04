@@ -13,11 +13,11 @@ class LatticeSearcher(object):
         self.new = set([tuple(0 for i in range(n))])
         self.last = None
 
-    def __iter__(self):
-        return self
-
     def reject(self):
         self.last = None
+
+    def __iter__(self):
+        return self
 
     def __next__(self):
         if self.last is not None:

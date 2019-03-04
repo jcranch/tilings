@@ -3,12 +3,13 @@ from vector4 import Vector4
 from tiling4 import Tiling4
 from tiling4_polytope import cell24
 
+
 def periodic_tiling4(fundamental_vertices, fundamental_edges,
                      fundamental_faces, fundamental_volumes,
                      fundamental_hypervolumes,
                      bounding_box,
                      periods = [Vector4(1,0,0,0), Vector4(0,1,0,0),
-                                Vector4(0,0,1,0),Vector4(0,0,0,1)]):
+                                Vector4(0,0,1,0), Vector4(0,0,0,1)]):
 
     """
     Build a periodic tiling.
@@ -35,7 +36,10 @@ def periodic_tiling4(fundamental_vertices, fundamental_edges,
     vertices = {}
     for (label, v0) in fundamental_vertices.items():
 
-        if minw > v0.w or maxw < v0.w or minx > v0.x or maxx < v0.x or miny > v0.y or maxy < v0.y or minz > v0.z or maxz < v0.z:
+        if (minw > v0.w or maxw < v0.w or
+            minx > v0.x or maxx < v0.x or
+            miny > v0.y or maxy < v0.y or
+            minz > v0.z or maxz < v0.z):
             raise ValueError("The bounding box should contain the fundamental domain")
 
         gen = LatticeSearcher(n)
@@ -170,7 +174,7 @@ def simple_union(tiling4s, epsilon=1e-7):
     faces = {}
     volumes = {}
     hypervolumes = {}
-    
+
     for t in tiling4s:
         for v in t.vertices:
             for u in dvals:
@@ -210,11 +214,11 @@ def periodic_copies(tiling4, bounding_box,
         else:
             gen.reject()
 
-            
+
 def simple_periodic_tiling4(tiling4, bounding_box,
                             periods=[Vector4(1,0,0,0), Vector4(0,1,0,0),
                                      Vector4(0,0,1,0), Vector4(0,0,0,1)]):
-                
+
     return simple_union(periodic_copies(tiling4, bounding_box, periods))
 
 

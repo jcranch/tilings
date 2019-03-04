@@ -27,7 +27,7 @@ class PentatopeTest(unittest.TestCase, TilingTest):
 
     def test_regularity(self):
         l = list(self.t.vertices)
-        s = set((l[i]-l[j]).norm() for i in xrange(5) for j in xrange(i+1,5))
+        s = set((l[i]-l[j]).norm() for i in range(5) for j in range(i+1,5))
         x = s.pop()
         for y in s:
             self.assertAlmostEqual(x,y)

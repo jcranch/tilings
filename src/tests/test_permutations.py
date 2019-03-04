@@ -6,7 +6,7 @@ from permutations import *
 class TestPermutations(unittest.TestCase):
 
     def permutations(self,n):
-        orig = list(xrange(1,n+1))
+        orig = list(range(1,n+1))
 
         count_evens = 0
         evens = set()
@@ -26,15 +26,15 @@ class TestPermutations(unittest.TestCase):
 
             # Is the sign right?
             s2 = 1
-            for i in xrange(n-1):
-                for j in xrange(i+1,n):
+            for i in range(n-1):
+                for j in range(i+1,n):
                     if p[i]>p[j]:
                         s2 = -s2
 
             self.assertEqual(s1,s2)
 
         fact = 1
-        for i in xrange(1,n+1):
+        for i in range(1,n+1):
             fact *= i
 
         # Should be the right number of each and they should all be different

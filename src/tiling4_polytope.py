@@ -9,6 +9,8 @@ from matrix4 import tetra4_volume, pentatope4_hypervolume
 from permutations import plus_minuses
 
 
+autotilings_dir = "../autotilings"
+
 def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_per_vertex=None):
     """
     Takes a dictionary of vertices, and creates a polyhedron given by
@@ -149,7 +151,7 @@ def tiling4_dual(tiling4):
         centroid = sum_vertex/len(distinct_verticies)
         dual_vertices.append(centroid)
     return tiling4_convex_hull(dict(zip(dual_vertices,range(len(dual_vertices)))))
-    
+
 def pentatope():
     root5 = 5**0.5
     dictionary_of_vertices = {
@@ -178,13 +180,16 @@ def cell16():
     return tiling4_convex_hull(dictionary_of_vertices)
 
 def cell24():
-    with open(os.path.join("autotilings", "cell24.data"), 'r') as f:
+    global autotilings_dir
+    with open(os.path.join(autotilings_dir, "cell24.data"), 'r') as f:
         return(eval(f.read()))
 
 def cell120():
-    with open(os.path.join("autotilings", "cell120.data"), 'r') as f:
+    global autotilings_dir
+    with open(os.path.join(autotilings_dir, "cell120.data"), 'r') as f:
         return(eval(f.read()))
 
 def cell600():
-    with open(os.path.join("autotilings", "cell600.data"), 'r') as f:
+    global autotilings_dir
+    with open(os.path.join(autotilings_dir, "cell600.data"), 'r') as f:
         return(eval(f.read()))
