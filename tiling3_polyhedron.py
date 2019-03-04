@@ -4,6 +4,7 @@ from tiling3 import tiling3
 from tau import tau
 from vector3 import Vector3, triangle3_area, tetra3_volume
 
+
 def tiling3_convex_hull(vertices, epsilon=1e-7):
     """
     Takes a dictionary of vertices, and creates a polyhedron given by
@@ -83,7 +84,7 @@ def tiling3_convex_hull(vertices, epsilon=1e-7):
     faces = [set(e for e in edges if e.issubset(f)) for f in faces]
     vertices = dict((v,k) for (k,v) in vertices.items())
     return tiling3(vertices, edges, faces, volumes)
-    
+
 def tiling3_dual(tiling3):
     '''
     This function is designed for producing the duals of convex polyhedra.
@@ -145,7 +146,7 @@ def regular_polytopes_3d():
     yield ('cube', cube())
     yield ('octahedron', octahedron())
     yield ('dodecahedron', dodecahedron())
-    yield ('icosahedron' : icosahedron())
+    yield ('icosahedron', icosahedron())
 
 
 def rhombic_dodecahedron():
@@ -153,5 +154,5 @@ def rhombic_dodecahedron():
                  for x in [-1,1] for y in [-1,1] for z in [-1,1]]
     vertices2 = [v
                  for p in [-2,2]
-                 for v in [Vector3(p,0,0), Vector3(0,p,0), Vector3(0,0,p)]
-    return tiling3_convex_hull(dict(zip(vertices1+vertices2,range(14))))
+                 for v in [Vector3(p,0,0), Vector3(0,p,0), Vector3(0,0,p)]]
+    return tiling3_convex_hull(dict((v,i) for (i,v) in enumerate(vertices1+vertices2)))

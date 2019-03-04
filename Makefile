@@ -5,7 +5,7 @@ clean-general:
 	rm -f *.pyc tests/*.pyc
 
 clean-posters: clean-general
-	rm -rf posters/*.aux posters/*.log posters/*.pdf posters/mathsimages posters/codeimages
+	rm -rf posters/*.aux posters/*.log posters/*.pdf posters/mathsimages/?*.* posters/codeimages/?*.*
 
 clean-animation: clean-general
 	rm -f demos/*.eps demos/*.pdf demos/*.png
