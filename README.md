@@ -65,7 +65,11 @@ be useful for someone starting off.
 
    Code for inclusion in the code poster
 
- * tests/
+ * src/
 
-   The test suite (best run by running `nosetests3` in src/, or using
-   `make test`).
+   The python library
+
+ * src/tests/
+
+   The test suite (can be run by `make test`, or directly by running
+   `nosetests3` in src/)

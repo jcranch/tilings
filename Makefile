@@ -53,11 +53,11 @@ posters/%.pdf: posters/%.tex
 	cd posters && pdflatex -halt-on-error $*.tex
 	cd posters && pdflatex -halt-on-error $*.tex
 
-posters/mathsimages/%: mathsposter_images.py
-	python3 mathsposter_images.py $*
+posters/mathsimages/%: src/mathsposter_images.py
+	python3 src/mathsposter_images.py $*
 
-posters/codeimages/%: codeposter_images.py
-	python3 codeposter_images.py $*
+posters/codeimages/%: src/codeposter_images.py
+	python3 src/codeposter_images.py $*
 
 posters/codeimages/%.pdf: posters/codeimages/%.eps
 	epspdf $< $@
@@ -92,13 +92,18 @@ VIDEOS = demos/pentatope_translate_z.mp4 demos/hypercube_translate_z.mp4 \
          demos/cube_rotate_z.mp4 demos/octahedron_rotate_z.mp4 \
          demos/icosahedron_rotate_z.mp4 demos/dodecahedron_rotate_z.mp4
 
-build-animation: $(VIDEOS)
+GIFS = demos/cell120_translate_z.gif demos/cell600_translate_z.gif
+
+build-animation: $(VIDEOS) $(GIFS)
 
 demos/%.mp4: demos/%_png/img000001.png
-	avconv -y -framerate 15 -i demos/$*_png/img%06d.png -c:v libx264 -r 30 -pix_fmt yuv420p $@
+	ffmpeg -y -framerate 15 -i demos/$*_png/img%06d.png -c:v libx264 -r 30 -pix_fmt yuv420p $@
 
-demos/%_png/img000001.png: demo_animation.py
-	python3 demo_animation.py $*
+demos/%.gif: demos/%_png/img000001.png
+	ffmpeg -y -framerate 15 -i demos/$*_png/img%06d.png -r 30 -filter:v select="mod(n\,2)" $@
+
+demos/%_png/img000001.png: src/demo_animation.py
+	python3 src/demo_animation.py $*
 
 
 POLYTOPES = autotilings/cell24.data \

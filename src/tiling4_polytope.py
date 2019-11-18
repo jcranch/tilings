@@ -9,7 +9,7 @@ from matrix4 import tetra4_volume, pentatope4_hypervolume
 from permutations import plus_minuses
 
 
-autotilings_dir = "../autotilings"
+autotilings_dir = "autotilings"
 
 def tiling4_convex_hull(vertices, epsilon=1e-7, statusreport=False, max_volumes_per_vertex=None):
     """
