@@ -97,7 +97,7 @@ class Tiling3ImageMaker(ImageMaker):
         number_of_rows = 2, number_of_columns = 2, position_code = 1.
         '''
         axis = plt.subplot(self.number_of_rows, self.number_of_columns, self.position_code,
-                           projection='3d', aspect='equal')
+                           projection='3d')
 
         tiling3_axis_limit = self.tiling3_axis_limit
         if tiling3_axis_limit == False:
