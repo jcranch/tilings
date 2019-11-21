@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, sqrt
 from matrix3 import Matrix3
 from vector4 import Vector4, random_norm1_4
 
