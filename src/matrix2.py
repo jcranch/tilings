@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, pi
 from random import random
 
 from vector2 import Vector2
