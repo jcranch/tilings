@@ -1,8 +1,10 @@
 from mpl_toolkits.mplot3d import Axes3D
+import abc
+import os
+
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib import pyplot as plt
 import numpy as np
-import os
 
 from styling import default_intersection_colours
 from restrict32 import restrict32
@@ -11,14 +13,17 @@ from vector3 import Vector3
 from restrict32 import restrict32
 from common import cycle
 
+class ImageMaker(metaclass=abc.ABCMeta):
 
-class ImageMaker(object):
+    @abc.abstractmethod
+    def __init__(self, figure_size):
+        self.figure_size = figure_size
 
+    @abc.abstractmethod
     def image(self, tiling):
         """
         This function should create an image.
         """
-        raise NotImplementedError("You need to define this in a subclass")
 
     def store_image(self, tiling_s,  save_name = 'tiling_image', folder = 'demos/tiling_static'):
         if not os.path.exists(folder):
