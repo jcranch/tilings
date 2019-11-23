@@ -38,9 +38,9 @@ def polygon_count_info(tiling2_s):
                 data_lines[n_gon].append(0.0)
     return data_lines
 
-def produce_polygon_count_lines(tiling_2_s):
-    return [default_line_plot_2d_dictionary_of_y_s_maker(j,i) for (i,j) in polygon_count_info(tiling2_s).items()]
-    
+def produce_polygon_count_lines(tiling2_s):
+    return [default_line_plot_2d_dictionary_of_y_s_maker(j, i) for (i, j) in polygon_count_info(tiling2_s).items()]
+
 def list_of_dictionary_of_y_s_creater(tiling_s):
     """
     This function will take in some tiling with a face attribute and return an appropriate dictionary for

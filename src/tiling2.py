@@ -63,7 +63,7 @@ class Tiling2(object):
         ((minx, maxx), (miny, maxy)) = box
         return (minx <= self.minx() and self.maxx() <= maxx and
                 miny <= self.miny() and self.maxy() <= maxy)
-    
+
     def clip(self, minx, maxx, miny, maxy):
         """
         Take only the structure that intersects the box with given
@@ -121,8 +121,8 @@ class Tiling2(object):
         return polygon_count
 
     def face_count_information_print(self):
-        for (k,v) in polygon_count(self).items():
-            print('Number of %s_gons : %s.'%(k,v))
+        for (k, v) in self.face_count_information().items():
+            print('Number of %s_gons : %s.'%(k, v))
 
     def map(self, v, e, f):
         """

@@ -14,10 +14,9 @@ class GoldenInteger(object):
             return self.b==0 and self.a==other
         elif isinstance(other,GoldenInteger):
             return self.a==other.a and self.b==other.b
-        elif isinstance(other,float):
-            return self.float==other
-        else:
-            return False
+        elif isinstance(other, float):
+            return float(self) == other
+        return False
 
     def __hash__(self):
         if self.b==0:

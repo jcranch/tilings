@@ -1,8 +1,10 @@
 from mpl_toolkits.mplot3d import Axes3D
+import abc
+import os
+
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib import pyplot as plt
 import numpy as np
-import os
 
 from styling import default_intersection_colours
 from restrict32 import restrict32
@@ -11,14 +13,17 @@ from vector3 import Vector3
 from restrict32 import restrict32
 from common import cycle
 
+class ImageMaker(metaclass=abc.ABCMeta):
 
-class ImageMaker(object):
+    @abc.abstractmethod
+    def __init__(self, figure_size):
+        self.figure_size = figure_size
 
+    @abc.abstractmethod
     def image(self, tiling):
         """
         This function should create an image.
         """
-        raise NotImplementedError("You need to define this in a subclass")
 
     def store_image(self, tiling_s,  save_name = 'tiling_image', folder = 'demos/tiling_static'):
         if not os.path.exists(folder):
@@ -97,7 +102,7 @@ class Tiling3ImageMaker(ImageMaker):
         number_of_rows = 2, number_of_columns = 2, position_code = 1.
         '''
         axis = plt.subplot(self.number_of_rows, self.number_of_columns, self.position_code,
-                           projection='3d', aspect='equal')
+                           projection='3d')
 
         tiling3_axis_limit = self.tiling3_axis_limit
         if tiling3_axis_limit == False:
